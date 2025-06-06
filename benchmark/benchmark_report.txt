@@ -1,0 +1,56 @@
+UOR/Prime Axioms Factorizer - Benchmark Report
+==================================================
+
+Overall Statistics:
+  Total Tests: 100
+  Total Successes: 90
+  Overall Success Rate: 90.00%
+
+AXIOM1 Results:
+  Success Rate: 55.00% (11/20)
+  Average Time: 0.0002s
+  Time Range: 0.0001s - 0.0003s
+  Fastest Success: 0.0001s (factor: 3)
+  Slowest Success: 0.0002s (factor: 23)
+
+AXIOM2 Results:
+  Success Rate: 100.00% (20/20)
+  Average Time: 0.0002s
+  Time Range: 0.0001s - 0.0005s
+  Fastest Success: 0.0001s (factor: 17)
+  Slowest Success: 0.0005s (factor: 2)
+
+AXIOM3 Results:
+  Success Rate: 95.00% (19/20)
+  Average Time: 0.0038s
+  Time Range: 0.0006s - 0.0074s
+  Fastest Success: 0.0006s (factor: 3)
+  Slowest Success: 0.0061s (factor: 23)
+
+AXIOM4 Results:
+  Success Rate: 100.00% (20/20)
+  Average Time: 0.0379s
+  Time Range: 0.0011s - 0.0739s
+  Fastest Success: 0.0011s (factor: 3)
+  Slowest Success: 0.0739s (factor: 41)
+
+AXIOM5 Results:
+  Success Rate: 100.00% (20/20)
+  Average Time: 0.0009s
+  Time Range: 0.0002s - 0.0020s
+  Fastest Success: 0.0002s (factor: 3)
+  Slowest Success: 0.0020s (factor: 17)
+
+Axiom Performance Ranking:
+  1. axiom2: 100.00% success, 0.0002s avg
+  2. axiom4: 100.00% success, 0.0379s avg
+  3. axiom5: 100.00% success, 0.0009s avg
+  4. axiom3: 95.00% success, 0.0038s avg
+  5. axiom1: 55.00% success, 0.0002s avg
+
+Speed Ranking (Average Time):
+  1. axiom1: 0.0002s avg
+  2. axiom2: 0.0002s avg
+  3. axiom5: 0.0009s avg
+  4. axiom3: 0.0038s avg
+  5. axiom4: 0.0379s avg
