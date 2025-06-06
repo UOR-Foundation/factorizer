@@ -43,7 +43,7 @@ def fold_energy(n: int, x: int) -> float:
     energy = 0.0
     for i in range(len(sx)):
         # Expected: sx + sy ≈ 2×sn for factors
-        diff = sx[i] + sy[i] - sn[i]
+        diff = sx[i] + sy[i] - 2 * sn[i]
         energy += diff * diff
     
     return energy

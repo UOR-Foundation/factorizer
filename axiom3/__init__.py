@@ -30,6 +30,17 @@ from .interference import (
 
 from .spectral_signature_cache import SpectralSignatureCache
 
+from .accelerated_analysis import (
+    accelerated_spectral_vector,
+    accelerated_coherence,
+    accelerated_fold_energy,
+    accelerated_interference_analysis,
+    accelerated_coherence_field,
+    accelerated_sharp_folds,
+    accelerated_spectral_analysis,
+    create_accelerated_analyzer
+)
+
 __all__ = [
     # Spectral Core
     'binary_spectrum',
@@ -53,5 +64,15 @@ __all__ = [
     'identify_resonance_source',
     
     # Acceleration
-    'SpectralSignatureCache'
+    'SpectralSignatureCache',
+    
+    # Accelerated Analysis
+    'accelerated_spectral_vector',
+    'accelerated_coherence',
+    'accelerated_fold_energy',
+    'accelerated_interference_analysis',
+    'accelerated_coherence_field',
+    'accelerated_sharp_folds',
+    'accelerated_spectral_analysis',
+    'create_accelerated_analyzer'
 ]

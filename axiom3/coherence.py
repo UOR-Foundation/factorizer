@@ -31,12 +31,11 @@ def coherence(a: int, b: int, n: int) -> float:
     sn = spectral_vector(n)
     
     # Calculate squared distance
-    # For perfect factorization, we expect S(a) + S(b) ≈ S(n)
-    # So we measure ||S(a) + S(b)/2 - S(n)||²
+    # For perfect factorization, we expect S(a) + S(b) ≈ 2*S(n)
+    # So we measure ||S(a) + S(b) - 2*S(n)||²
     squared_distance = 0.0
     for i in range(len(sa)):
-        avg_ab = (sa[i] + sb[i]) / 2
-        diff = avg_ab - sn[i]
+        diff = sa[i] + sb[i] - 2 * sn[i]
         squared_distance += diff * diff
     
     # Convert to coherence using exponential decay
@@ -112,8 +111,7 @@ class CoherenceCache:
             # Calculate coherence
             squared_distance = 0.0
             for i in range(len(sa)):
-                avg_ab = (sa[i] + sb[i]) / 2
-                diff = avg_ab - sn[i]
+                diff = sa[i] + sb[i] - 2 * sn[i]
                 squared_distance += diff * diff
             
             self.coherence_cache[key] = math.exp(-squared_distance)
@@ -150,8 +148,7 @@ def triple_coherence(p: int, q: int, r: int, n: int) -> float:
     # For triple product, we expect S(p) + S(q) + S(r) ≈ 3×S(n)
     squared_distance = 0.0
     for i in range(len(sp)):
-        avg_pqr = (sp[i] + sq[i] + sr[i]) / 3
-        diff = avg_pqr - sn[i]
+        diff = sp[i] + sq[i] + sr[i] - 3 * sn[i]
         squared_distance += diff * diff
     
     return math.exp(-squared_distance)

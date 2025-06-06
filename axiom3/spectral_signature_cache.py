@@ -202,16 +202,18 @@ class SpectralSignatureCache:
         
         # Handle division
         if n % x == 0:
-            s_nx = self.get_spectral_vector(n // x)
-            
-            # E(x) = ||S(x) + S(n/x) - S(n)||²
-            energy = 0
-            for i in range(len(s_x)):
-                diff = s_x[i] + s_nx[i] - s_n[i]
-                energy += diff * diff
+            y = n // x
         else:
-            # Large penalty for non-divisors
-            energy = float('inf')
+            # For non-factors, use approximate complementary value
+            y = n / x
+            
+        s_nx = self.get_spectral_vector(int(y))
+        
+        # E(x) = ||S(x) + S(n/x) - 2*S(n)||²
+        energy = 0
+        for i in range(len(s_x)):
+            diff = s_x[i] + s_nx[i] - 2 * s_n[i]
+            energy += diff * diff
             
         # Cache it
         self.fold_map[n][x] = energy

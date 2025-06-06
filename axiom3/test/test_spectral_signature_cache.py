@@ -77,7 +77,8 @@ def test_fold_energy_map():
     assert e3 != float('inf')  # 3 divides 15
     
     e4 = cache.get_fold_energy(15, 4)
-    assert e4 == float('inf')  # 4 doesn't divide 15
+    assert e4 != float('inf')  # Non-divisors have finite energy with approximate complement
+    assert e4 > 0  # Should have positive energy
     
     e5 = cache.get_fold_energy(15, 5)
     assert e5 != float('inf')  # 5 divides 15
