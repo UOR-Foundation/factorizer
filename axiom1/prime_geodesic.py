@@ -4,8 +4,10 @@ Implements prime coordinates and geodesic paths to factors
 """
 
 import math
-from typing import List
-from .prime_core import primes_up_to
+from typing import List, Optional
+from .prime_core import primes_up_to, is_prime
+from .prime_coordinate_index import PrimeCoordinateIndex
+from .prime_cascade import PrimeCascade
 
 class PrimeGeodesic:
     """
@@ -14,16 +16,29 @@ class PrimeGeodesic:
     Geodesics follow paths of maximum prime attraction
     """
     
-    def __init__(self, n: int):
+    def __init__(self, n: int, coordinate_index: Optional[PrimeCoordinateIndex] = None):
         """
         Initialize geodesic system for number n
         
         Args:
             n: The number being factored
+            coordinate_index: Optional acceleration cache
         """
         self.n = n
-        # Compute prime coordinates for n
-        self.coord = [n % p for p in primes_up_to(min(1000, n))[:100]]  # Limit to first 100 primes
+        self.sqrt_n = int(math.isqrt(n))
+        
+        # Use coordinate index for acceleration if provided
+        self.coord_index = coordinate_index
+        if self.coord_index is None:
+            # Create optimized index automatically
+            self.coord_index = PrimeCoordinateIndex.create_optimized(n)
+            
+        # Get prime coordinates through index
+        self.coord = self.coord_index.get_coordinates(n)
+        self.primes = self.coord_index.primes
+        
+        # Initialize cascade for prime relationship exploration
+        self.cascade = PrimeCascade(n)
     
     def _pull(self, x: int) -> float:
         """
@@ -39,22 +54,14 @@ class PrimeGeodesic:
         Returns:
             Pull strength as float
         """
-        pull = 0.0
-        
-        # Check alignment with prime coordinates
-        for i, p in enumerate(primes_up_to(min(30, x))):
-            if i < len(self.coord) and self.coord[i] == 0 and x % p == 0:
-                # Stronger pull for smaller primes
-                pull += 1 / p
-        
-        return pull
+        # Use accelerated lookup
+        return self.coord_index.get_pull(x, self.n)
     
-    def walk(self, start: int, steps: int = 20) -> List[int]:
+    def walk(self, start: int, steps: int = 50) -> List[int]:
         """
-        Walk along geodesic path from starting position
+        Enhanced walk along geodesic path from starting position
         
-        Follows the path of steepest descent in prime space,
-        moving toward positions with maximum prime attraction
+        Uses multi-scale search, prime cascades, and momentum to find factors
         
         Args:
             start: Starting position
@@ -63,26 +70,101 @@ class PrimeGeodesic:
         Returns:
             Path taken as list of positions
         """
+        # Check for cached path first
+        for potential_factor in [p for p in self.primes if p <= self.sqrt_n]:
+            cached_path = self.coord_index.get_geodesic_path(start, potential_factor, self.n)
+            if cached_path:
+                # Verify the path leads to a factor
+                for pos in cached_path:
+                    if self.n % pos == 0 and is_prime(pos):
+                        return cached_path
+        
+        # Get exploration suggestions from coordinate patterns
+        suggestions = self.coord_index.suggest_exploration_points(self.n, start)
+        
         path = [start]
         cur = start
-        root = int(math.isqrt(self.n))
+        momentum = 0  # Track direction of improvement
+        last_direction = 0
         
-        for _ in range(min(steps, 30)):  # Limit maximum steps
-            best, best_s = cur, 0
+        for step_num in range(min(steps, 100)):  # Allow more steps for exploration
+            best, best_s = cur, self._pull(cur)
+            candidates = []
             
-            # Check neighboring positions
-            for d in (-3, -2, -1, 1, 2, 3):
-                cand = cur + d
-                if 2 <= cand <= root:
-                    s = self._pull(cand)
-                    if s > best_s:
-                        best, best_s = cand, s
+            # 1. Multi-scale search - check at different scales
+            scales = [1, 2, 3, 5, 7, 11]  # Prime-based scales
+            for scale in scales:
+                for direction in [-1, 1]:
+                    cand = cur + direction * scale
+                    if 2 <= cand <= self.sqrt_n:
+                        candidates.append(cand)
             
-            # Stop if no improvement found
-            if best == cur:
-                break
+            # 2. Prime cascade exploration
+            if is_prime(cur):
+                cascade_primes = self.cascade.cascade(cur)
+                for cp in cascade_primes:
+                    if 2 <= cp <= self.sqrt_n:
+                        candidates.append(cp)
+            
+            # 3. Add suggestions from coordinate analysis
+            candidates.extend([s for s in suggestions if abs(s - cur) <= 30])
+            
+            # 4. Add momentum-based candidates
+            if momentum > 0 and last_direction != 0:
+                # Continue in successful direction with larger steps
+                momentum_cand = cur + last_direction * min(momentum * 2, 20)
+                if 2 <= momentum_cand <= self.sqrt_n:
+                    candidates.append(momentum_cand)
+            
+            # Evaluate all candidates
+            for cand in set(candidates):  # Remove duplicates
+                s = self._pull(cand)
+                if s > best_s:
+                    best, best_s = cand, s
+            
+            # Update momentum and direction
+            if best != cur:
+                new_direction = 1 if best > cur else -1
+                if new_direction == last_direction:
+                    momentum += 1
+                else:
+                    momentum = 1
+                last_direction = new_direction
+            else:
+                # No improvement found - try escape strategies
+                if step_num < steps - 10:  # Still have steps left
+                    # Jump to a prime multiple
+                    for p in self.primes[:10]:
+                        escape_pos = cur * p
+                        if escape_pos <= self.sqrt_n:
+                            candidates.append(escape_pos)
+                        escape_pos = cur // p if cur % p == 0 else 0
+                        if escape_pos >= 2:
+                            candidates.append(escape_pos)
+                    
+                    # Re-evaluate with escape candidates
+                    for cand in candidates:
+                        if 2 <= cand <= self.sqrt_n:
+                            s = self._pull(cand)
+                            if s >= best_s * 0.8:  # Accept slight decrease
+                                best = cand
+                                momentum = 0
+                                break
+                
+                if best == cur:  # Still stuck
+                    break
             
             cur = best
             path.append(cur)
+            
+            # Check if we found a factor
+            if self.n % cur == 0 and is_prime(cur):
+                # Cache successful path
+                self.coord_index.store_geodesic_path(start, cur, self.n, path)
+                break
+            
+            # Periodically update suggestions based on current position
+            if step_num % 10 == 0:
+                suggestions = self.coord_index.suggest_exploration_points(self.n, cur)
         
         return path

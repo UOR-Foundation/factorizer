@@ -10,6 +10,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 from axiom1.test.test_prime_core import run_all_tests as test_core
 from axiom1.test.test_prime_cascade import run_all_tests as test_cascade
 from axiom1.test.test_prime_geodesic import run_all_tests as test_geodesic
+from axiom1.test.test_prime_coordinate_index import TestPrimeCoordinateIndex
+import unittest
 
 def run_axiom1_test_suite():
     """Run complete test suite for Axiom 1"""
@@ -43,6 +45,24 @@ def run_axiom1_test_suite():
         print()
     except Exception as e:
         print(f"❌ Prime Geodesic tests failed: {e}")
+        all_passed = False
+        print()
+    
+    # Run Prime Coordinate Index tests
+    try:
+        print("Testing Prime Coordinate Index (Axiom 1)...")
+        print("-" * 40)
+        suite = unittest.TestLoader().loadTestsFromTestCase(TestPrimeCoordinateIndex)
+        runner = unittest.TextTestRunner(verbosity=1)
+        result = runner.run(suite)
+        if result.wasSuccessful():
+            print("-" * 40)
+            print("All Prime Coordinate Index tests passed! ✓")
+        else:
+            all_passed = False
+        print()
+    except Exception as e:
+        print(f"❌ Prime Coordinate Index tests failed: {e}")
         all_passed = False
         print()
     
