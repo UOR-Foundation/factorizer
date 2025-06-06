@@ -56,14 +56,20 @@ class RecursiveCoherence:
             
             if neighbors:
                 # Meta-coherence is coherence of coherences
-                # Use statistical similarity
+                # Use statistical similarity with decay prevention
                 pos_coh = field[pos]
                 mean_neighbor = sum(neighbors) / len(neighbors)
                 variance = sum((n - mean_neighbor) ** 2 for n in neighbors) / len(neighbors)
                 
-                # Low variance = high meta-coherence
-                meta_coh = math.exp(-variance) * abs(pos_coh - mean_neighbor)
-                meta_field[pos] = meta_coh
+                # Prevent total decay while maintaining coherence evolution
+                coherence_stability = math.exp(-variance * 0.5)  # Reduced decay rate
+                coherence_resonance = 1.0 - abs(pos_coh - mean_neighbor)  # Resonance instead of difference
+                
+                # Maintain base coherence while allowing evolution
+                base_coherence = pos_coh * 0.7  # Preserve 70% of original
+                evolved_coherence = coherence_stability * coherence_resonance * 0.3  # 30% evolution
+                
+                meta_field[pos] = base_coherence + evolved_coherence
             else:
                 meta_field[pos] = field[pos]
         
