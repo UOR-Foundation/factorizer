@@ -225,8 +225,8 @@ def ultimate_128bit_breakthrough():
                             print(f"    Testing theoretical limit: {theoretical_n:,} ({target_bits}-bit)")
                             try:
                                 result = benchmark.benchmark_semiprime(theoretical_n, theoretical_factors, 
-                                                                     f"{level['name'].lower()}_{target_bits}bit", 
-                                                                     timeout=level['timeout'])
+                                                                     f"{level['name'].lower()}_{target_bits}bit")
+                                # Note: timeout handling moved to within benchmark_semiprime method
                                 all_results.append(result)
                                 
                                 if result.success_count >= 1:  # Any success on theoretical test is remarkable
@@ -259,8 +259,8 @@ def ultimate_128bit_breakthrough():
                     # Run the benchmark with timeout
                     try:
                         result = benchmark.benchmark_semiprime(n, factors, 
-                                                             f"{level['name'].lower()}_{actual_bits}bit",
-                                                             timeout=level['timeout'])
+                                                             f"{level['name'].lower()}_{actual_bits}bit")
+                        # Note: timeout handling moved to within benchmark_semiprime method
                         all_results.append(result)
                         
                         success_rate = (result.success_count / 5) * 100
