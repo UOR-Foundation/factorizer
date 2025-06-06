@@ -28,6 +28,8 @@ from .interference import (
     identify_resonance_source
 )
 
+from .spectral_signature_cache import SpectralSignatureCache
+
 __all__ = [
     # Spectral Core
     'binary_spectrum',
@@ -48,5 +50,8 @@ __all__ = [
     # Interference
     'prime_fib_interference',
     'interference_extrema',
-    'identify_resonance_source'
+    'identify_resonance_source',
+    
+    # Acceleration
+    'SpectralSignatureCache'
 ]

@@ -10,6 +10,7 @@ from axiom3.test.test_spectral_core import run_all_tests as test_spectral
 from axiom3.test.test_coherence import run_all_tests as test_coherence
 from axiom3.test.test_fold_topology import run_all_tests as test_fold
 from axiom3.test.test_interference import run_all_tests as test_interference
+from axiom3.test.test_spectral_signature_cache import run_all_tests as test_cache
 
 def main():
     """Run all Axiom 3 tests"""
@@ -29,6 +30,9 @@ def main():
     print()
     
     test_interference()
+    print()
+    
+    test_cache()
     print()
     
     print("=" * 60)
