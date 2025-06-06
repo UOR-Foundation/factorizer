@@ -1,6 +1,6 @@
 # UOR/Prime Axioms Factorizer
 
-A pure mathematical implementation of integer factorization based on the Universal Organizing Resonance (UOR) and Prime Model axioms. This project implements deterministic factorization through wave-particle duality, coherence fields, and self-referential mathematics.
+A pure mathematical implementation of integer factorization based on the Universal Object Reference (UOR) and Prime Model axioms. This project implements deterministic factorization through wave-particle duality, coherence fields, and self-referential mathematics.
 
 ## Overview
 
