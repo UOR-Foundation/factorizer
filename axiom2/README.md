@@ -60,3 +60,56 @@ position = radius × cos(angle) + center
 - Golden ratio modulates Axiom 3's spectral analysis
 - Vortex points guide Axiom 4's observer superposition
 - Axiom 5 reflects Fibonacci patterns recursively
+
+## Acceleration
+
+### Fibonacci Resonance Map
+Accelerates golden ratio calculations and Fibonacci pattern detection through pre-computation.
+
+#### Components
+1. **Fibonacci Number Cache**
+   - Pre-computed Fibonacci numbers up to practical limits
+   - Extended precision for large indices
+   - O(1) lookup by index
+
+2. **Golden Vortex Map**
+   - Pre-calculated vortex positions for common ranges
+   - Indexed by center point and radius
+   - Includes φ-scaled and 1/φ-scaled positions
+
+3. **Wave Value Table**
+   - Pre-computed fib_wave(x) for exact positions
+   - On-demand exact computation for new values
+   - Cached at Fibonacci and prime intersections
+
+4. **Spiral Path Index**
+   - Pre-traced golden spiral paths
+   - Intersection points with integer lattice
+   - Cached spiral-prime coincidences
+
+#### Implementation Strategy
+```python
+class FibonacciResonanceMap:
+    def __init__(self, max_index=1000):
+        self.fib_cache = {}  # k -> fib(k)
+        self.vortex_map = {}  # (center, radius) -> vortex_points
+        self.wave_table = {}  # x -> fib_wave(x)
+        self.spiral_paths = {}  # center -> spiral_points
+        
+    def get_fibonacci(self, k):
+        if k not in self.fib_cache:
+            self.fib_cache[k] = compute_fibonacci(k)
+        return self.fib_cache[k]
+        
+    def get_vortex_points(self, center, radius):
+        key = (center, radius)
+        if key not in self.vortex_map:
+            self.vortex_map[key] = compute_vortex(center, radius)
+        return self.vortex_map[key]
+```
+
+#### Pure Principles
+- **Golden Invariance**: φ is constant, relationships are eternal
+- **Exact Values**: No approximation of φ or Fibonacci numbers
+- **Pattern Preservation**: Vortex and spiral patterns maintained exactly
+- **Deterministic Generation**: Same spiral from same parameters

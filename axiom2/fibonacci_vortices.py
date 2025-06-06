@@ -4,8 +4,9 @@ Implements vortex generation with prime modulation
 """
 
 import math
-from typing import List, Set
+from typing import List, Set, Optional
 from .fibonacci_core import fib, PHI
+from .fibonacci_resonance_map import FibonacciResonanceMap
 
 # Import prime generation from axiom1
 import sys
@@ -13,7 +14,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom1 import primes_up_to
 
-def fib_vortices(n: int) -> List[int]:
+def fib_vortices(n: int, resonance_map: Optional[FibonacciResonanceMap] = None) -> List[int]:
     """
     Generate Fibonacci vortex points for factorization
     
@@ -24,11 +25,34 @@ def fib_vortices(n: int) -> List[int]:
     
     Args:
         n: The number being factored
+        resonance_map: Optional acceleration cache
         
     Returns:
         Sorted list of vortex positions in range [2, sqrt(n)]
     """
     root = int(math.isqrt(n))
+    
+    # Use resonance map if provided for acceleration
+    if resonance_map:
+        # Get pre-computed vortex points
+        vortex_points = resonance_map.get_vortex_points(root // 2, root // 2)
+        
+        # Also get Fibonacci numbers in range
+        fibs_in_range = resonance_map.get_fibonacci_range(2, root)
+        vortex_points.update(fibs_in_range)
+        
+        # Add prime modulated points
+        for f in fibs_in_range[:10]:  # Limit for efficiency
+            for p in primes_up_to(min(100, f))[:20]:
+                modulated = (f * p) % root
+                if modulated == 0:
+                    modulated = p
+                if 2 <= modulated <= root:
+                    vortex_points.add(modulated)
+        
+        return sorted(list(vortex_points))
+    
+    # Original implementation without resonance map
     vortex_points: Set[int] = set()
     k = 1
     

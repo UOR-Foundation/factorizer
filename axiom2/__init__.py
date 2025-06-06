@@ -16,6 +16,8 @@ from .fibonacci_vortices import fib_vortices
 
 from .fibonacci_entanglement import FibonacciEntanglement
 
+from .fibonacci_resonance_map import FibonacciResonanceMap
+
 __all__ = [
     'SQRT5',
     'PHI',
@@ -24,5 +26,6 @@ __all__ = [
     'fib',
     'fib_wave',
     'fib_vortices',
-    'FibonacciEntanglement'
+    'FibonacciEntanglement',
+    'FibonacciResonanceMap'
 ]
