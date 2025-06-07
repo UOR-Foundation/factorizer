@@ -12,7 +12,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom1 import primes_up_to
 from axiom2 import fib, PHI, GOLDEN_ANGLE
-from axiom3 import coherence
+from axiom3 import coherence, accelerated_coherence
 
 class MultiScaleObserver:
     """
@@ -63,10 +63,10 @@ class MultiScaleObserver:
             if 2 <= pos <= self.root:
                 # Check if pos divides n
                 if self.n % pos == 0:
-                    coh = coherence(pos, self.n // pos, self.n)
+                    coh = accelerated_coherence(pos, self.n // pos, self.n)
                 else:
                     # Use pos as potential factor
-                    coh = coherence(pos, pos, self.n)
+                    coh = accelerated_coherence(pos, pos, self.n)
                 coherence_sum += coh
                 count += 1
         

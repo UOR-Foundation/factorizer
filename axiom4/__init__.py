@@ -26,6 +26,29 @@ from .resonance_memory import (
     ResonanceMemory
 )
 
+# Acceleration imports
+from .observer_cache import ObserverCache
+from .accelerated_observer import (
+    accelerated_observe,
+    accelerated_gradient,
+    accelerated_collapse,
+    accelerated_navigation,
+    accelerated_coherence_field,
+    accelerated_gradient_ascent,
+    accelerated_multi_path,
+    create_accelerated_observer,
+    benchmark_acceleration,
+    get_global_cache,
+    set_global_cache
+)
+
+# Integrated tools
+from .integrated_tools import (
+    IntegratedObserver,
+    integrated_observer_search,
+    integrated_axiom4_factor
+)
+
 __all__ = [
     # Adaptive Observer
     'MultiScaleObserver',
@@ -44,5 +67,24 @@ __all__ = [
     'SpectralFolder',
     
     # Resonance Memory
-    'ResonanceMemory'
+    'ResonanceMemory',
+    
+    # Acceleration
+    'ObserverCache',
+    'accelerated_observe',
+    'accelerated_gradient',
+    'accelerated_collapse',
+    'accelerated_navigation',
+    'accelerated_coherence_field',
+    'accelerated_gradient_ascent',
+    'accelerated_multi_path',
+    'create_accelerated_observer',
+    'benchmark_acceleration',
+    'get_global_cache',
+    'set_global_cache',
+    
+    # Integrated Tools
+    'IntegratedObserver',
+    'integrated_observer_search',
+    'integrated_axiom4_factor'
 ]
