@@ -11,7 +11,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom2 import PHI, fib
-from axiom3 import coherence, spectral_vector
+from axiom3 import coherence, spectral_vector, accelerated_coherence
+from .meta_acceleration_cache import get_meta_cache
 
 class RecursiveCoherence:
     """
@@ -29,6 +30,7 @@ class RecursiveCoherence:
         self.root = int(math.isqrt(n))
         self.coherence_history = []
         self.fixed_points = []
+        self.cache = get_meta_cache()
         
     def apply_coherence_to_field(self, field: Dict[int, float]) -> Dict[int, float]:
         """
@@ -91,8 +93,16 @@ class RecursiveCoherence:
         current_field = initial_field
         
         for level in range(depth):
-            # Apply coherence to current field
-            next_field = self.apply_coherence_to_field(current_field)
+            # Check cache first
+            cached_field = self.cache.get_coherence_field(self.n, level)
+            if cached_field is not None:
+                next_field = cached_field
+            else:
+                # Apply coherence to current field
+                next_field = self.apply_coherence_to_field(current_field)
+                # Cache the result
+                self.cache.coherence_fields[(self.n, level)] = next_field
+            
             fields.append(next_field)
             
             # Check for convergence
@@ -135,6 +145,12 @@ class RecursiveCoherence:
         Returns:
             Positions that remain stable
         """
+        # Check cache first
+        cached_fixed = self.cache.get_fixed_points(self.n)
+        if cached_fixed:
+            self.fixed_points = cached_fixed
+            return cached_fixed
+        
         if len(self.coherence_history) < 2:
             return []
         
@@ -149,6 +165,10 @@ class RecursiveCoherence:
                     fixed.append(pos)
         
         self.fixed_points = fixed
+        
+        # Cache the result
+        self.cache.add_fixed_points(self.n, fixed)
+        
         return fixed
 
 def meta_coherence(n: int, x: int, y: int, 
@@ -168,14 +188,14 @@ def meta_coherence(n: int, x: int, y: int,
         Meta-coherence value
     """
     if coherence_field is None:
-        # Create simple coherence field
+        # Create simple coherence field using accelerated coherence
         root = int(math.isqrt(n))
         coherence_field = {}
         for pos in range(max(2, x-5), min(root+1, y+6)):
             if n % pos == 0:
-                coherence_field[pos] = coherence(pos, n // pos, n)
+                coherence_field[pos] = accelerated_coherence(pos, n // pos, n)
             else:
-                coherence_field[pos] = coherence(pos, pos, n)
+                coherence_field[pos] = accelerated_coherence(pos, pos, n)
     
     # Get coherence patterns around x and y
     pattern_x = []
@@ -226,29 +246,40 @@ def find_coherence_attractors(n: int, initial_positions: List[int],
     Returns:
         Attractor positions
     """
+    cache = get_meta_cache()
+    
+    # Check cache for common initial position
+    if len(initial_positions) > 0:
+        cached = cache.get_attractors(n, initial_positions[0])
+        if cached is not None:
+            return cached
+    
     recursive_coh = RecursiveCoherence(n)
     
-    # Create initial field
+    # Create initial field using accelerated coherence
     initial_field = {}
     for pos in initial_positions:
         if n % pos == 0:
-            initial_field[pos] = coherence(pos, n // pos, n)
+            initial_field[pos] = accelerated_coherence(pos, n // pos, n)
         else:
-            initial_field[pos] = coherence(pos, pos, n)
+            initial_field[pos] = accelerated_coherence(pos, pos, n)
     
     # Apply recursive coherence
     depth = min(max_iterations, int(math.log(n, PHI)))
     fields = recursive_coh.recursive_coherence_iteration(initial_field, depth)
     
     # Find positions that converge to high values
+    attractors = []
     if fields:
         final_field = fields[-1]
         threshold = 0.7 * max(final_field.values()) if final_field else 0.5
         attractors = [pos for pos, coh in final_field.items() if coh >= threshold]
-        
-        return attractors
     
-    return []
+    # Cache the result
+    if len(initial_positions) > 0:
+        cache.add_attractors(n, initial_positions[0], attractors)
+    
+    return attractors
 
 def golden_ratio_recursion(n: int, start: int) -> List[int]:
     """
@@ -316,11 +347,11 @@ def fractal_coherence_pattern(n: int, base_size: int = 5) -> Dict[int, float]:
             pos = base_pos * scale // scales[0]
             
             if 2 <= pos <= root:
-                # Calculate coherence with fractal weighting
+                # Calculate coherence with fractal weighting using accelerated version
                 if n % pos == 0:
-                    coh = coherence(pos, n // pos, n)
+                    coh = accelerated_coherence(pos, n // pos, n)
                 else:
-                    coh = coherence(pos, pos, n)
+                    coh = accelerated_coherence(pos, pos, n)
                 
                 # Weight by scale
                 weight = 1.0 / (1 + math.log(scale))

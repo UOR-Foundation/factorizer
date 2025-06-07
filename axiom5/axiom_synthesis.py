@@ -6,6 +6,7 @@ Creates hybrid methods and emergent algorithms
 import math
 from typing import List, Dict, Tuple, Callable, Optional
 from collections import defaultdict
+import hashlib
 
 # Import dependencies from other axioms
 import sys
@@ -13,8 +14,9 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom1 import primes_up_to, is_prime
 from axiom2 import fib, PHI
-from axiom3 import coherence
-from axiom4 import MultiScaleObserver
+from axiom3 import coherence, accelerated_coherence
+from axiom4 import MultiScaleObserver, create_accelerated_observer
+from .meta_acceleration_cache import get_meta_cache
 
 class AxiomSynthesizer:
     """
@@ -32,6 +34,7 @@ class AxiomSynthesizer:
         self.root = int(math.isqrt(n))
         self.success_patterns = []
         self.hybrid_methods = []
+        self.cache = get_meta_cache()
         
     def record_success(self, axioms_used: List[str], position: int, 
                       method_description: str = ""):
@@ -90,17 +93,17 @@ class AxiomSynthesizer:
             
             # Axiom 3: Coherence-based score
             if 'axiom3' in axiom_weights:
-                # Use coherence if x divides n
+                # Use accelerated coherence if x divides n
                 if self.n % x == 0:
-                    coh = coherence(x, self.n // x, self.n)
+                    coh = accelerated_coherence(x, self.n // x, self.n)
                 else:
-                    coh = coherence(x, x, self.n)
+                    coh = accelerated_coherence(x, x, self.n)
                 score += axiom_weights['axiom3'] * coh
             
             # Axiom 4: Observer-based score
             if 'axiom4' in axiom_weights:
-                # Multi-scale observation
-                observer = MultiScaleObserver(self.n)
+                # Use accelerated observer
+                observer, _ = create_accelerated_observer(self.n)
                 obs_score = observer.observe(x)
                 score += axiom_weights['axiom4'] * obs_score
             
@@ -116,6 +119,20 @@ class AxiomSynthesizer:
         Returns:
             Optimal weights for each axiom
         """
+        # Create pattern hash for caching
+        pattern_hash = hashlib.md5(
+            str([(p['axioms'], p['position']) for p in self.success_patterns]).encode()
+        ).hexdigest()
+        
+        # Check cache
+        cached_score = self.cache.get_axiom_combination_score(pattern_hash)
+        if cached_score is not None:
+            # Convert cached score to weights
+            axioms = ['axiom1', 'axiom2', 'axiom3', 'axiom4']
+            return {ax: cached_score / len(axioms) for ax in axioms}
+        
+        # Always include all axioms for consistency
+        axioms = ['axiom1', 'axiom2', 'axiom3', 'axiom4']
         axiom_scores = defaultdict(float)
         axiom_counts = defaultdict(int)
         
@@ -129,11 +146,28 @@ class AxiomSynthesizer:
         total_score = sum(axiom_scores.values())
         
         if total_score > 0:
-            for axiom in axiom_scores:
-                weights[axiom] = axiom_scores[axiom] / total_score
+            # Distribute weights proportionally, but include all axioms
+            for axiom in axioms:
+                if axiom in axiom_scores:
+                    weights[axiom] = axiom_scores[axiom] / total_score
+                else:
+                    weights[axiom] = 0.0
+            
+            # Renormalize to ensure sum is 1.0
+            weight_sum = sum(weights.values())
+            if weight_sum > 0:
+                for axiom in weights:
+                    weights[axiom] /= weight_sum
+            else:
+                # All zeros, use equal weights
+                for axiom in axioms:
+                    weights[axiom] = 0.25
+            
+            # Cache the average weight as success rate
+            avg_weight = sum(weights.values()) / len(weights)
+            self.cache.add_axiom_combination(pattern_hash, avg_weight)
         else:
             # Default equal weights
-            axioms = ['axiom1', 'axiom2', 'axiom3', 'axiom4']
             for axiom in axioms:
                 weights[axiom] = 0.25
         
@@ -216,8 +250,21 @@ def cross_axiom_resonance(n: int, axiom_results: Dict[str, List[int]]) -> List[i
     Returns:
         Resonant positions
     """
+    cache = get_meta_cache()
     root = int(math.isqrt(n))
     position_scores = defaultdict(float)
+    
+    # Check cache for interference patterns
+    for ax1 in axiom_results:
+        for ax2 in axiom_results:
+            if ax1 < ax2:  # Avoid duplicates
+                interference = cache.get_interference_strength(ax1, ax2)
+                if interference is None:
+                    # Calculate and cache interference
+                    common = set(axiom_results[ax1]) & set(axiom_results[ax2])
+                    if len(axiom_results[ax1]) > 0 and len(axiom_results[ax2]) > 0:
+                        interference = len(common) / min(len(axiom_results[ax1]), len(axiom_results[ax2]))
+                        cache.add_interference_strength(ax1, ax2, interference)
     
     # Score each position by axiom overlap
     for axiom, positions in axiom_results.items():
@@ -252,13 +299,20 @@ def emergent_pattern_detection(n: int, observation_history: List[Dict]) -> List[
     Returns:
         Emergent candidate positions
     """
+    cache = get_meta_cache()
     root = int(math.isqrt(n))
     
-    # Group by axiom
-    axiom_positions = defaultdict(list)
+    # Add observations to cache for fast queries
     for obs in observation_history:
-        if 'axiom' in obs and 'position' in obs:
-            axiom_positions[obs['axiom']].append(obs['position'])
+        cache.add_observation(obs)
+    
+    # Group by axiom using cache
+    axiom_positions = defaultdict(list)
+    for axiom in ['axiom1', 'axiom2', 'axiom3', 'axiom4']:
+        obs_list = cache.query_observations(axiom=axiom)
+        for obs in obs_list:
+            if 'position' in obs:
+                axiom_positions[axiom].append(obs['position'])
     
     # Find cross-axiom patterns
     emergent = set()
@@ -276,7 +330,10 @@ def emergent_pattern_detection(n: int, observation_history: List[Dict]) -> List[
     
     # Pattern 2: Coherence peaks at golden ratio intervals
     if 'axiom3' in axiom_positions:
-        coherence_peaks = sorted(axiom_positions['axiom3'])
+        # Query high coherence observations
+        high_coh_obs = cache.query_observations(min_coherence=0.7)
+        coherence_peaks = sorted([obs['position'] for obs in high_coh_obs 
+                                 if 'position' in obs and obs.get('axiom') == 'axiom3'])
         
         for i in range(len(coherence_peaks) - 1):
             gap = coherence_peaks[i+1] - coherence_peaks[i]

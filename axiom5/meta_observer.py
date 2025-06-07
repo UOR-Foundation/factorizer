@@ -12,7 +12,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom2 import PHI
-from axiom3 import coherence, spectral_vector
+from axiom3 import coherence, spectral_vector, accelerated_coherence
+from .meta_acceleration_cache import get_meta_cache, accelerated_meta_coherence
 
 class AxiomPerformanceProfile:
     """
@@ -148,6 +149,7 @@ class MetaObserver:
         self.observation_history = []
         self.coherence_history = []
         self.blind_spots = set()
+        self.cache = get_meta_cache()
         
     def observe_observation(self, position: int, coherence_value: float, 
                           axiom_used: str, found_factor: bool = False):
@@ -170,6 +172,9 @@ class MetaObserver:
         self.observation_history.append(event)
         self.coherence_history.append(coherence_value)
         
+        # Add to accelerated cache for O(1) lookups
+        self.cache.add_observation(event)
+        
         # Update blind spots
         if not found_factor and coherence_value < 0.1:
             self.blind_spots.add(position)
@@ -186,34 +191,53 @@ class MetaObserver:
         Returns:
             Meta-coherence value
         """
-        if not self.coherence_history:
-            return 0.0
+        # Create coherence field for caching
+        coherence_field = {}
+        if self.coherence_history:
+            # Sample coherence values from observation history
+            for event in self.observation_history:
+                coherence_field[event['position']] = event['coherence']
         
-        # Get coherence values near this position
-        window_size = max(1, self.root // 20)  # Ensure at least 1
-        nearby_coherences = []
-        for event in self.observation_history:
-            if abs(event['position'] - position) <= window_size:
-                nearby_coherences.append(event['coherence'])
+        def compute_meta_coherence(pos, field):
+            if not self.coherence_history:
+                return 0.0
+            
+            # Use cached observations for faster lookup
+            window_size = max(1, self.root // 20)
+            nearby_obs = self.cache.query_observations(position=position)
+            
+            if not nearby_obs:
+                # Fall back to computing from observation history
+                nearby_coherences = []
+                for event in self.observation_history:
+                    if abs(event['position'] - pos) <= window_size:
+                        nearby_coherences.append(event['coherence'])
+            else:
+                # Use cached observations
+                nearby_coherences = [obs['coherence'] for obs in nearby_obs 
+                                   if abs(obs['position'] - pos) <= window_size]
+            
+            if len(nearby_coherences) < 2:
+                return 0.0
+            
+            # Calculate coherence of coherences
+            mean_coh = sum(nearby_coherences) / len(nearby_coherences)
+            variance = sum((c - mean_coh) ** 2 for c in nearby_coherences) / len(nearby_coherences)
+            
+            # Low variance in coherence = high meta-coherence
+            meta_coh = math.exp(-variance)
+            
+            # Boost if we're near successful observations
+            success_boost = 0
+            success_obs = [e for e in self.observation_history if e['found']]
+            for event in success_obs:
+                if abs(event['position'] - pos) <= 2:
+                    success_boost += 0.5
+            
+            return min(1.0, meta_coh + success_boost)
         
-        if len(nearby_coherences) < 2:
-            return 0.0
-        
-        # Calculate coherence of coherences
-        # Use statistical properties
-        mean_coh = sum(nearby_coherences) / len(nearby_coherences)
-        variance = sum((c - mean_coh) ** 2 for c in nearby_coherences) / len(nearby_coherences)
-        
-        # Low variance in coherence = high meta-coherence
-        meta_coh = math.exp(-variance)
-        
-        # Boost if we're near successful observations
-        success_boost = 0
-        for event in self.observation_history:
-            if event['found'] and abs(event['position'] - position) <= 2:
-                success_boost += 0.5
-        
-        return min(1.0, meta_coh + success_boost)
+        # Use accelerated meta-coherence
+        return accelerated_meta_coherence(position, coherence_field, compute_meta_coherence)
     
     def detect_observation_patterns(self) -> Dict[str, List[int]]:
         """

@@ -12,7 +12,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom2 import PHI
-from axiom3 import spectral_vector, coherence
+from axiom3 import spectral_vector, coherence, accelerated_spectral_vector, accelerated_coherence
+from .meta_acceleration_cache import get_meta_cache
 
 class FailureMemory:
     """
@@ -33,6 +34,7 @@ class FailureMemory:
         self.failure_patterns: List[Dict] = []
         self.dead_end_regions: List[Tuple[int, int]] = []
         self.spectral_nulls: List[int] = []
+        self.cache = get_meta_cache()
         
     def record_failure(self, n: int, position: int, method: str, 
                       coherence_value: float = 0.0):
@@ -51,11 +53,17 @@ class FailureMemory:
             'position': position,
             'method': method,
             'coherence': coherence_value,
-            'spectrum': spectral_vector(position),
-            'characteristics': self._analyze_position(position, n)
+            'spectrum': accelerated_spectral_vector(position),  # Use accelerated version
+            'characteristics': self._analyze_position(position, n),
+            'axiom': method,  # Add axiom field for cache compatibility
+            'found': False,  # Failure
+            'timestamp': len(self.failure_patterns)
         }
         
         self.failure_patterns.append(failure)
+        
+        # Add to cache for fast queries
+        self.cache.add_observation(failure)
         
         # Limit memory size
         if len(self.failure_patterns) > self.memory_size:
@@ -222,12 +230,26 @@ def detect_spectral_nulls(n: int, memory: FailureMemory,
     """
     nulls = []
     
-    # Get all low-coherence failures
-    for failure in memory.failure_patterns:
-        if failure['coherence'] < coherence_threshold:
+    # Use cache to query low coherence failures
+    low_coh_obs = memory.cache.query_observations(min_coherence=0.0)
+    low_coh_failures = [obs for obs in low_coh_obs 
+                       if obs.get('coherence', 1.0) < coherence_threshold 
+                       and not obs.get('found', True)]
+    
+    # Get positions from low coherence failures
+    for failure in low_coh_failures:
+        if 'position' in failure:
             pos = failure['position']
             if pos not in nulls:
                 nulls.append(pos)
+    
+    # Also check memory patterns if cache is empty
+    if not nulls:
+        for failure in memory.failure_patterns:
+            if failure['coherence'] < coherence_threshold:
+                pos = failure['position']
+                if pos not in nulls:
+                    nulls.append(pos)
     
     # Expand to nearby positions
     expanded_nulls = set(nulls)
@@ -236,11 +258,11 @@ def detect_spectral_nulls(n: int, memory: FailureMemory,
         for offset in [-1, 1]:
             neighbor = null_pos + offset
             if neighbor >= 2:
-                # Estimate coherence
+                # Estimate coherence using accelerated version
                 if n % neighbor == 0:
-                    coh = coherence(neighbor, n // neighbor, n)
+                    coh = accelerated_coherence(neighbor, n // neighbor, n)
                 else:
-                    coh = coherence(neighbor, neighbor, n)
+                    coh = accelerated_coherence(neighbor, neighbor, n)
                 
                 if coh < coherence_threshold:
                     expanded_nulls.add(neighbor)

@@ -129,6 +129,10 @@ def test_analyze_failure_patterns():
 
 def test_detect_spectral_nulls_func():
     """Test spectral null detection"""
+    # Reset global cache to ensure clean state
+    import axiom5.meta_acceleration_cache
+    axiom5.meta_acceleration_cache._meta_cache = None
+    
     memory = FailureMemory()
     n = 77
     

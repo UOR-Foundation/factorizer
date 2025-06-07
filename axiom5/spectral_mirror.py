@@ -11,7 +11,8 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from axiom2 import PHI
-from axiom3 import spectral_vector, coherence
+from axiom3 import spectral_vector, coherence, accelerated_spectral_vector
+from .meta_acceleration_cache import get_meta_cache, accelerated_spectral_distance, accelerated_mirror_position
 
 class SpectralMirror:
     """
@@ -27,8 +28,9 @@ class SpectralMirror:
         """
         self.n = n
         self.root = int(math.isqrt(n))
-        self.n_spectrum = spectral_vector(n)
+        self.n_spectrum = accelerated_spectral_vector(n)  # Use accelerated version
         self.mirror_cache = {}
+        self.cache = get_meta_cache()
         
     def spectral_distance(self, x: int, y: int) -> float:
         """
@@ -41,15 +43,8 @@ class SpectralMirror:
         Returns:
             Spectral distance
         """
-        spec_x = spectral_vector(x)
-        spec_y = spectral_vector(y)
-        
-        # Euclidean distance in spectral space
-        distance = 0.0
-        for sx, sy in zip(spec_x, spec_y):
-            distance += (sx - sy) ** 2
-        
-        return math.sqrt(distance)
+        # Use accelerated spectral distance
+        return accelerated_spectral_distance(x, y)
     
     def find_mirror_point(self, x: int) -> int:
         """
@@ -63,24 +58,22 @@ class SpectralMirror:
         Returns:
             Mirror position
         """
-        if x in self.mirror_cache:
-            return self.mirror_cache[x]
+        def compute_mirror(pos):
+            if pos == 0 or self.n % pos != 0:
+                # For non-factors, use spectral reflection
+                spec_dist = self.spectral_distance(pos, self.root)
+                mirror = int(self.n / (1 + spec_dist))
+            else:
+                # For factors, use complementary factor
+                complement = self.n // pos
+                spec_dist = self.spectral_distance(pos, complement)
+                mirror = int(self.n - spec_dist)
+            
+            # Ensure within bounds
+            return max(2, min(self.root, mirror))
         
-        if x == 0 or self.n % x != 0:
-            # For non-factors, use spectral reflection
-            spec_dist = self.spectral_distance(x, self.root)
-            mirror = int(self.n / (1 + spec_dist))
-        else:
-            # For factors, use complementary factor
-            complement = self.n // x
-            spec_dist = self.spectral_distance(x, complement)
-            mirror = int(self.n - spec_dist)
-        
-        # Ensure within bounds
-        mirror = max(2, min(self.root, mirror))
-        
-        self.mirror_cache[x] = mirror
-        return mirror
+        # Use accelerated mirror position
+        return accelerated_mirror_position(self.n, x, compute_mirror)
     
     def spectral_reflection(self, x: int) -> int:
         """
@@ -94,7 +87,7 @@ class SpectralMirror:
         Returns:
             Reflected position
         """
-        spec_x = spectral_vector(x)
+        spec_x = accelerated_spectral_vector(x)  # Use accelerated version
         
         # Calculate spectral magnitude
         mag_x = sum(s ** 2 for s in spec_x) ** 0.5
@@ -125,22 +118,33 @@ class SpectralMirror:
         Returns:
             List of mirror positions at each level
         """
-        mirrors = [x]
-        current = x
+        # Check cache first
+        cached = self.cache.get_recursive_mirrors(self.n, x, depth)
+        if cached is not None:
+            return cached
         
-        for level in range(depth):
-            # Alternate between mirror point and spectral reflection
-            if level % 2 == 0:
-                current = self.find_mirror_point(current)
-            else:
-                current = self.spectral_reflection(current)
+        def compute_recursive_mirrors(n, start, d):
+            mirrors = [start]
+            current = start
             
-            if current in mirrors:
-                # Avoid cycles
-                break
+            for level in range(d):
+                # Alternate between mirror point and spectral reflection
+                if level % 2 == 0:
+                    current = self.find_mirror_point(current)
+                else:
+                    current = self.spectral_reflection(current)
+                
+                if current in mirrors:
+                    # Avoid cycles
+                    break
+                
+                mirrors.append(current)
             
-            mirrors.append(current)
+            return mirrors
         
+        # Compute and cache
+        mirrors = self.cache.get_recursive_mirrors(self.n, x, depth, 
+                                                  lambda n, s, d: compute_recursive_mirrors(n, s, d))
         return mirrors
 
 def find_mirror_points(n: int, positions: List[int]) -> List[Tuple[int, int]]:
@@ -184,7 +188,7 @@ def inverse_spectral_map(n: int, target_spectrum: List[float]) -> List[int]:
     sample_step = max(1, root // 100)
     
     for x in range(2, root + 1, sample_step):
-        spec = spectral_vector(x)
+        spec = accelerated_spectral_vector(x)  # Use accelerated version
         
         # Calculate spectral similarity
         distance = 0.0
@@ -298,7 +302,7 @@ def spectral_modulated_search(n: int, base_positions: List[int]) -> List[int]:
         # Direct position
         modulated.add(pos)
         
-        # Mirror position
+        # Mirror position (uses cache internally)
         modulated.add(mirror.find_mirror_point(pos))
         
         # Spectral reflection

@@ -38,6 +38,14 @@ from .failure_analysis import (
     adaptive_strategy
 )
 
+from .meta_acceleration_cache import (
+    MetaAccelerationCache,
+    get_meta_cache,
+    accelerated_meta_coherence,
+    accelerated_spectral_distance,
+    accelerated_mirror_position
+)
+
 __all__ = [
     # Meta Observer
     'MetaObserver',
@@ -67,5 +75,12 @@ __all__ = [
     'FailureMemory',
     'analyze_failure_patterns',
     'detect_spectral_nulls',
-    'adaptive_strategy'
+    'adaptive_strategy',
+    
+    # Meta Acceleration Cache
+    'MetaAccelerationCache',
+    'get_meta_cache',
+    'accelerated_meta_coherence',
+    'accelerated_spectral_distance',
+    'accelerated_mirror_position'
 ]
