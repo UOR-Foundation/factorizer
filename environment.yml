@@ -1,0 +1,44 @@
+name: prime-resonance-field
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.8,<3.13
+  - pip
+  - numpy>=1.20.0
+  - scipy>=1.7.0
+  # Development dependencies
+  - pytest>=6.0
+  - pytest-cov>=2.0
+  - black>=21.0
+  - flake8>=3.8
+  - mypy>=0.900
+  - isort>=5.0
+  # Documentation dependencies
+  - sphinx>=4.0
+  - sphinx_rtd_theme>=1.0
+  # Benchmarking dependencies
+  - matplotlib>=3.3
+  - pandas>=1.3
+  - seaborn>=0.11
+  # Optional dependencies
+  - psutil  # For memory profiling
+  - jupyter
+  - jupyterlab
+  - notebook
+  # Security tools
+  - bandit
+  # Build tools
+  - build
+  - twine
+  - wheel
+  - setuptools>=61.0
+  # Additional tools
+  - tox
+  - pip-tools
+  - pip:
+    - pip-audit
+    - myst-parser>=0.15
+    - pytest-xdist  # For parallel testing
+    - memory-profiler
+    - line-profiler

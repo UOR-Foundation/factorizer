@@ -1,0 +1,79 @@
+================================================================================
+UOR/Prime Axioms Factorizer - 64-bit Benchmark Report (Simplified)
+================================================================================
+Timestamp: 2025-06-07 16:58:56
+Learning: Enabled
+Total test cases: 41
+
+Overall Success Rate: 82.9% (34/41)
+
+================================================================================
+Performance by Bit Range:
+================================================================================
+
+8-bit Numbers:
+  Success Rate: 100.0% (12/12)
+  Time: avg=0.004s, min=0.000s, max=0.007s
+  Iterations: avg=0.9
+  Candidates Explored: avg=1.8
+  Max Coherence: avg=0.486
+  Primary Axioms Used:
+    - axiom4: 11 times
+    - trivial: 1 times
+
+16-bit Numbers:
+  Success Rate: 90.5% (19/21)
+  Time: avg=0.013s, min=0.007s, max=0.019s
+  Iterations: avg=1.0
+  Candidates Explored: avg=1.9
+  Max Coherence: avg=0.430
+  Primary Axioms Used:
+    - axiom4: 19 times
+
+32-bit Numbers:
+  Success Rate: 37.5% (3/8)
+  Time: avg=0.397s, min=0.162s, max=0.703s
+  Iterations: avg=1.0
+  Candidates Explored: avg=2.0
+  Max Coherence: avg=0.430
+  Primary Axioms Used:
+    - axiom4: 3 times
+
+================================================================================
+Performance by Difficulty:
+================================================================================
+
+Easy:
+  Success Rate: 73.7% (14/19)
+  Average Time: 0.008s
+
+Medium:
+  Success Rate: 81.8% (9/11)
+  Average Time: 0.011s
+
+Hard:
+  Success Rate: 100.0% (6/6)
+  Average Time: 0.206s
+
+Special:
+  Success Rate: 100.0% (3/3)
+  Average Time: 0.005s
+
+Fibonacci:
+  Success Rate: 100.0% (2/2)
+  Average Time: 0.005s
+
+================================================================================
+Method Sequence Analysis:
+================================================================================
+
+Most Used Methods:
+  - phase1_setup: 33 times
+  - phase2_superposition: 33 times
+  - phase3_coherence: 33 times
+  - phase4_collapse: 33 times
+  - trivial_even: 1 times
+
+================================================================================
+Acceleration Impact:
+================================================================================

@@ -1,0 +1,1202 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-07T16:58:56.854085",
+    "learning_enabled": true,
+    "total_cases": 41,
+    "successful": 34
+  },
+  "results": [
+    {
+      "case": {
+        "n": 15,
+        "p": 3,
+        "q": 5,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          3,
+          5
+        ],
+        "time": 0.0015070438385009766,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4500363464865277,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 21,
+        "p": 3,
+        "q": 7,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          3,
+          7
+        ],
+        "time": 0.002174854278564453,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.43750014012725075,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 35,
+        "p": 5,
+        "q": 7,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          5,
+          7
+        ],
+        "time": 0.0030128955841064453,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4375610663268574,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 77,
+        "p": 7,
+        "q": 11,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          7,
+          11
+        ],
+        "time": 0.0046520233154296875,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4266713665995305,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 91,
+        "p": 7,
+        "q": 13,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          7,
+          13
+        ],
+        "time": 0.0051991939544677734,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4375930742078822,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 143,
+        "p": 11,
+        "q": 13,
+        "bit_size": 8,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          11,
+          13
+        ],
+        "time": 0.005131721496582031,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.43466200179705805,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 187,
+        "p": 11,
+        "q": 17,
+        "bit_size": 8,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          11,
+          17
+        ],
+        "time": 0.006217479705810547,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.41892344669742393,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 221,
+        "p": 13,
+        "q": 17,
+        "bit_size": 8,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          13,
+          17
+        ],
+        "time": 0.006360292434692383,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4431560338810869,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 247,
+        "p": 13,
+        "q": 19,
+        "bit_size": 8,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          13,
+          19
+        ],
+        "time": 0.006708860397338867,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.44831337848573977,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 9,
+        "p": 3,
+        "q": 3,
+        "bit_size": 8,
+        "difficulty": "special"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          3,
+          3
+        ],
+        "time": 0.0014884471893310547,
+        "iterations": 1,
+        "candidates_explored": 1,
+        "max_coherence": 0.45002041536336435,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 25,
+        "p": 5,
+        "q": 5,
+        "bit_size": 8,
+        "difficulty": "special"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          5,
+          5
+        ],
+        "time": 0.004151344299316406,
+        "iterations": 1,
+        "candidates_explored": 1,
+        "max_coherence": 0.45003864839959795,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 6,
+        "p": 2,
+        "q": 3,
+        "bit_size": 8,
+        "difficulty": "fibonacci"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          2,
+          3
+        ],
+        "time": 2.1457672119140625e-06,
+        "iterations": 0,
+        "candidates_explored": 1,
+        "max_coherence": 1.0,
+        "primary_axiom": "trivial",
+        "method_sequence": [
+          "trivial_even"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 323,
+        "p": 17,
+        "q": 19,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          17,
+          19
+        ],
+        "time": 0.006535530090332031,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4215067900253667,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 391,
+        "p": 17,
+        "q": 23,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          17,
+          23
+        ],
+        "time": 0.007250547409057617,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4231428502769414,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 667,
+        "p": 23,
+        "q": 29,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          23,
+          29
+        ],
+        "time": 0.01796245574951172,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4282751857050029,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 899,
+        "p": 29,
+        "q": 31,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          29,
+          31
+        ],
+        "time": 0.012134075164794922,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4264728860222583,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 1147,
+        "p": 31,
+        "q": 37,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          31,
+          37
+        ],
+        "time": 0.012123584747314453,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.43398494438522855,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 1517,
+        "p": 37,
+        "q": 41,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          37,
+          41
+        ],
+        "time": 0.012733221054077148,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4329964483961585,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 2021,
+        "p": 43,
+        "q": 47,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          43,
+          47
+        ],
+        "time": 0.009968757629394531,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4185939377558112,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 2491,
+        "p": 47,
+        "q": 53,
+        "bit_size": 16,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          47,
+          53
+        ],
+        "time": 0.011713504791259766,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4355820636913669,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 3127,
+        "p": 53,
+        "q": 59,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          53,
+          59
+        ],
+        "time": 0.011146306991577148,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4401266848084238,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 4087,
+        "p": 61,
+        "q": 67,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          61,
+          67
+        ],
+        "time": 0.016041278839111328,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4267028997044349,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 4757,
+        "p": 67,
+        "q": 71,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          67,
+          71
+        ],
+        "time": 0.013983726501464844,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.41649563806863826,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 5767,
+        "p": 73,
+        "q": 79,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          73,
+          79
+        ],
+        "time": 0.015302896499633789,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4217555027483566,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 6557,
+        "p": 79,
+        "q": 83,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          79,
+          83
+        ],
+        "time": 0.012164592742919922,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.437620626572048,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 8633,
+        "p": 89,
+        "q": 97,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          89,
+          97
+        ],
+        "time": 0.014490127563476562,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.44277202016872313,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 10403,
+        "p": 101,
+        "q": 103,
+        "bit_size": 16,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          101,
+          103
+        ],
+        "time": 0.019397258758544922,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4276066219104666,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 11021,
+        "p": 103,
+        "q": 107,
+        "bit_size": 16,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          103,
+          107
+        ],
+        "time": 0.013833999633789062,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4249071924960638,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 11663,
+        "p": 107,
+        "q": 109,
+        "bit_size": 16,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          107,
+          109
+        ],
+        "time": 0.012410163879394531,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.42029499600835785,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 15251,
+        "p": 113,
+        "q": 135,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          101,
+          151
+        ],
+        "time": 0.02069830894470215,
+        "iterations": 1,
+        "candidates_explored": 1,
+        "max_coherence": 0.4352018039935321,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 169,
+        "p": 13,
+        "q": 13,
+        "bit_size": 16,
+        "difficulty": "special"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          13,
+          13
+        ],
+        "time": 0.010353565216064453,
+        "iterations": 1,
+        "candidates_explored": 1,
+        "max_coherence": 0.45371521297409273,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 377,
+        "p": 13,
+        "q": 29,
+        "bit_size": 16,
+        "difficulty": "fibonacci"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          13,
+          29
+        ],
+        "time": 0.009323358535766602,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.43536703597919935,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 1597,
+        "p": 37,
+        "q": 43,
+        "bit_size": 16,
+        "difficulty": "medium"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          1597
+        ],
+        "time": 0.4637439250946045,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 16843009,
+        "p": 257,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          16843009
+        ],
+        "time": 1.0312912464141846,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 66913277,
+        "p": 1021,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          66913277
+        ],
+        "time": 1.0801701545715332,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 134547461,
+        "p": 2053,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          134547461
+        ],
+        "time": 1.2877705097198486,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 268636163,
+        "p": 4099,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          268636163
+        ],
+        "time": 1.096043348312378,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 537993233,
+        "p": 8209,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "easy"
+      },
+      "result": {
+        "success": false,
+        "factors": [
+          1,
+          537993233
+        ],
+        "time": 1.150716781616211,
+        "iterations": 0,
+        "candidates_explored": 0,
+        "max_coherence": 0.0,
+        "primary_axiom": "none",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse",
+          "phase5_refinement"
+        ],
+        "learning_applied": true
+      },
+      "error": "Incorrect factors"
+    },
+    {
+      "case": {
+        "n": 269419387,
+        "p": 16411,
+        "q": 16417,
+        "bit_size": 32,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          16411,
+          16417
+        ],
+        "time": 0.1620771884918213,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4375001599332541,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 1074200609,
+        "p": 32771,
+        "q": 32779,
+        "bit_size": 32,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          32771,
+          32779
+        ],
+        "time": 0.3269462585449219,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.4285822076047749,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    },
+    {
+      "case": {
+        "n": 4294049777,
+        "p": 65521,
+        "q": 65537,
+        "bit_size": 32,
+        "difficulty": "hard"
+      },
+      "result": {
+        "success": true,
+        "factors": [
+          65521,
+          65537
+        ],
+        "time": 0.7029159069061279,
+        "iterations": 1,
+        "candidates_explored": 2,
+        "max_coherence": 0.42522609409981366,
+        "primary_axiom": "axiom4",
+        "method_sequence": [
+          "phase1_setup",
+          "phase2_superposition",
+          "phase3_coherence",
+          "phase4_collapse"
+        ],
+        "learning_applied": false
+      },
+      "error": null
+    }
+  ]
+}

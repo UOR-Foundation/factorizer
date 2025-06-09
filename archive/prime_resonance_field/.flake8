@@ -1,0 +1,29 @@
+[flake8]
+max-line-length = 88
+extend-ignore = 
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # E501: line too long (handled by black)
+    E501,
+    # F401: imported but unused (common in __init__.py)
+    F401
+exclude = 
+    .git,
+    __pycache__,
+    .pytest_cache,
+    .mypy_cache,
+    build,
+    dist,
+    *.egg-info,
+    .venv,
+    venv,
+    .tox
+per-file-ignores =
+    # Allow unused imports in __init__.py files
+    __init__.py:F401
+    # Allow long lines in test files for readability
+    tests/*:E501
+max-complexity = 15
+select = E,W,F,C

@@ -1,0 +1,114 @@
+/* Custom CSS for Prime Resonance Field Documentation */
+
+/* UOR Foundation branding colors */
+:root {
+    --uor-blue: #2980B9;
+    --uor-dark-blue: #1f4e79;
+    --uor-light-blue: #3498DB;
+    --uor-accent: #E74C3C;
+}
+
+/* Header styling */
+.wy-nav-top {
+    background: var(--uor-blue) !important;
+}
+
+/* Sidebar styling */
+.wy-nav-side {
+    background: #f8f9fa;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    color: var(--uor-dark-blue);
+    font-weight: bold;
+}
+
+/* Code blocks */
+.highlight {
+    background: #f8f9fa;
+    border-left: 4px solid var(--uor-blue);
+    padding-left: 1em;
+}
+
+/* Links */
+a {
+    color: var(--uor-blue);
+}
+
+a:hover {
+    color: var(--uor-dark-blue);
+}
+
+/* Admonitions */
+.admonition.note {
+    border-left: 4px solid var(--uor-blue);
+}
+
+.admonition.warning {
+    border-left: 4px solid var(--uor-accent);
+}
+
+/* Tables */
+.wy-table-responsive table td,
+.wy-table-responsive table th {
+    white-space: normal;
+}
+
+/* Footer */
+.rst-footer-buttons {
+    margin-top: 2em;
+    border-top: 1px solid #e1e4e5;
+    padding-top: 1em;
+}
+
+/* Mathematical formulas */
+.math {
+    color: var(--uor-dark-blue);
+}
+
+/* API documentation */
+.py.class .highlight {
+    background: #f0f8ff;
+}
+
+.py.method .highlight {
+    background: #f5f5f5;
+}
+
+/* Performance results tables */
+.performance-table {
+    margin: 1em 0;
+}
+
+.performance-table th {
+    background-color: var(--uor-blue);
+    color: white;
+}
+
+.performance-table .success {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.performance-table .failure {
+    color: var(--uor-accent);
+    font-weight: bold;
+}
+
+/* Code highlighting for RFH3 */
+.highlight .nf {
+    color: var(--uor-blue);
+}
+
+.highlight .nc {
+    color: var(--uor-dark-blue);
+    font-weight: bold;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .wy-table-responsive table {
+        font-size: 0.9em;
+    }
+}

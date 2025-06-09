@@ -1,0 +1,681 @@
+{
+  "timestamp": "2025-06-08 14:53:06",
+  "test_cases": {
+    "64": 3,
+    "80": 3,
+    "96": 3
+  },
+  "raw_results": [
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 32",
+      "bit_length": 64,
+      "avg_time": 0.13232707433356458,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 32",
+      "bit_length": 80,
+      "avg_time": 0.9664032956664718,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 32",
+      "bit_length": 96,
+      "avg_time": 18.897740811999938,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 48",
+      "bit_length": 64,
+      "avg_time": 0.1379765033334479,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 48",
+      "bit_length": 80,
+      "avg_time": 0.913704292666201,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.3333333333333333
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 48",
+      "bit_length": 96,
+      "avg_time": 18.860499619666673,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 24",
+      "bit_length": 64,
+      "avg_time": 0.14032023099995664,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 24",
+      "bit_length": 80,
+      "avg_time": 0.9601749236665759,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "return 24",
+      "bit_length": 96,
+      "avg_time": 18.81947100966651,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 3",
+      "bit_length": 64,
+      "avg_time": 0.14446301066679249,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 3",
+      "bit_length": 80,
+      "avg_time": 1.0977407163333435,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 3",
+      "bit_length": 96,
+      "avg_time": 18.795454879666675,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 6",
+      "bit_length": 64,
+      "avg_time": 0.1471654506667619,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 6",
+      "bit_length": 80,
+      "avg_time": 1.0883166896664989,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "prime_dimensions",
+      "param_value": "32 + bit_len // 6",
+      "bit_length": 96,
+      "avg_time": 20.540597993999956,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "1000 if bit_len < 80 else 500",
+      "bit_length": 64,
+      "avg_time": 0.21634796666664138,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "1000 if bit_len < 80 else 500",
+      "bit_length": 80,
+      "avg_time": 1.2299699253332317,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "1000 if bit_len < 80 else 500",
+      "bit_length": 96,
+      "avg_time": 19.003613098000034,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "2000 if bit_len < 80 else 1000",
+      "bit_length": 64,
+      "avg_time": 0.14684289200007092,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "2000 if bit_len < 80 else 1000",
+      "bit_length": 80,
+      "avg_time": 1.0394317566666966,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "2000 if bit_len < 80 else 1000",
+      "bit_length": 96,
+      "avg_time": 18.90702630399998,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "500 if bit_len < 80 else 250",
+      "bit_length": 64,
+      "avg_time": 0.13655828966663344,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "500 if bit_len < 80 else 250",
+      "bit_length": 80,
+      "avg_time": 1.0329954059998272,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "500 if bit_len < 80 else 250",
+      "bit_length": 96,
+      "avg_time": 19.001759113000237,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "800 if bit_len < 128 else 400",
+      "bit_length": 64,
+      "avg_time": 0.13603553366647247,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "800 if bit_len < 128 else 400",
+      "bit_length": 80,
+      "avg_time": 1.1028715763332002,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "800 if bit_len < 128 else 400",
+      "bit_length": 96,
+      "avg_time": 19.184579056333252,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "300 if bit_len < 128 else 150",
+      "bit_length": 64,
+      "avg_time": 0.12831858600020496,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "300 if bit_len < 128 else 150",
+      "bit_length": 80,
+      "avg_time": 0.9928846966661998,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "phase1_candidates",
+      "param_value": "300 if bit_len < 128 else 150",
+      "bit_length": 96,
+      "avg_time": 19.0317796319999,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.5",
+      "bit_length": 64,
+      "avg_time": 0.14016143499975442,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.5",
+      "bit_length": 80,
+      "avg_time": 1.1707072723335539,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.5",
+      "bit_length": 96,
+      "avg_time": 18.748419254666867,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.3",
+      "bit_length": 64,
+      "avg_time": 0.1412540210003499,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.3",
+      "bit_length": 80,
+      "avg_time": 1.0859321489997456,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.3",
+      "bit_length": 96,
+      "avg_time": 18.973616152666484,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.7",
+      "bit_length": 64,
+      "avg_time": 0.13320072566663535,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.7",
+      "bit_length": 80,
+      "avg_time": 1.0583946423333448,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.7",
+      "bit_length": 96,
+      "avg_time": 18.830427193333282,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.4",
+      "bit_length": 64,
+      "avg_time": 0.13627307366671934,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.4",
+      "bit_length": 80,
+      "avg_time": 1.108234165999723,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.4",
+      "bit_length": 96,
+      "avg_time": 18.77100554066692,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.6",
+      "bit_length": 64,
+      "avg_time": 0.1288592086669572,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.6",
+      "bit_length": 80,
+      "avg_time": 0.9271414123337914,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.3333333333333333
+    },
+    {
+      "param_name": "score_threshold",
+      "param_value": "score > 0.6",
+      "bit_length": 96,
+      "avg_time": 18.84822918200037,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 1.0 / p)",
+      "bit_length": 64,
+      "avg_time": 0.1277591643335351,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 1.0 / p)",
+      "bit_length": 80,
+      "avg_time": 1.126242346333432,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 1.0 / p)",
+      "bit_length": 96,
+      "avg_time": 18.794163625999925,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 2.0 / p)",
+      "bit_length": 64,
+      "avg_time": 0.1565315609999137,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 2.0 / p)",
+      "bit_length": 80,
+      "avg_time": 1.05483579466636,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.3333333333333333
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 2.0 / p)",
+      "bit_length": 96,
+      "avg_time": 18.689314761333055,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 0.5 / p)",
+      "bit_length": 64,
+      "avg_time": 0.14995054066669886,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 0.5 / p)",
+      "bit_length": 80,
+      "avg_time": 1.1202169553331867,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.3333333333333333
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 + 0.5 / p)",
+      "bit_length": 96,
+      "avg_time": 18.95624189099969,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.1 / p)",
+      "bit_length": 64,
+      "avg_time": 0.1311136033330816,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.1 / p)",
+      "bit_length": 80,
+      "avg_time": 1.0554040663331155,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.1 / p)",
+      "bit_length": 96,
+      "avg_time": 18.842647540000144,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.02 / p)",
+      "bit_length": 64,
+      "avg_time": 0.13439487133352182,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.02 / p)",
+      "bit_length": 80,
+      "avg_time": 1.0474201399996066,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "harmonic_weights",
+      "param_value": "harmonic *= (1 - 0.02 / p)",
+      "bit_length": 96,
+      "avg_time": 18.98027146266698,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "50 if bit_len < 96 else 20",
+      "bit_length": 64,
+      "avg_time": 0.13336106533339867,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "50 if bit_len < 96 else 20",
+      "bit_length": 80,
+      "avg_time": 1.0544366473335078,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "50 if bit_len < 96 else 20",
+      "bit_length": 96,
+      "avg_time": 19.008956964666748,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "100 if bit_len < 96 else 40",
+      "bit_length": 64,
+      "avg_time": 0.14454354100022707,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "100 if bit_len < 96 else 40",
+      "bit_length": 80,
+      "avg_time": 1.0392109469997497,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "100 if bit_len < 96 else 40",
+      "bit_length": 96,
+      "avg_time": 18.719888512333153,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "25 if bit_len < 96 else 10",
+      "bit_length": 64,
+      "avg_time": 0.14058132466683068,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "25 if bit_len < 96 else 10",
+      "bit_length": 80,
+      "avg_time": 0.9171013783331242,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.3333333333333333
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "25 if bit_len < 96 else 10",
+      "bit_length": 96,
+      "avg_time": 19.098404172333478,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "75 if bit_len < 96 else 30",
+      "bit_length": 64,
+      "avg_time": 0.14055040399974436,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 1.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "75 if bit_len < 96 else 30",
+      "bit_length": 80,
+      "avg_time": 1.100798952000029,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    },
+    {
+      "param_name": "golden_samples",
+      "param_value": "75 if bit_len < 96 else 30",
+      "bit_length": 96,
+      "avg_time": 18.907529752999835,
+      "success_rate": 1.0,
+      "phase1_hit_rate": 0.0
+    }
+  ],
+  "analysis": {
+    "best_by_param": {
+      "prime_dimensions": {
+        "64": {
+          "value": "return 32",
+          "time": 0.13232707433356458,
+          "phase1_rate": 1.0
+        },
+        "80": {
+          "value": "return 48",
+          "time": 0.913704292666201,
+          "phase1_rate": 0.3333333333333333
+        },
+        "96": {
+          "value": "32 + bit_len // 3",
+          "time": 18.795454879666675,
+          "phase1_rate": 0.0
+        }
+      },
+      "phase1_candidates": {
+        "64": {
+          "value": "300 if bit_len < 128 else 150",
+          "time": 0.12831858600020496,
+          "phase1_rate": 1.0
+        },
+        "80": {
+          "value": "300 if bit_len < 128 else 150",
+          "time": 0.9928846966661998,
+          "phase1_rate": 0.0
+        },
+        "96": {
+          "value": "2000 if bit_len < 80 else 1000",
+          "time": 18.90702630399998,
+          "phase1_rate": 0.0
+        }
+      },
+      "score_threshold": {
+        "64": {
+          "value": "score > 0.6",
+          "time": 0.1288592086669572,
+          "phase1_rate": 1.0
+        },
+        "80": {
+          "value": "score > 0.6",
+          "time": 0.9271414123337914,
+          "phase1_rate": 0.3333333333333333
+        },
+        "96": {
+          "value": "score > 0.5",
+          "time": 18.748419254666867,
+          "phase1_rate": 0.0
+        }
+      },
+      "harmonic_weights": {
+        "64": {
+          "value": "harmonic *= (1 + 1.0 / p)",
+          "time": 0.1277591643335351,
+          "phase1_rate": 1.0
+        },
+        "80": {
+          "value": "harmonic *= (1 - 0.02 / p)",
+          "time": 1.0474201399996066,
+          "phase1_rate": 0.0
+        },
+        "96": {
+          "value": "harmonic *= (1 + 2.0 / p)",
+          "time": 18.689314761333055,
+          "phase1_rate": 0.0
+        }
+      },
+      "golden_samples": {
+        "64": {
+          "value": "50 if bit_len < 96 else 20",
+          "time": 0.13336106533339867,
+          "phase1_rate": 1.0
+        },
+        "80": {
+          "value": "25 if bit_len < 96 else 10",
+          "time": 0.9171013783331242,
+          "phase1_rate": 0.3333333333333333
+        },
+        "96": {
+          "value": "100 if bit_len < 96 else 40",
+          "time": 18.719888512333153,
+          "phase1_rate": 0.0
+        }
+      }
+    },
+    "best_by_bitsize": {},
+    "recommendations": [
+      "For 96-bit numbers, use prime dimension formula: 32 + bit_len // 3",
+      "Reduce Phase I candidate limits - fewer, better candidates are more efficient",
+      "Raise the score threshold to 0.6-0.7 for more selective candidates"
+    ]
+  }
+}

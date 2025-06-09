@@ -1,0 +1,973 @@
+{
+  "configurations": {
+    "current": {
+      "coord_candidates": 500,
+      "vortex_candidates": 200,
+      "sqrt_delta_range": 100,
+      "sqrt_extension": 1.1
+    },
+    "fast_small": {
+      "coord_candidates": 200,
+      "vortex_candidates": 100,
+      "sqrt_delta_range": 50,
+      "sqrt_extension": 1.05
+    },
+    "fast_medium": {
+      "coord_candidates": 300,
+      "vortex_candidates": 150,
+      "sqrt_delta_range": 75,
+      "sqrt_extension": 1.08
+    },
+    "robust": {
+      "coord_candidates": 700,
+      "vortex_candidates": 300,
+      "sqrt_delta_range": 150,
+      "sqrt_extension": 1.12
+    },
+    "ultra_fast": {
+      "coord_candidates": 150,
+      "vortex_candidates": 75,
+      "sqrt_delta_range": 40,
+      "sqrt_extension": 1.05
+    }
+  },
+  "results": [
+    {
+      "name": "current",
+      "config": {
+        "coord_candidates": 500,
+        "vortex_candidates": 200,
+        "sqrt_delta_range": 100,
+        "sqrt_extension": 1.1
+      },
+      "test_results": [
+        {
+          "n": 15,
+          "expected": [
+            3,
+            5
+          ],
+          "found": [
+            3,
+            5
+          ],
+          "correct": true,
+          "time": 0.002145528793334961,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 21,
+          "expected": [
+            3,
+            7
+          ],
+          "found": [
+            3,
+            7
+          ],
+          "correct": true,
+          "time": 0.0010395050048828125,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 35,
+          "expected": [
+            5,
+            7
+          ],
+          "found": [
+            5,
+            7
+          ],
+          "correct": true,
+          "time": 0.001445770263671875,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 77,
+          "expected": [
+            7,
+            11
+          ],
+          "found": [
+            7,
+            11
+          ],
+          "correct": true,
+          "time": 0.00250244140625,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 143,
+          "expected": [
+            11,
+            13
+          ],
+          "found": [
+            11,
+            13
+          ],
+          "correct": true,
+          "time": 0.0044460296630859375,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 323,
+          "expected": [
+            17,
+            19
+          ],
+          "found": [
+            17,
+            19
+          ],
+          "correct": true,
+          "time": 0.017019271850585938,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 1147,
+          "expected": [
+            31,
+            37
+          ],
+          "found": [
+            31,
+            37
+          ],
+          "correct": true,
+          "time": 0.02900409698486328,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 2021,
+          "expected": [
+            43,
+            47
+          ],
+          "found": [
+            43,
+            47
+          ],
+          "correct": true,
+          "time": 0.02274012565612793,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 3599,
+          "expected": [
+            59,
+            61
+          ],
+          "found": [
+            59,
+            61
+          ],
+          "correct": true,
+          "time": 0.02887415885925293,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 294409,
+          "expected": [
+            37,
+            7957
+          ],
+          "found": [
+            109,
+            2701
+          ],
+          "correct": false,
+          "time": 0.2899332046508789,
+          "iterations": 3,
+          "method": "quantum"
+        },
+        {
+          "n": 1299071,
+          "expected": [
+            1117,
+            1163
+          ],
+          "found": [
+            1117,
+            1163
+          ],
+          "correct": true,
+          "time": 0.760655403137207,
+          "iterations": 1,
+          "method": "quantum"
+        }
+      ],
+      "total_time": 1.1598055362701416,
+      "total_iterations": 13,
+      "successful": 10,
+      "failed_cases": [
+        294409
+      ],
+      "success_rate": 0.9090909090909091,
+      "avg_time": 0.10543686693364923,
+      "avg_iterations": 1.1818181818181819,
+      "score": 0.4209133154926791
+    },
+    {
+      "name": "fast_small",
+      "config": {
+        "coord_candidates": 200,
+        "vortex_candidates": 100,
+        "sqrt_delta_range": 50,
+        "sqrt_extension": 1.05
+      },
+      "test_results": [
+        {
+          "n": 15,
+          "expected": [
+            3,
+            5
+          ],
+          "found": [
+            3,
+            5
+          ],
+          "correct": true,
+          "time": 0.0006201267242431641,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 21,
+          "expected": [
+            3,
+            7
+          ],
+          "found": [
+            3,
+            7
+          ],
+          "correct": true,
+          "time": 0.0006430149078369141,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 35,
+          "expected": [
+            5,
+            7
+          ],
+          "found": [
+            5,
+            7
+          ],
+          "correct": true,
+          "time": 0.0007271766662597656,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 77,
+          "expected": [
+            7,
+            11
+          ],
+          "found": [
+            7,
+            11
+          ],
+          "correct": true,
+          "time": 0.0012693405151367188,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 143,
+          "expected": [
+            11,
+            13
+          ],
+          "found": [
+            11,
+            13
+          ],
+          "correct": true,
+          "time": 0.0023436546325683594,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 323,
+          "expected": [
+            17,
+            19
+          ],
+          "found": [
+            17,
+            19
+          ],
+          "correct": true,
+          "time": 0.00781559944152832,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 1147,
+          "expected": [
+            31,
+            37
+          ],
+          "found": [
+            31,
+            37
+          ],
+          "correct": true,
+          "time": 0.01530146598815918,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 2021,
+          "expected": [
+            43,
+            47
+          ],
+          "found": [
+            43,
+            47
+          ],
+          "correct": true,
+          "time": 0.02335524559020996,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 3599,
+          "expected": [
+            59,
+            61
+          ],
+          "found": [
+            59,
+            61
+          ],
+          "correct": true,
+          "time": 0.025646686553955078,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 294409,
+          "expected": [
+            37,
+            7957
+          ],
+          "found": [
+            109,
+            2701
+          ],
+          "correct": false,
+          "time": 0.21590256690979004,
+          "iterations": 3,
+          "method": "quantum"
+        },
+        {
+          "n": 1299071,
+          "expected": [
+            1117,
+            1163
+          ],
+          "found": [
+            1117,
+            1163
+          ],
+          "correct": true,
+          "time": 0.33129167556762695,
+          "iterations": 1,
+          "method": "quantum"
+        }
+      ],
+      "total_time": 0.6249165534973145,
+      "total_iterations": 13,
+      "successful": 10,
+      "failed_cases": [
+        294409
+      ],
+      "success_rate": 0.9090909090909091,
+      "avg_time": 0.05681059577248313,
+      "avg_iterations": 1.1818181818181819,
+      "score": 0.5594692891362754
+    },
+    {
+      "name": "fast_medium",
+      "config": {
+        "coord_candidates": 300,
+        "vortex_candidates": 150,
+        "sqrt_delta_range": 75,
+        "sqrt_extension": 1.08
+      },
+      "test_results": [
+        {
+          "n": 15,
+          "expected": [
+            3,
+            5
+          ],
+          "found": [
+            3,
+            5
+          ],
+          "correct": true,
+          "time": 0.0007548332214355469,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 21,
+          "expected": [
+            3,
+            7
+          ],
+          "found": [
+            3,
+            7
+          ],
+          "correct": true,
+          "time": 0.0009579658508300781,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 35,
+          "expected": [
+            5,
+            7
+          ],
+          "found": [
+            5,
+            7
+          ],
+          "correct": true,
+          "time": 0.0012066364288330078,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 77,
+          "expected": [
+            7,
+            11
+          ],
+          "found": [
+            7,
+            11
+          ],
+          "correct": true,
+          "time": 0.0019876956939697266,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 143,
+          "expected": [
+            11,
+            13
+          ],
+          "found": [
+            11,
+            13
+          ],
+          "correct": true,
+          "time": 0.0035982131958007812,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 323,
+          "expected": [
+            17,
+            19
+          ],
+          "found": [
+            17,
+            19
+          ],
+          "correct": true,
+          "time": 0.011306524276733398,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 1147,
+          "expected": [
+            31,
+            37
+          ],
+          "found": [
+            31,
+            37
+          ],
+          "correct": true,
+          "time": 0.030143022537231445,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 2021,
+          "expected": [
+            43,
+            47
+          ],
+          "found": [
+            43,
+            47
+          ],
+          "correct": true,
+          "time": 0.047971248626708984,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 3599,
+          "expected": [
+            59,
+            61
+          ],
+          "found": [
+            59,
+            61
+          ],
+          "correct": true,
+          "time": 0.028248310089111328,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 294409,
+          "expected": [
+            37,
+            7957
+          ],
+          "found": [
+            109,
+            2701
+          ],
+          "correct": false,
+          "time": 0.20757460594177246,
+          "iterations": 3,
+          "method": "quantum"
+        },
+        {
+          "n": 1299071,
+          "expected": [
+            1117,
+            1163
+          ],
+          "found": [
+            1117,
+            1163
+          ],
+          "correct": true,
+          "time": 0.319058895111084,
+          "iterations": 1,
+          "method": "quantum"
+        }
+      ],
+      "total_time": 0.6528079509735107,
+      "total_iterations": 13,
+      "successful": 10,
+      "failed_cases": [
+        294409
+      ],
+      "success_rate": 0.9090909090909091,
+      "avg_time": 0.05934617736122825,
+      "avg_iterations": 1.1818181818181819,
+      "score": 0.5500281557548479
+    },
+    {
+      "name": "robust",
+      "config": {
+        "coord_candidates": 700,
+        "vortex_candidates": 300,
+        "sqrt_delta_range": 150,
+        "sqrt_extension": 1.12
+      },
+      "test_results": [
+        {
+          "n": 15,
+          "expected": [
+            3,
+            5
+          ],
+          "found": [
+            3,
+            5
+          ],
+          "correct": true,
+          "time": 0.0005865097045898438,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 21,
+          "expected": [
+            3,
+            7
+          ],
+          "found": [
+            3,
+            7
+          ],
+          "correct": true,
+          "time": 0.0006287097930908203,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 35,
+          "expected": [
+            5,
+            7
+          ],
+          "found": [
+            5,
+            7
+          ],
+          "correct": true,
+          "time": 0.0007236003875732422,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 77,
+          "expected": [
+            7,
+            11
+          ],
+          "found": [
+            7,
+            11
+          ],
+          "correct": true,
+          "time": 0.0012578964233398438,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 143,
+          "expected": [
+            11,
+            13
+          ],
+          "found": [
+            11,
+            13
+          ],
+          "correct": true,
+          "time": 0.002238750457763672,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 323,
+          "expected": [
+            17,
+            19
+          ],
+          "found": [
+            17,
+            19
+          ],
+          "correct": true,
+          "time": 0.007826566696166992,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 1147,
+          "expected": [
+            31,
+            37
+          ],
+          "found": [
+            31,
+            37
+          ],
+          "correct": true,
+          "time": 0.015445709228515625,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 2021,
+          "expected": [
+            43,
+            47
+          ],
+          "found": [
+            43,
+            47
+          ],
+          "correct": true,
+          "time": 0.020896434783935547,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 3599,
+          "expected": [
+            59,
+            61
+          ],
+          "found": [
+            59,
+            61
+          ],
+          "correct": true,
+          "time": 0.027926206588745117,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 294409,
+          "expected": [
+            37,
+            7957
+          ],
+          "found": [
+            109,
+            2701
+          ],
+          "correct": false,
+          "time": 0.20101356506347656,
+          "iterations": 3,
+          "method": "quantum"
+        },
+        {
+          "n": 1299071,
+          "expected": [
+            1117,
+            1163
+          ],
+          "found": [
+            1117,
+            1163
+          ],
+          "correct": true,
+          "time": 0.3222494125366211,
+          "iterations": 1,
+          "method": "quantum"
+        }
+      ],
+      "total_time": 0.6007933616638184,
+      "total_iterations": 13,
+      "successful": 10,
+      "failed_cases": [
+        294409
+      ],
+      "success_rate": 0.9090909090909091,
+      "avg_time": 0.054617578333074394,
+      "avg_iterations": 1.1818181818181819,
+      "score": 0.5679002242650646
+    },
+    {
+      "name": "ultra_fast",
+      "config": {
+        "coord_candidates": 150,
+        "vortex_candidates": 75,
+        "sqrt_delta_range": 40,
+        "sqrt_extension": 1.05
+      },
+      "test_results": [
+        {
+          "n": 15,
+          "expected": [
+            3,
+            5
+          ],
+          "found": [
+            3,
+            5
+          ],
+          "correct": true,
+          "time": 0.0005908012390136719,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 21,
+          "expected": [
+            3,
+            7
+          ],
+          "found": [
+            3,
+            7
+          ],
+          "correct": true,
+          "time": 0.0006256103515625,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 35,
+          "expected": [
+            5,
+            7
+          ],
+          "found": [
+            5,
+            7
+          ],
+          "correct": true,
+          "time": 0.0007293224334716797,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 77,
+          "expected": [
+            7,
+            11
+          ],
+          "found": [
+            7,
+            11
+          ],
+          "correct": true,
+          "time": 0.0012526512145996094,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 143,
+          "expected": [
+            11,
+            13
+          ],
+          "found": [
+            11,
+            13
+          ],
+          "correct": true,
+          "time": 0.0023865699768066406,
+          "iterations": 1,
+          "method": "coordinate"
+        },
+        {
+          "n": 323,
+          "expected": [
+            17,
+            19
+          ],
+          "found": [
+            17,
+            19
+          ],
+          "correct": true,
+          "time": 0.00794839859008789,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 1147,
+          "expected": [
+            31,
+            37
+          ],
+          "found": [
+            31,
+            37
+          ],
+          "correct": true,
+          "time": 0.01566004753112793,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 2021,
+          "expected": [
+            43,
+            47
+          ],
+          "found": [
+            43,
+            47
+          ],
+          "correct": true,
+          "time": 0.020847082138061523,
+          "iterations": 1,
+          "method": "quantum"
+        },
+        {
+          "n": 3599,
+          "expected": [
+            59,
+            61
+          ],
+          "found": [
+            59,
+            61
+          ],
+          "correct": true,
+          "time": 0.02830791473388672,
+          "iterations": 1,
+          "method": "vortex"
+        },
+        {
+          "n": 294409,
+          "expected": [
+            37,
+            7957
+          ],
+          "found": [
+            109,
+            2701
+          ],
+          "correct": false,
+          "time": 0.2006237506866455,
+          "iterations": 3,
+          "method": "quantum"
+        },
+        {
+          "n": 1299071,
+          "expected": [
+            1117,
+            1163
+          ],
+          "found": [
+            1117,
+            1163
+          ],
+          "correct": true,
+          "time": 0.3304271697998047,
+          "iterations": 1,
+          "method": "quantum"
+        }
+      ],
+      "total_time": 0.6093993186950684,
+      "total_iterations": 13,
+      "successful": 10,
+      "failed_cases": [
+        294409
+      ],
+      "success_rate": 0.9090909090909091,
+      "avg_time": 0.055399938063188034,
+      "avg_iterations": 1.1818181818181819,
+      "score": 0.5648634857308237
+    }
+  ],
+  "best_configuration": "robust",
+  "best_config_params": {
+    "coord_candidates": 700,
+    "vortex_candidates": 300,
+    "sqrt_delta_range": 150,
+    "sqrt_extension": 1.12
+  }
+}

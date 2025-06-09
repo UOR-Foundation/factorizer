@@ -1,0 +1,365 @@
+{
+  "test_cases": [
+    [
+      15,
+      3,
+      5
+    ],
+    [
+      21,
+      3,
+      7
+    ],
+    [
+      35,
+      5,
+      7
+    ],
+    [
+      77,
+      7,
+      11
+    ],
+    [
+      143,
+      11,
+      13
+    ],
+    [
+      323,
+      17,
+      19
+    ],
+    [
+      1147,
+      31,
+      37
+    ],
+    [
+      2021,
+      43,
+      47
+    ],
+    [
+      3599,
+      59,
+      61
+    ],
+    [
+      5767,
+      71,
+      83
+    ],
+    [
+      10403,
+      101,
+      103
+    ],
+    [
+      20213,
+      139,
+      149
+    ],
+    [
+      50851,
+      223,
+      229
+    ],
+    [
+      121061,
+      347,
+      349
+    ],
+    [
+      341887,
+      577,
+      593
+    ],
+    [
+      1299071,
+      1117,
+      1163
+    ]
+  ],
+  "results": [
+    {
+      "n": 15,
+      "bit_length": 4,
+      "expected": [
+        3,
+        5
+      ],
+      "found": [
+        3,
+        5
+      ],
+      "correct": true,
+      "time": 0.0024335384368896484,
+      "method": "vortex",
+      "iterations": 2,
+      "confidence": 1.0
+    },
+    {
+      "n": 21,
+      "bit_length": 5,
+      "expected": [
+        3,
+        7
+      ],
+      "found": [
+        3,
+        7
+      ],
+      "correct": true,
+      "time": 0.0013341903686523438,
+      "method": "vortex",
+      "iterations": 1,
+      "confidence": 1.0
+    },
+    {
+      "n": 35,
+      "bit_length": 6,
+      "expected": [
+        5,
+        7
+      ],
+      "found": [
+        5,
+        7
+      ],
+      "correct": true,
+      "time": 0.002323627471923828,
+      "method": "vortex",
+      "iterations": 4,
+      "confidence": 1.0
+    },
+    {
+      "n": 77,
+      "bit_length": 7,
+      "expected": [
+        7,
+        11
+      ],
+      "found": [
+        7,
+        11
+      ],
+      "correct": true,
+      "time": 0.0030639171600341797,
+      "method": "coordinate",
+      "iterations": 6,
+      "confidence": 1.0
+    },
+    {
+      "n": 143,
+      "bit_length": 8,
+      "expected": [
+        11,
+        13
+      ],
+      "found": [
+        11,
+        13
+      ],
+      "correct": true,
+      "time": 0.0063822269439697266,
+      "method": "coordinate",
+      "iterations": 9,
+      "confidence": 1.0
+    },
+    {
+      "n": 323,
+      "bit_length": 9,
+      "expected": [
+        17,
+        19
+      ],
+      "found": [
+        17,
+        19
+      ],
+      "correct": true,
+      "time": 0.014487028121948242,
+      "method": "quantum",
+      "iterations": 15,
+      "confidence": 1.0
+    },
+    {
+      "n": 1147,
+      "bit_length": 11,
+      "expected": [
+        31,
+        37
+      ],
+      "found": [
+        31,
+        37
+      ],
+      "correct": true,
+      "time": 0.03406381607055664,
+      "method": "vortex",
+      "iterations": 30,
+      "confidence": 1.0
+    },
+    {
+      "n": 2021,
+      "bit_length": 11,
+      "expected": [
+        43,
+        47
+      ],
+      "found": [
+        43,
+        47
+      ],
+      "correct": true,
+      "time": 0.043350934982299805,
+      "method": "quantum",
+      "iterations": 42,
+      "confidence": 1.0
+    },
+    {
+      "n": 3599,
+      "bit_length": 12,
+      "expected": [
+        59,
+        61
+      ],
+      "found": [
+        59,
+        61
+      ],
+      "correct": true,
+      "time": 0.03231501579284668,
+      "method": "vortex",
+      "iterations": 48,
+      "confidence": 1.0
+    },
+    {
+      "n": 5767,
+      "bit_length": 13,
+      "expected": [
+        71,
+        83
+      ],
+      "found": [
+        73,
+        79
+      ],
+      "correct": false,
+      "time": 0.050716400146484375,
+      "method": "quantum",
+      "iterations": 69,
+      "confidence": 1.0
+    },
+    {
+      "n": 10403,
+      "bit_length": 14,
+      "expected": [
+        101,
+        103
+      ],
+      "found": [
+        101,
+        103
+      ],
+      "correct": true,
+      "time": 0.07824301719665527,
+      "method": "quantum",
+      "iterations": 94,
+      "confidence": 1.0
+    },
+    {
+      "n": 20213,
+      "bit_length": 15,
+      "expected": [
+        139,
+        149
+      ],
+      "found": [
+        17,
+        1189
+      ],
+      "correct": false,
+      "time": 0.08606505393981934,
+      "method": "coherence",
+      "iterations": 1,
+      "confidence": 1.0
+    },
+    {
+      "n": 50851,
+      "bit_length": 16,
+      "expected": [
+        223,
+        229
+      ],
+      "found": [
+        211,
+        241
+      ],
+      "correct": false,
+      "time": 0.12682819366455078,
+      "method": "quantum",
+      "iterations": 176,
+      "confidence": 1.0
+    },
+    {
+      "n": 121061,
+      "bit_length": 17,
+      "expected": [
+        347,
+        349
+      ],
+      "found": [
+        1,
+        121061
+      ],
+      "correct": false,
+      "time": 0.31200647354125977,
+      "method": "none",
+      "iterations": 297,
+      "confidence": 0.0
+    },
+    {
+      "n": 341887,
+      "bit_length": 19,
+      "expected": [
+        577,
+        593
+      ],
+      "found": [
+        17,
+        20111
+      ],
+      "correct": false,
+      "time": 0.4082796573638916,
+      "method": "coherence",
+      "iterations": 62,
+      "confidence": 1.0
+    },
+    {
+      "n": 1299071,
+      "bit_length": 21,
+      "expected": [
+        1117,
+        1163
+      ],
+      "found": [
+        1117,
+        1163
+      ],
+      "correct": true,
+      "time": 0.4042806625366211,
+      "method": "quantum",
+      "iterations": 509,
+      "confidence": 1.0
+    }
+  ],
+  "summary": {
+    "total_tests": 16,
+    "successful": 11,
+    "success_rate": 0.6875,
+    "total_time": 1.6061737537384033,
+    "average_time": 0.10038585960865021
+  }
+}
