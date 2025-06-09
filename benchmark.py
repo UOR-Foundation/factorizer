@@ -8,7 +8,11 @@ import statistics
 import time
 from typing import Any, Dict, List, Optional, Tuple
 
-from . import RFH3, RFH3Config
+try:
+    from . import RFH3, RFH3Config
+except ImportError:
+    # For direct execution and testing
+    from rfh3 import RFH3, RFH3Config
 
 
 class BenchmarkSuite:

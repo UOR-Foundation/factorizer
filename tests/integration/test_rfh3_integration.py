@@ -7,7 +7,7 @@ import sys
 import time
 import unittest
 
-from prime_resonance_field import RFH3, RFH3Config
+from rfh3 import RFH3, RFH3Config
 
 
 class TestFixtures:
@@ -160,7 +160,7 @@ class TestComponentIntegration(unittest.TestCase):
 
     def test_analyzer_iterator_integration(self):
         """Test integration between analyzer and iterator"""
-        from prime_resonance_field.core import (
+        from core import (
             LazyResonanceIterator,
             MultiScaleResonance,
         )
@@ -183,7 +183,7 @@ class TestComponentIntegration(unittest.TestCase):
 
     def test_learning_prediction_integration(self):
         """Test integration between learning and prediction"""
-        from prime_resonance_field.learning import ResonancePatternLearner
+        from learning import ResonancePatternLearner
 
         learner = ResonancePatternLearner()
 
@@ -206,7 +206,7 @@ class TestComponentIntegration(unittest.TestCase):
 
     def test_hierarchical_analyzer_integration(self):
         """Test integration between hierarchical search and analyzer"""
-        from prime_resonance_field.core import HierarchicalSearch, MultiScaleResonance
+        from core import HierarchicalSearch, MultiScaleResonance
 
         analyzer = MultiScaleResonance()
         n = 143

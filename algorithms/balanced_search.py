@@ -39,15 +39,17 @@ class BalancedSemiprimeSearch:
         if n % 2 == 0:
             return (2, n // 2)
 
+        sqrt_n = int(math.sqrt(n))
+        
         # Strategy 1: Expanding ring search
-        result = self._expanding_ring_search(n, timeout * 0.4)
+        result = self._expanding_ring_search(n, sqrt_n, timeout * 0.4)
         if result:
             self._record_success("expanding_ring", time.time() - start_time)
             return result
 
         # Strategy 2: Binary resonance search
         if time.time() - start_time < timeout * 0.7:
-            result = self._binary_resonance_search(n, timeout * 0.3)
+            result = self._binary_resonance_search(n, sqrt_n, timeout * 0.3)
             if result:
                 self._record_success("binary_resonance", time.time() - start_time)
                 return result
@@ -63,14 +65,13 @@ class BalancedSemiprimeSearch:
         return None
 
     def _expanding_ring_search(
-        self, n: int, timeout: float
+        self, n: int, sqrt_n: int, timeout: float
     ) -> Optional[Tuple[int, int]]:
         """
         Search in expanding rings around sqrt(n).
         Optimized for balanced factors close to sqrt(n).
         """
         start_time = time.time()
-        sqrt_n = int(math.sqrt(n))
 
         # Adaptive parameters based on n's size
         if n.bit_length() < 50:
@@ -111,13 +112,12 @@ class BalancedSemiprimeSearch:
         return None
 
     def _binary_resonance_search(
-        self, n: int, timeout: float
+        self, n: int, sqrt_n: int, timeout: float
     ) -> Optional[Tuple[int, int]]:
         """
         Binary search guided by resonance field approximation.
         """
         start_time = time.time()
-        sqrt_n = int(math.sqrt(n))
 
         # Define search bounds
         left = max(2, int(sqrt_n * 0.9))
@@ -212,6 +212,46 @@ class BalancedSemiprimeSearch:
 
         return None
 
+    def _fermat_method_enhanced(self, n: int, timeout: float) -> Optional[Tuple[int, int]]:
+        """
+        Enhanced Fermat's method optimized for balanced semiprimes.
+        """
+        start_time = time.time()
+        
+        # Start slightly above sqrt(n)
+        a = int(math.sqrt(n)) + 1
+        
+        # Adaptive step size for very large numbers
+        step = 1 if n.bit_length() <= 80 else max(1, int(a ** 0.001))
+        
+        while time.time() - start_time < timeout:
+            b_squared = a * a - n
+            
+            if b_squared < 0:
+                a += step
+                continue
+                
+            b = int(math.sqrt(b_squared))
+            
+            # Check if b is exact
+            if b * b == b_squared:
+                p = a - b
+                q = a + b
+                if p > 1 and q > 1 and p * q == n:
+                    return (min(p, q), max(p, q))
+            
+            a += step
+            
+            # Accelerate for large numbers
+            if a > int(math.sqrt(n)) * 1.1:
+                step = max(step, int(step * 1.1))
+                
+            # Stop if a gets too large
+            if a > int(math.sqrt(n)) * 2:
+                break
+                
+        return None
+
     def _record_success(self, method: str, time_taken: float):
         """Record successful factorization"""
         self.stats["successes"] += 1
@@ -230,29 +270,30 @@ class BalancedSemiprimeSearch:
         if n % 2 == 0:
             return False
 
-        # Check small prime divisibility
-        small_primes = [3, 5, 7, 11, 13]
-        for p in small_primes:
-            if n % p == 0:
-                cofactor = n // p
-                sqrt_n = int(math.sqrt(n))
-                # If cofactor is close to sqrt(n), might be balanced
-                if abs(cofactor - sqrt_n) < sqrt_n * 0.1:
-                    return True
-                else:
-                    return False
-
-        # Digit sum pattern (empirical observation)
-        digit_sum = sum(int(d) for d in str(n))
-        if digit_sum % 9 in [1, 8]:  # Common for balanced semiprimes
-            return True
-
-        # Near perfect square check
         sqrt_n = int(math.sqrt(n))
-        if abs(n - sqrt_n * sqrt_n) < n * 0.001:
+        
+        # Check if near perfect square (strong indicator for balanced semiprimes)
+        if abs(n - sqrt_n * sqrt_n) < sqrt_n:
+            return True
+            
+        # Quick check for factors around sqrt(n) - if found, check if balanced
+        for offset in range(1, min(20, sqrt_n // 10)):
+            for x in [sqrt_n - offset, sqrt_n + offset]:
+                if x > 1 and n % x == 0:
+                    other = n // x
+                    ratio = max(x, other) / min(x, other)
+                    # If ratio is close to 1, it's balanced
+                    if ratio < 2.0:  # Factors within 2x of each other
+                        return True
+                    else:
+                        return False  # Found unbalanced factors
+        
+        # Check digit sum pattern (empirical observation for small balanced semiprimes)
+        digit_sum = sum(int(d) for d in str(n))
+        if digit_sum % 9 in [1, 8]:  # 143 has digit sum 8, common for balanced semiprimes
             return True
 
-        # Default: could be balanced
+        # Default: assume could be balanced for unknown cases
         return True
 
     def get_statistics(self) -> dict:

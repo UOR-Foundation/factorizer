@@ -24,7 +24,8 @@ class LazyResonanceIterator:
         self.importance_heap: List[Tuple[float, int]] = (
             []
         )  # Min heap (negative importance)
-        self.visited: Set[int] = set()
+        self.visited: List[Tuple[int, float]] = []  # Store (position, importance) for inspection
+        self.visited_set: Set[int] = set()  # For fast lookup
         self.expansion_radius = max(1, int(self.sqrt_n**0.01))
         self._initialize_seeds()
 
@@ -76,7 +77,8 @@ class LazyResonanceIterator:
             if 2 <= seed <= self.sqrt_n:
                 importance = self.analyzer.compute_coarse_resonance(seed, self.n)
                 heapq.heappush(self.importance_heap, (-importance, seed))
-                self.visited.add(seed)
+                self.visited.append((seed, importance))
+                self.visited_set.add(seed)
 
     def __iter__(self):
         while self.importance_heap:
@@ -103,21 +105,22 @@ class LazyResonanceIterator:
         # Along gradient
         for step in [1, 2, 5, 10]:
             next_x = x + int(step * gradient * radius)
-            if 2 <= next_x <= self.sqrt_n and next_x not in self.visited:
+            if 2 <= next_x <= self.sqrt_n and next_x not in self.visited_set:
                 neighbors.append(next_x)
 
         # Perpendicular to gradient (exploration)
         for offset in [-radius, -radius // 2, radius // 2, radius]:
             next_x = x + offset
-            if 2 <= next_x <= self.sqrt_n and next_x not in self.visited:
+            if 2 <= next_x <= self.sqrt_n and next_x not in self.visited_set:
                 neighbors.append(next_x)
 
         # Add neighbors to heap
         for neighbor in neighbors:
-            if neighbor not in self.visited:
+            if neighbor not in self.visited_set:
                 imp = self.analyzer.compute_coarse_resonance(neighbor, self.n)
                 heapq.heappush(self.importance_heap, (-imp, neighbor))
-                self.visited.add(neighbor)
+                self.visited.append((neighbor, imp))
+                self.visited_set.add(neighbor)
 
     def _estimate_gradient(self, x: int) -> float:
         """Estimate resonance gradient at x"""

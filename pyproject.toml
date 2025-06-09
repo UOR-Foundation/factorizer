@@ -74,14 +74,18 @@ Changelog = "https://github.com/UOR-Foundation/factorizer/blob/main/CHANGELOG.md
 Funding = "https://uor.foundation/funding"
 
 [project.scripts]
-rfh3-factor = "prime_resonance_field.cli:main"
-rfh3-benchmark = "prime_resonance_field.benchmark:main"
+rfh3-factor = "cli:main"
+rfh3-benchmark = "benchmark:main"
 
 [tool.setuptools]
-packages = ["prime_resonance_field"]
+packages = [
+    "core",
+    "algorithms", 
+    "learning"
+]
 
 [tool.setuptools.package-data]
-"prime_resonance_field" = ["py.typed"]
+"." = ["py.typed"]
 
 [tool.black]
 line-length = 88

@@ -8,7 +8,7 @@ import sys
 import tempfile
 import unittest
 
-from prime_resonance_field.core import StateManager
+from core import StateManager
 
 
 class TestStateManager(unittest.TestCase):

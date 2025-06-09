@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 
-from prime_resonance_field.core import HierarchicalSearch, MultiScaleResonance
+from core import HierarchicalSearch, MultiScaleResonance
 
 
 class TestHierarchicalSearch(unittest.TestCase):

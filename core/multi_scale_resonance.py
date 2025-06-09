@@ -27,6 +27,11 @@ class MultiScaleResonance:
         if cache_key in self.cache:
             return self.cache[cache_key]
 
+        # Edge cases
+        if x <= 1 or x >= n:
+            self.cache[cache_key] = 0.0
+            return 0.0
+
         # Quick check for exact divisibility
         if n % x == 0:
             self.cache[cache_key] = 1.0

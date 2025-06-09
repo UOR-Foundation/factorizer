@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 
-from prime_resonance_field.learning import ResonancePatternLearner
+from learning import ResonancePatternLearner
 
 
 class TestResonancePatternLearner(unittest.TestCase):

@@ -7,7 +7,7 @@ import os
 import sys
 import time
 
-from prime_resonance_field import RFH3, RFH3Config
+from rfh3 import RFH3, RFH3Config
 
 
 def generate_test_cases():
@@ -65,8 +65,8 @@ def generate_test_cases():
     ]
 
 
-def test_rfh3():
-    """Test the refactored RFH3 implementation"""
+def old_test_rfh3():
+    """Test the refactored RFH3 implementation (disabled for pytest)"""
 
     # Configure RFH3
     config = RFH3Config()
@@ -246,6 +246,22 @@ def test_rfh3():
     print("=" * 90)
 
     return results
+
+
+def test_rfh3_pytest():
+    """Pytest wrapper for RFH3 comprehensive test"""
+    results = old_test_rfh3()
+    
+    # Extract success rate from results
+    if results and len(results) > 0:
+        successes = sum(1 for r in results if r.get('success', False))
+        total = len(results)
+        success_rate = successes / total
+        
+        # Assert that we achieve at least 80% success rate
+        assert success_rate >= 0.80, f"Expected at least 80% success rate, got {success_rate:.1%} ({successes}/{total})"
+    else:
+        assert False, "No test results returned"
 
 
 if __name__ == "__main__":

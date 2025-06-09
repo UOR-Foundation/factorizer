@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 
-from prime_resonance_field.algorithms import BalancedSemiprimeSearch
+from algorithms import BalancedSemiprimeSearch
 
 
 class TestBalancedSemiprimeSearch(unittest.TestCase):

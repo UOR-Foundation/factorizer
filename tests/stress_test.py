@@ -10,7 +10,7 @@ import time
 import traceback
 from typing import Dict, List, Tuple
 
-from prime_resonance_field import RFH3, RFH3Config
+from rfh3 import RFH3, RFH3Config
 
 
 class StressTestSuite:

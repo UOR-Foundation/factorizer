@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 
-from prime_resonance_field.core import LazyResonanceIterator, MultiScaleResonance
+from core import LazyResonanceIterator, MultiScaleResonance
 
 
 class TestLazyResonanceIterator(unittest.TestCase):
@@ -36,10 +36,11 @@ class TestLazyResonanceIterator(unittest.TestCase):
         values = []
         for i, x in enumerate(iterator):
             values.append(x)
-            if i >= 10:  # Just get first 10
+            if len(values) >= 10:  # Get exactly 10 values (safer for small n)
                 break
 
-        self.assertEqual(len(values), 11)
+        # For n=143, we should get at least 10 values
+        self.assertGreaterEqual(len(values), 10)
         self.assertTrue(all(isinstance(x, int) for x in values))
         self.assertTrue(all(2 <= x <= self.iterator.sqrt_n for x in values))
 

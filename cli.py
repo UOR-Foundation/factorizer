@@ -7,7 +7,12 @@ import sys
 import time
 from typing import Optional
 
-from . import RFH3, RFH3Config, __version__
+try:
+    from . import RFH3, RFH3Config, __version__
+except ImportError:
+    # For direct execution and testing
+    from rfh3 import RFH3, RFH3Config
+    __version__ = "3.0.0"
 
 
 def factor_command(args):
@@ -88,7 +93,14 @@ def factor_command(args):
 
 def benchmark_command(args):
     """Handle the benchmark command"""
-    from .benchmark import run_benchmark
+    try:
+        from .benchmark import run_benchmark
+    except ImportError:
+        try:
+            from benchmark import run_benchmark
+        except ImportError:
+            print("Error: benchmark module not found")
+            sys.exit(1)
 
     config = {
         "quick": args.quick,
@@ -100,7 +112,7 @@ def benchmark_command(args):
     run_benchmark(config)
 
 
-def test_command(args):
+def run_tests_command(args):
     """Handle the test command"""
     import subprocess
 
@@ -214,7 +226,7 @@ def main():
     test_parser.add_argument(
         "--integration", action="store_true", help="Run only integration tests"
     )
-    test_parser.set_defaults(func=test_command)
+    test_parser.set_defaults(func=run_tests_command)
 
     # Info command
     info_parser = subparsers.add_parser("info", help="Show package information")

@@ -8,7 +8,7 @@ import unittest
 
 import numpy as np
 
-from prime_resonance_field.learning import ZonePredictor
+from learning import ZonePredictor
 
 
 class TestZonePredictor(unittest.TestCase):

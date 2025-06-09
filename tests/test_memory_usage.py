@@ -8,7 +8,7 @@ import sys
 import time
 from typing import Any, Dict
 
-from prime_resonance_field import RFH3, RFH3Config
+from rfh3 import RFH3, RFH3Config
 
 
 def get_memory_usage():
@@ -113,8 +113,8 @@ def profile_component_memory():
     print("\nComponent Memory Profiling")
     print("=" * 30)
 
-    from prime_resonance_field.core import LazyResonanceIterator, MultiScaleResonance
-    from prime_resonance_field.learning import ResonancePatternLearner
+    from core import LazyResonanceIterator, MultiScaleResonance
+    from learning import ResonancePatternLearner
 
     gc.collect()
 
