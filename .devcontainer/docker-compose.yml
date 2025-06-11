@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  rust-pattern-solver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: vscode
+        USER_UID: 1000
+        USER_GID: 1000
+
+    volumes:
+      # Mount the workspace
+      - ..:/workspace:cached
+      # Persist cargo registry
+      - cargo-registry:/usr/local/cargo/registry
+      # Persist cargo git
+      - cargo-git:/usr/local/cargo/git
+      # Persist target directory for faster rebuilds
+      - target:/workspace/target
+
+    # Overrides default command so things don't shut down after the process ends
+    command: sleep infinity
+
+    # Runs app on the same network as the host
+    network_mode: host
+
+    # Use host's IPC namespace
+    ipc: host
+
+    # Uncomment to use host's PID namespace
+    # pid: host
+
+    environment:
+      - RUST_BACKTRACE=1
+      - RUST_LOG=debug
+      - CARGO_HOME=/usr/local/cargo
+      - RUSTUP_HOME=/usr/local/rustup
+
+    # Capabilities for debugging
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+
+    # Resources
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  target:

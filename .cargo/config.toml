@@ -1,0 +1,50 @@
+# Cargo configuration for The Pattern
+
+[build]
+# Use all available CPU cores for compilation
+jobs = -1
+
+# Target native CPU for best performance (optional - comment out for portable builds)
+# rustflags = ["-C", "target-cpu=native"]
+
+[target.x86_64-unknown-linux-gnu]
+# Linux-specific optimizations
+linker = "clang"
+rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+
+[profile.release]
+# Maximum optimization for The Pattern
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = true
+overflow-checks = false
+
+[profile.release.build-override]
+# Optimize build scripts too
+opt-level = 3
+
+[profile.bench]
+# Benchmarks need debug info
+debug = true
+
+[profile.dev]
+# Faster compilation for development
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked"
+
+[profile.test]
+# Tests with some optimization
+opt-level = 2
+debug = true
+
+# Custom profile for pattern analysis (between dev and release)
+[profile.analysis]
+inherits = "release"
+opt-level = 2
+debug = true
+strip = false
+lto = "thin"
+codegen-units = 16

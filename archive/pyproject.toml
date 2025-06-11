@@ -3,23 +3,32 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "factorizer"
-version = "1.0.0"
-description = "Mathematical factorization using Universal Organizing Resonance (UOR) principles"
+name = "prime-resonance-field"
+version = "3.0.0"
+description = "Adaptive Resonance Field Architecture for Prime Factorization"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "Public Domain"}
+license = {text = "MIT"}
 authors = [
-    {name = "UOR Research", email = "research@uor.dev"},
+    {name = "UOR Foundation", email = "research@uor.foundation"},
 ]
-keywords = ["factorization", "mathematics", "prime", "fibonacci", "golden-ratio", "spectral-analysis"]
+maintainers = [
+    {name = "UOR Foundation", email = "research@uor.foundation"},
+]
+keywords = [
+    "prime factorization",
+    "number theory", 
+    "cryptography",
+    "resonance field",
+    "adaptive algorithms",
+    "machine learning",
+    "computational mathematics"
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "Intended Audience :: Education",
-    "Topic :: Scientific/Engineering :: Mathematics",
-    "Topic :: Scientific/Engineering :: Physics",
-    "License :: Public Domain",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
@@ -27,33 +36,56 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Security :: Cryptography",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = [
+    "numpy>=1.20.0",
+    "scipy>=1.7.0",
+]
 
 [project.optional-dependencies]
 dev = [
     "pytest>=6.0",
     "pytest-cov>=2.0",
-    "black>=22.0",
-    "flake8>=4.0",
+    "black>=21.0",
+    "flake8>=3.8",
     "mypy>=0.900",
+    "isort>=5.0",
 ]
 docs = [
     "sphinx>=4.0",
     "sphinx-rtd-theme>=1.0",
+    "myst-parser>=0.15",
+]
+benchmark = [
+    "matplotlib>=3.3",
+    "pandas>=1.3",
+    "seaborn>=0.11",
 ]
 
-[project.scripts]
-factorize = "factorizer.cli:main"
-
 [project.urls]
-Homepage = "https://github.com/uor-research/factorizer"
-Repository = "https://github.com/uor-research/factorizer"
-Documentation = "https://factorizer.readthedocs.io/"
-"Bug Reports" = "https://github.com/uor-research/factorizer/issues"
+Homepage = "https://uor.foundation"
+Documentation = "https://github.com/UOR-Foundation/factorizer/blob/main/prime_resonance_field/README.md"
+Repository = "https://github.com/UOR-Foundation/factorizer"
+"Bug Tracker" = "https://github.com/UOR-Foundation/factorizer/issues"
+Changelog = "https://github.com/UOR-Foundation/factorizer/blob/main/CHANGELOG.md"
+Funding = "https://uor.foundation/funding"
 
-[tool.setuptools.packages.find]
-exclude = ["test*"]
+[project.scripts]
+rfh3-factor = "cli:main"
+rfh3-benchmark = "benchmark:main"
+
+[tool.setuptools]
+packages = [
+    "core",
+    "algorithms", 
+    "learning"
+]
+
+[tool.setuptools.package-data]
+"." = ["py.typed"]
 
 [tool.black]
 line-length = 88
@@ -73,15 +105,11 @@ extend-exclude = '''
 )/
 '''
 
-[tool.pytest.ini_options]
-testpaths = ["test", "axiom1/test", "axiom2/test", "axiom3/test", "axiom4/test", "axiom5/test"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
-addopts = "-v --tb=short"
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::PendingDeprecationWarning",
-]
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["prime_resonance_field"]
 
 [tool.mypy]
 python_version = "3.8"
@@ -97,3 +125,37 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = [
+    "tests",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["prime_resonance_field"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

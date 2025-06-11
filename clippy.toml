@@ -1,0 +1,58 @@
+# Clippy linting configuration for The Pattern
+
+# Set MSRV (Minimum Supported Rust Version)
+msrv = "1.70.0"
+
+# Cognitive complexity threshold
+cognitive-complexity-threshold = 30
+
+# Maximum number of lines for functions
+too-many-lines-threshold = 100
+
+# Maximum number of arguments
+too-many-arguments-threshold = 7
+
+# Maximum size for types on stack
+trivial-copy-size-limit = 8
+
+# Maximum number of single char bindings
+single-char-binding-names-threshold = 4
+
+# Enforce documentation
+missing-docs-in-crate-items = true
+
+# Type complexity threshold
+type-complexity-threshold = 250
+
+# Array size threshold for stack vs heap
+array-size-threshold = 512
+
+# Warn on large enum variants
+enum-variant-size-threshold = 200
+
+# Allow certain patterns that emerge from The Pattern
+allow-expect-in-tests = true
+allow-unwrap-in-tests = true
+allow-dbg-in-tests = true
+
+# Strict arithmetic checks for pattern discovery
+arithmetic-side-effects-allowed = []
+
+# Documentation URL
+doc-valid-idents = ["The Pattern", "RSA", "GMP", "FFT"]
+
+# Maximum includes depth
+max-include-file-size = 1000000
+
+# Large stack arrays
+large-stack-frames-threshold = 512
+
+# Disallowed names (enforce pattern-based naming)
+disallowed-names = ["foo", "bar", "baz", "tmp", "temp", "test"]
+
+# Enforce standard formatting
+standard-macro-braces = [
+    { name = "format", brace = "{" },
+    { name = "println", brace = "{" },
+    { name = "vec", brace = "[" },
+]
