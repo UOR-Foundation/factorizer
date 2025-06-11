@@ -1,0 +1,49 @@
+{
+    "name": "Rust Pattern Solver (Compose)",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "rust-pattern-solver",
+    "workspaceFolder": "/workspace",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "rust-analyzer.cargo.features": "all",
+                "rust-analyzer.checkOnSave.command": "clippy",
+                "rust-analyzer.checkOnSave.extraArgs": [
+                    "--all-targets",
+                    "--all-features",
+                    "--",
+                    "-D",
+                    "warnings"
+                ],
+                "rust-analyzer.inlayHints.chainingHints.enable": true,
+                "rust-analyzer.inlayHints.closingBraceHints.enable": true,
+                "rust-analyzer.inlayHints.typeHints.enable": true,
+                "rust-analyzer.inlayHints.parameterHints.enable": true,
+                "rust-analyzer.procMacro.enable": true,
+                "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "rust-lang.rust-analyzer",
+                "[rust]": {
+                    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+                },
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "files.watcherExclude": {
+                    "**/target/**": true,
+                    "**/node_modules/**": true
+                },
+                "search.exclude": {
+                    "**/target": true,
+                    "**/Cargo.lock": true
+                }
+            },
+            "extensions": []
+        }
+    },
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    "postStartCommand": "rustc --version && cargo --version",
+    "remoteUser": "vscode",
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/sshd:1": {}
+    }
+}

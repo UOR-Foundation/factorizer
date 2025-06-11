@@ -1,11 +1,26 @@
 """
-UOR/Prime Axioms Factorizer Package
+Prime Resonance Field (RFH3) - Adaptive Resonance Field Architecture
 
-A pure mathematical implementation of integer factorization based on the Universal Object Reference (UOR)
-and Prime Model axioms.
+A paradigm shift from static resonance field mapping to dynamic, adaptive field exploration.
 """
 
-from .factorizer import Factorizer, FactorizationResult, factorize, get_factorizer
+from .core import (
+    HierarchicalSearch,
+    LazyResonanceIterator,
+    MultiScaleResonance,
+    StateManager,
+)
+from .learning import ResonancePatternLearner, ZonePredictor
+from .rfh3 import RFH3, RFH3Config
 
-__version__ = "1.0.0"
-__all__ = ["Factorizer", "FactorizationResult", "factorize", "get_factorizer"]
+__version__ = "3.0.0"
+__all__ = [
+    "RFH3",
+    "RFH3Config",
+    "LazyResonanceIterator",
+    "MultiScaleResonance",
+    "StateManager",
+    "HierarchicalSearch",
+    "ResonancePatternLearner",
+    "ZonePredictor",
+]
