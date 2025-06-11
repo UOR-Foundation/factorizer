@@ -12,7 +12,7 @@ pub mod signature;
 // Re-export main types
 pub use number::Number;
 pub use observation::Observation;
-pub use pattern::{Pattern as PatternType, PatternKind};
+pub use pattern::{Pattern, PatternKind, UniversalConstant};
 pub use quantum::QuantumRegion;
-pub use recognition::{Factors, Formalization, Recognition};
+pub use recognition::{Factors, Formalization, PatternType, Recognition};
 pub use signature::PatternSignature;

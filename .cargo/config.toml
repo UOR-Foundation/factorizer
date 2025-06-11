@@ -9,8 +9,8 @@ jobs = -1
 
 [target.x86_64-unknown-linux-gnu]
 # Linux-specific optimizations
-linker = "clang"
-rustflags = ["-C", "link-arg=-fuse-ld=lld"]
+# linker = "clang"  # Commented out - use default system linker
+# rustflags = ["-C", "link-arg=-fuse-ld=lld"]  # Commented out due to environment limitations
 
 [profile.release]
 # Maximum optimization for The Pattern

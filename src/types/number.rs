@@ -5,7 +5,7 @@
 use rug::Integer;
 use serde::{Deserialize, Serialize};
 use std::fmt;
-use std::ops::{Add, AddAssign, Div, Mul, Rem, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, Rem, Sub};
 use std::str::FromStr;
 
 /// Arbitrary precision integer for pattern observation
@@ -60,7 +60,7 @@ impl Number {
 
     /// Convert to f64 (may lose precision)
     pub fn to_f64(&self) -> Option<f64> {
-        self.0.to_f64()
+        Some(self.0.to_f64())
     }
 
     /// Get inner Integer reference
@@ -70,14 +70,13 @@ impl Number {
 
     /// Check probable primality
     pub fn is_probably_prime(&self, reps: u32) -> bool {
-        use rug::rand::RandState;
-        let mut rng = RandState::new();
-        self.0.is_probably_prime(reps, &mut rng) != rug::integer::IsPrime::No
+        self.0.is_probably_prime(reps) != rug::integer::IsPrime::No
     }
 
     /// Power operation
     pub fn pow(&self, exp: u32) -> Self {
-        Number(self.0.pow(exp))
+        use rug::ops::Pow;
+        Number((&self.0).pow(exp).into())
     }
 
     /// Integer square root
@@ -88,6 +87,17 @@ impl Number {
     /// Absolute value
     pub fn abs(&self) -> Self {
         Number(self.0.abs_ref().into())
+    }
+
+    /// Generate random number with specified bit count
+    pub fn random_bits(bits: u32, rng: &mut rug::rand::RandState<'_>) -> Self {
+        let n = Integer::from(Integer::random_bits(bits, rng));
+        Number(n)
+    }
+
+    /// Set a specific bit
+    pub fn set_bit(&mut self, bit_index: u32, value: bool) {
+        self.0.set_bit(bit_index, value);
     }
 }
 
@@ -137,6 +147,40 @@ impl Rem for &Number {
 impl AddAssign<u32> for Number {
     fn add_assign(&mut self, other: u32) {
         self.0 += other;
+    }
+}
+
+impl DivAssign<u32> for Number {
+    fn div_assign(&mut self, other: u32) {
+        self.0 /= other;
+    }
+}
+
+impl Add<Number> for &Number {
+    type Output = Number;
+    fn add(self, other: Number) -> Number {
+        Number(Integer::from(&self.0 + &other.0))
+    }
+}
+
+impl Add<u32> for Number {
+    type Output = Number;
+    fn add(self, other: u32) -> Number {
+        Number(Integer::from(self.0 + other))
+    }
+}
+
+impl Div<&Number> for Number {
+    type Output = Number;
+    fn div(self, other: &Number) -> Number {
+        Number(Integer::from(self.0 / &other.0))
+    }
+}
+
+impl Rem<&Number> for Number {
+    type Output = Number;
+    fn rem(self, other: &Number) -> Number {
+        Number(Integer::from(self.0 % &other.0))
     }
 }
 

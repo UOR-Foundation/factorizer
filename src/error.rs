@@ -52,6 +52,10 @@ pub enum PatternError {
     /// Insufficient data
     #[error("Insufficient data: {0}")]
     InsufficientData(String),
+
+    /// Factorization failed
+    #[error("Factorization failed: {0}")]
+    FactorizationFailed(String),
 }
 
 /// Result type alias for pattern operations

@@ -11,7 +11,8 @@ categories = ["mathematics", "science", "algorithms"]
 
 [dependencies]
 # Arbitrary precision arithmetic
-rug = { version = "1.24", features = ["integer", "float", "complex"] }
+# Try with minimal features first to speed up compilation
+rug = { version = "1.24", features = ["integer"] }
 num-bigint = "0.4"
 num-traits = "0.2"
 num-integer = "0.1"
@@ -67,15 +68,7 @@ lto = true
 codegen-units = 1
 
 [[bench]]
-name = "recognition"
-harness = false
-
-[[bench]]
-name = "collection"
-harness = false
-
-[[bench]]
-name = "analysis"
+name = "factorization"
 harness = false
 
 [[example]]
@@ -93,12 +86,11 @@ path = "examples/discover.rs"
 [[example]]
 name = "visualize"
 path = "examples/visualize.rs"
-required-features = ["plotters"]
 
 [features]
 default = []
 # Enable additional visualization features
-full-visualization = ["plotters/all_backends"]
+full-visualization = []
 # Enable GPU acceleration (future)
 gpu = []
 # Enable distributed computing (future)

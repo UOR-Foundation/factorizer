@@ -77,7 +77,7 @@ enum Commands {
     },
 }
 
-#[derive(clap::ValueEnum, Clone)]
+#[derive(clap::ValueEnum, Clone, Debug)]
 enum Scale {
     Small,
     Medium,
@@ -109,24 +109,18 @@ fn main() -> Result<()> {
 
             let observer = Observer::new();
             if let Some(t) = threads {
-                rayon::ThreadPoolBuilder::new()
-                    .num_threads(t)
-                    .build_global()
-                    .unwrap();
+                rayon::ThreadPoolBuilder::new().num_threads(t).build_global().unwrap();
             }
 
             let observations = observer.observe_range(start..end);
 
             if let Some(output_path) = output {
                 info!("Writing observations to {:?}", output_path);
-                std::fs::write(
-                    output_path,
-                    serde_json::to_string_pretty(&observations)?,
-                )?;
+                std::fs::write(output_path, serde_json::to_string_pretty(&observations)?)?;
             } else {
                 println!("Collected {} observations", observations.len());
             }
-        }
+        },
 
         Commands::Recognize {
             number,
@@ -135,10 +129,9 @@ fn main() -> Result<()> {
         } => {
             info!("Recognizing factors of {}", number);
 
-            let n = number.parse::<rust_pattern_solver::Number>()
-                .map_err(|_| rust_pattern_solver::PatternError::InvalidInput(
-                    "Invalid number format".to_string()
-                ))?;
+            let n = number.parse::<rust_pattern_solver::Number>().map_err(|_| {
+                rust_pattern_solver::PatternError::InvalidInput("Invalid number format".to_string())
+            })?;
 
             let pattern_data = std::fs::read_to_string(pattern)?;
             let pattern = Pattern::from_json(&pattern_data)?;
@@ -152,8 +145,13 @@ fn main() -> Result<()> {
             let formalization = pattern.formalize(recognition)?;
             let factors = pattern.execute(formalization)?;
 
-            println!("Factors: {} × {} = {}", factors.p, factors.q, &factors.p * &factors.q);
-        }
+            println!(
+                "Factors: {} × {} = {}",
+                factors.p,
+                factors.q,
+                &factors.p * &factors.q
+            );
+        },
 
         Commands::Discover { input, output } => {
             info!("Discovering patterns from {:?}", input);
@@ -166,17 +164,14 @@ fn main() -> Result<()> {
 
             if let Some(output_path) = output {
                 info!("Writing patterns to {:?}", output_path);
-                std::fs::write(
-                    output_path,
-                    serde_json::to_string_pretty(&patterns)?,
-                )?;
+                std::fs::write(output_path, serde_json::to_string_pretty(&patterns)?)?;
             } else {
                 println!("Discovered {} patterns", patterns.len());
                 for pattern in patterns {
                     println!("  - {}", pattern.describe());
                 }
             }
-        }
+        },
 
         Commands::Analyze { scale, pattern } => {
             info!("Analyzing patterns at {:?} scale", scale);
@@ -196,7 +191,7 @@ fn main() -> Result<()> {
 
             // TODO: Implement scale analysis
             println!("Scale analysis not yet implemented");
-        }
+        },
     }
 
     Ok(())

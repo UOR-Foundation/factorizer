@@ -20,7 +20,7 @@ pub fn discover_all_patterns(observations: &[Observation]) -> Result<EmergentPat
     let invariants = InvariantDiscovery::find_all(observations)?;
     let scaling_patterns = ScalingAnalysis::analyze_all(observations)?;
     let universal_patterns = UniversalPatterns::discover(observations)?;
-    
+
     Ok(EmergentPatterns {
         invariants,
         scaling_patterns,
@@ -33,10 +33,10 @@ pub fn discover_all_patterns(observations: &[Observation]) -> Result<EmergentPat
 pub struct EmergentPatterns {
     /// Invariant relationships
     pub invariants: Vec<Pattern>,
-    
+
     /// Scale-dependent patterns
     pub scaling_patterns: Vec<Pattern>,
-    
+
     /// Universal patterns
     pub universal_patterns: Vec<Pattern>,
 }
@@ -50,7 +50,7 @@ impl EmergentPatterns {
             .chain(&self.universal_patterns)
             .collect()
     }
-    
+
     /// Count total patterns
     pub fn count(&self) -> usize {
         self.invariants.len() + self.scaling_patterns.len() + self.universal_patterns.len()

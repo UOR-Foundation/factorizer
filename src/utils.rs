@@ -2,6 +2,7 @@
 
 use crate::types::Number;
 use crate::Result;
+use rug::rand::RandState;
 
 /// Calculate integer square root using Newton's method
 /// This emerges from observing that sqrt appears in many patterns
@@ -32,8 +33,6 @@ pub fn integer_sqrt(n: &Number) -> Result<Number> {
 /// Check if a number is probably prime using Miller-Rabin
 /// This emerges from pattern observation that primes have distinct signatures
 pub fn is_probable_prime(n: &Number, k: u32) -> bool {
-    use rug::rand::RandState;
-
     if n <= &Number::from(1u32) {
         return false;
     }
@@ -45,8 +44,7 @@ pub fn is_probable_prime(n: &Number, k: u32) -> bool {
     }
 
     // Miller-Rabin test
-    let mut rng = RandState::new();
-    n.is_probably_prime(k, &mut rng) != rug::integer::IsPrime::No
+    n.is_probably_prime(k)
 }
 
 /// Generate the first n prime numbers
@@ -124,13 +122,58 @@ pub fn format_number(n: &Number) -> String {
     if s.len() <= 20 {
         s
     } else {
-        format!(
-            "{}...{} ({} digits)",
-            &s[..10],
-            &s[s.len() - 10..],
-            s.len()
-        )
+        format!("{}...{} ({} digits)", &s[..10], &s[s.len() - 10..], s.len())
     }
+}
+
+/// Generate a random prime of specified bit length
+/// Emerges from pattern testing needs
+pub fn generate_random_prime(bits: u32) -> Result<Number> {
+    let mut rng = RandState::new();
+    let mut candidate = Number::random_bits(bits, &mut rng);
+
+    // Ensure it's odd
+    candidate.set_bit(0, true);
+
+    // Find next probable prime
+    while !is_probable_prime(&candidate, 25) {
+        candidate += 2u32;
+    }
+
+    Ok(candidate)
+}
+
+/// Perform trial division to find small factors
+/// Emerges from observation that small factors have distinct patterns
+pub fn trial_division(n: &Number, limit: Option<&Number>) -> Result<Vec<Number>> {
+    let mut factors = Vec::new();
+    let mut n = n.clone();
+
+    // Check for factor of 2
+    while n.is_even() {
+        factors.push(Number::from(2u32));
+        n /= 2u32;
+    }
+
+    // Check odd factors up to sqrt(n) or limit
+    let sqrt_n = integer_sqrt(&n)?;
+    let limit = limit.cloned().unwrap_or(sqrt_n);
+    let mut factor = Number::from(3u32);
+
+    while factor <= limit && &factor * &factor <= n {
+        while &n % &factor == Number::from(0u32) {
+            factors.push(factor.clone());
+            n = n / &factor;
+        }
+        factor += 2u32;
+    }
+
+    // If n is still greater than 1, it's a prime factor
+    if n > Number::from(1u32) {
+        factors.push(n);
+    }
+
+    Ok(factors)
 }
 
 #[cfg(test)]
@@ -161,5 +204,44 @@ mod tests {
         assert_eq!(fibonacci(0), Number::from(0u32));
         assert_eq!(fibonacci(1), Number::from(1u32));
         assert_eq!(fibonacci(10), Number::from(55u32));
+    }
+
+    #[test]
+    fn test_is_probable_prime() {
+        assert!(is_probable_prime(&Number::from(2u32), 10));
+        assert!(is_probable_prime(&Number::from(17u32), 10));
+        assert!(!is_probable_prime(&Number::from(15u32), 10));
+        assert!(!is_probable_prime(&Number::from(1u32), 10));
+    }
+
+    #[test]
+    fn test_trial_division() {
+        let n = Number::from(60u32);
+        let factors = trial_division(&n, None).unwrap();
+        assert_eq!(
+            factors,
+            vec![
+                Number::from(2u32),
+                Number::from(2u32),
+                Number::from(3u32),
+                Number::from(5u32)
+            ]
+        );
+
+        let n = Number::from(17u32);
+        let factors = trial_division(&n, None).unwrap();
+        assert_eq!(factors, vec![Number::from(17u32)]);
+    }
+
+    #[test]
+    fn test_gcd() {
+        assert_eq!(
+            gcd(&Number::from(48u32), &Number::from(18u32)),
+            Number::from(6u32)
+        );
+        assert_eq!(
+            gcd(&Number::from(17u32), &Number::from(19u32)),
+            Number::from(1u32)
+        );
     }
 }
