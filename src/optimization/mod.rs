@@ -38,29 +38,17 @@ impl Default for OptimizationConfig {
 }
 
 /// Global optimization configuration
-static mut OPTIMIZATION_CONFIG: Option<OptimizationConfig> = None;
-static INIT: std::sync::Once = std::sync::Once::new();
+static OPTIMIZATION_CONFIG: std::sync::OnceLock<OptimizationConfig> = std::sync::OnceLock::new();
 
 /// Initialize optimization subsystem
 pub fn initialize(config: OptimizationConfig) {
-    unsafe {
-        INIT.call_once(|| {
-            OPTIMIZATION_CONFIG = Some(config);
-        });
-    }
+    let _ = OPTIMIZATION_CONFIG.set(config);
 }
 
 /// Get current optimization configuration
 pub fn config() -> &'static OptimizationConfig {
-    unsafe { OPTIMIZATION_CONFIG.as_ref().unwrap_or(&DEFAULT_CONFIG) }
+    OPTIMIZATION_CONFIG.get_or_init(|| OptimizationConfig::default())
 }
-
-const DEFAULT_CONFIG: OptimizationConfig = OptimizationConfig {
-    enable_simd: false,
-    use_memory_pool: true,
-    arithmetic_cache_size: 1024,
-    enable_pgo: false,
-};
 
 /// Optimized modular arithmetic
 #[inline(always)]

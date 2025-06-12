@@ -25,6 +25,15 @@ impl<T: Default + Send + 'static> MemoryPool<T> {
     }
 }
 
+impl<T> std::fmt::Debug for MemoryPool<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("MemoryPool")
+            .field("max_size", &self.max_size)
+            .field("current_size", &self.pool.lock().map(|p| p.len()).unwrap_or(0))
+            .finish()
+    }
+}
+
 impl<T: Send + 'static> MemoryPool<T> {
     /// Create new memory pool with custom initializer
     pub fn with_initializer<F>(max_size: usize, initializer: F) -> Self
@@ -70,6 +79,7 @@ impl<T: Send + 'static> MemoryPool<T> {
 }
 
 /// RAII wrapper for pooled objects
+#[derive(Debug)]
 pub struct PooledObject<T> {
     value: Option<Box<T>>,
     pool: Arc<Mutex<VecDeque<Box<T>>>>,
@@ -114,6 +124,7 @@ impl<T> std::ops::DerefMut for PooledObject<T> {
 }
 
 /// Arena allocator for batch allocations
+#[derive(Debug)]
 pub struct Arena {
     chunks: RefCell<Vec<Vec<u8>>>,
     current: RefCell<Vec<u8>>,
@@ -158,6 +169,7 @@ impl Arena {
 }
 
 /// Compressed bit vector for memory-efficient boolean arrays
+#[derive(Debug)]
 pub struct BitVector {
     bits: Vec<u64>,
     len: usize,
@@ -208,6 +220,7 @@ impl BitVector {
 }
 
 /// Memory-mapped large arrays for out-of-core computation
+#[derive(Debug)]
 pub struct MappedArray<T> {
     data: memmap2::MmapMut,
     len: usize,

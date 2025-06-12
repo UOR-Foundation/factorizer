@@ -196,6 +196,7 @@ pub fn batch_mod(n: &Number, primes: &[u64]) -> Vec<u64> {
 }
 
 /// Precomputed reciprocals for fast division
+#[derive(Debug)]
 pub struct ReciprocalTable {
     reciprocals: Vec<(u64, u64, u32)>, // (divisor, reciprocal, shift)
 }

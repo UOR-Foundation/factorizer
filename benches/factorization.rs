@@ -3,8 +3,8 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use rust_pattern_solver::{
     observer::ObservationCollector,
-    pattern::{execution, formalization, recognition},
-    types::{Number, Pattern},
+    pattern::{self, execution, formalization, recognition},
+    types::Number,
 };
 
 fn benchmark_observation(c: &mut Criterion) {
@@ -36,7 +36,7 @@ fn benchmark_pattern_discovery(c: &mut Criterion) {
     let observations = collector.observe_parallel(&numbers).unwrap();
 
     c.bench_function("pattern_discovery_100_observations", |b| {
-        b.iter(|| Pattern::discover_from_observations(black_box(&observations)));
+        b.iter(|| pattern::Pattern::discover_from_observations(black_box(&observations)));
     });
 }
 
@@ -47,7 +47,7 @@ fn benchmark_recognition(c: &mut Criterion) {
         vec![15, 21, 35, 77, 91, 143, 221, 323].into_iter().map(Number::from).collect();
 
     let observations = collector.observe_parallel(&training).unwrap();
-    let patterns = Pattern::discover_from_observations(&observations).unwrap();
+    let patterns = pattern::Pattern::discover_from_observations(&observations).unwrap();
 
     c.bench_function("recognize_small_semiprime", |b| {
         let n = Number::from(391u32); // 17 × 23
@@ -66,7 +66,7 @@ fn benchmark_full_pipeline(c: &mut Criterion) {
     let training: Vec<Number> = (0..50).map(|i| Number::from((2 * i + 3) * (2 * i + 5))).collect();
 
     let observations = collector.observe_parallel(&training).unwrap();
-    let patterns = Pattern::discover_from_observations(&observations).unwrap();
+    let patterns = pattern::Pattern::discover_from_observations(&observations).unwrap();
 
     let mut group = c.benchmark_group("full_pipeline");
 

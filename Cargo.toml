@@ -78,6 +78,10 @@ codegen-units = 1
 name = "factorization"
 harness = false
 
+[[bench]]
+name = "simple_bench"
+harness = false
+
 [[example]]
 name = "observe"
 path = "examples/observe.rs"
