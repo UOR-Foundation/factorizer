@@ -131,7 +131,7 @@ impl ScalingAnalysis {
                     scale
                 );
                 pattern.scale_range = ScaleRange {
-                    min_bits: scale * 8 - 4,
+                    min_bits: (scale * 8).saturating_sub(4),
                     max_bits: scale * 8 + 4,
                     unbounded: false,
                 };

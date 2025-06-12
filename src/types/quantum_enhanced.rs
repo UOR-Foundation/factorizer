@@ -158,10 +158,20 @@ pub struct ConfidenceMetrics {
 impl EnhancedQuantumRegion {
     /// Create a new enhanced quantum region
     pub fn new(center: Number, initial_radius: Number, n: &Number) -> Self {
+        // For harmonic patterns, we may need to search beyond sqrt(n)
+        let sqrt_n = utils::integer_sqrt(n).unwrap_or_else(|_| n.clone());
+        let max_radius = if &center > &sqrt_n {
+            // If center is beyond sqrt(n), allow searching further
+            n / &Number::from(2u32)
+        } else {
+            // Standard case: limit to sqrt(n)
+            sqrt_n
+        };
+        
         let radius = AdaptiveRadius {
             current: initial_radius.clone(),
             min: Number::from(1u32),
-            max: utils::integer_sqrt(n).unwrap_or_else(|_| n.clone()),
+            max: max_radius,
             growth_rate: 1.5,
             shrink_rate: 0.8,
             miss_threshold: 3,
@@ -581,17 +591,17 @@ impl EnhancedQuantumRegion {
             DistributionType::MultiModal => {
                 // Sample from each mode
                 for mode in &self.modes {
-                    let center = &self.center + &Number::from(mode.offset.abs() as u64);
+                    let center = &self.center + &Number::from(mode.offset.unsigned_abs());
                     candidates.push(center);
 
                     // Add points around mode
                     for i in 1..=2 {
                         let offset = (mode.width * i as f64) as u64;
                         candidates
-                            .push(&self.center + &Number::from(mode.offset.abs() as u64 + offset));
-                        if mode.offset.abs() as u64 > offset {
+                            .push(&self.center + &Number::from(mode.offset.unsigned_abs() + offset));
+                        if mode.offset.unsigned_abs() > offset {
                             candidates.push(
-                                &self.center + &Number::from((mode.offset.abs() as u64) - offset),
+                                &self.center + &Number::from(mode.offset.unsigned_abs() - offset),
                             );
                         }
                     }

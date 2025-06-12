@@ -169,13 +169,13 @@ fn extended_gcd(a: &Number, b: &Number) -> Result<(Number, Number)> {
     while r != Number::from(0u32) {
         let quotient = &old_r / &r;
 
-        let temp = r.clone();
-        r = &old_r - &(&quotient * &r);
-        old_r = temp;
+        let new_r = &old_r - &(&quotient * &r);
+        old_r = r;
+        r = new_r;
 
-        let temp = s.clone();
-        s = &old_s - &(&quotient * &s);
-        old_s = temp;
+        let new_s = &old_s - &(&quotient * &s);
+        old_s = s;
+        s = new_s;
     }
 
     // old_r is the GCD

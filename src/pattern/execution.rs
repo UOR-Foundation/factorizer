@@ -335,9 +335,9 @@ fn decode_quantum_materialization(formalization: &Formalization) -> Result<Facto
             for sign_p in &[-1i64, 1] {
                 for sign_q in &[-1i64, 1] {
                     let p_candidate =
-                        Number::from((p as i64 + sign_p * offset as i64).abs() as u64);
+                        Number::from((p as i64 + sign_p * offset as i64).unsigned_abs());
                     let q_candidate =
-                        Number::from((q as i64 + sign_q * offset as i64).abs() as u64);
+                        Number::from((q as i64 + sign_q * offset as i64).unsigned_abs());
 
                     if &p_candidate * &q_candidate == *n
                         && p_candidate > Number::from(1u32)
@@ -451,9 +451,9 @@ fn advanced_resonance_decoding(
             let offset = mapping as i64;
             for delta in -5..=5 {
                 let candidate = if offset + delta >= 0 {
-                    &sqrt_n + &Number::from((offset + delta).abs() as u64)
+                    &sqrt_n + &Number::from((offset + delta).unsigned_abs())
                 } else {
-                    let abs_val = (offset + delta).abs() as u64;
+                    let abs_val = (offset + delta).unsigned_abs();
                     if abs_val < sqrt_n.as_integer().to_u64().unwrap_or(0) {
                         &sqrt_n - &Number::from(abs_val)
                     } else {
@@ -600,7 +600,7 @@ fn quantum_collapse_decoding(formalization: &Formalization) -> Result<Factors> {
 
         for delta in 0..=uncertainty {
             for sign in &[-1i64, 1] {
-                let candidate_val = (base_candidate as i64 + sign * delta as i64).abs() as u64;
+                let candidate_val = (base_candidate as i64 + sign * delta as i64).unsigned_abs();
                 let candidate = Number::from(candidate_val);
 
                 if candidate > Number::from(1u32)
@@ -680,8 +680,10 @@ fn pattern_guided_decoding(formalization: &Formalization, patterns: &[Pattern]) 
                 // For Fibonacci pattern numbers, use GCD with nearby Fibonacci numbers
                 let fibs = generate_fibonacci_numbers(*index + 10);
 
-                for i in (*index).saturating_sub(5)..(*index + 5).min(fibs.len()) {
-                    let gcd = utils::gcd(n, &fibs[i]);
+                let start_idx = (*index).saturating_sub(5);
+                let end_idx = (*index + 5).min(fibs.len());
+                for fib in &fibs[start_idx..end_idx] {
+                    let gcd = utils::gcd(n, fib);
                     if gcd > Number::from(1u32) && gcd < *n {
                         let other = n / &gcd;
                         return Ok(Factors::new(gcd, other, "pattern_guided_fibonacci"));

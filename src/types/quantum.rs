@@ -169,8 +169,8 @@ impl QuantumRegion {
         let lower_offset = lower_idx as i64 - self.radius.as_integer().to_i64().unwrap_or(0);
         let upper_offset = upper_idx as i64 - self.radius.as_integer().to_i64().unwrap_or(0);
 
-        let lower = &self.center + &Number::from(lower_offset.abs() as u64);
-        let upper = &self.center + &Number::from(upper_offset.abs() as u64);
+        let lower = &self.center + &Number::from(lower_offset.unsigned_abs());
+        let upper = &self.center + &Number::from(upper_offset.unsigned_abs());
 
         (lower, upper)
     }

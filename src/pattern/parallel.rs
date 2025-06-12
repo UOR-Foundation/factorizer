@@ -277,7 +277,7 @@ pub fn parallel_pattern_match(
         .collect::<Vec<_>>();
 
     let matches_vec = Arc::try_unwrap(matches).unwrap().into_inner().unwrap();
-    matches_vec.into_iter().map(|p| p.clone()).collect()
+    matches_vec
 }
 
 /// Parallel search across quantum regions

@@ -208,7 +208,7 @@ impl Collector {
             a += 1u32;
 
             // If a gets too large, the factors are very unbalanced
-            if &a > &(n / &Number::from(2u32)) {
+            if a > (n / &Number::from(2u32)) {
                 break;
             }
         }

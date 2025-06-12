@@ -77,8 +77,8 @@ fn extract_signature(
         if !values.is_empty() {
             let mean = values.iter().sum::<f64>() / values.len() as f64;
             let max = values.iter().fold(f64::NEG_INFINITY, |a, &b| a.max(b));
-            signature.add_component(&format!("{}_mean", dim_name), mean);
-            signature.add_component(&format!("{}_max", dim_name), max);
+            signature.add_component(format!("{}_mean", dim_name), mean);
+            signature.add_component(format!("{}_max", dim_name), max);
         }
     }
 
@@ -111,7 +111,7 @@ fn extract_universal_components(
         .map(|c| c.value)
         .unwrap_or(1.618033988749895);
 
-    let log_n = n.to_f64().map(|v| v.ln()).unwrap_or_else(|| n.bit_length() as f64 * 0.693147); // ln(2)
+    let log_n = n.to_f64().map(|v| v.ln()).unwrap_or_else(|| n.bit_length() as f64 * std::f64::consts::LN_2);
 
     let phi_component = log_n / phi.ln();
     signature.add_component("phi_component", phi_component);
@@ -132,7 +132,7 @@ fn extract_universal_components(
     for constant in constants {
         if constant.universality > 0.5 {
             let component = log_n / constant.value;
-            signature.add_component(&format!("{}_component", constant.name), component);
+            signature.add_component(format!("{}_component", constant.name), component);
         }
     }
 
@@ -215,6 +215,11 @@ fn identify_pattern_type(signature: &PatternSignature) -> Result<PatternType> {
         if n % p == Number::from(0u32) && n != p {
             return Ok(PatternType::SmallFactor);
         }
+    }
+    
+    // Quick primality check for small numbers
+    if n.bit_length() <= 32 && utils::is_probable_prime(n, 20) {
+        return Ok(PatternType::Prime);
     }
 
     // Check modular DNA for patterns

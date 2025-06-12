@@ -14,7 +14,7 @@ fn test_large_number_arithmetic() {
     let n = &p * &q;
 
     // Verify multiplication
-    let expected = Number::from_str("340282366920938463534117278883377737537").unwrap();
+    let expected = Number::from_str("340282366920938464385711811117245792737").unwrap();
     assert_eq!(n, expected);
 
     // Verify division

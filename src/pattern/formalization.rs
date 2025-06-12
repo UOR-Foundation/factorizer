@@ -154,14 +154,14 @@ fn compute_harmonic_series(
     let base_freq = recognition.signature.get_component("phi_component").unwrap_or(1.0);
 
     // Generate harmonics
-    for k in 1..=20 {
-        let harmonic = base_freq.powi(k as i32)
+    for k in 1i32..=20 {
+        let harmonic = base_freq.powi(k)
             + recognition
                 .signature
                 .get_component("pi_component")
                 .unwrap_or(0.0)
-                .powi(k as i32)
-            + recognition.signature.get_component("e_component").unwrap_or(0.0).powi(k as i32);
+                .powi(k)
+            + recognition.signature.get_component("e_component").unwrap_or(0.0).powi(k);
 
         // Scale by k-th root of n
         let scale = if n.bit_length() > 100 {
@@ -333,7 +333,7 @@ fn select_and_rank_strategies(
         // Adjust based on recognition confidence
         score *= recognition.confidence;
 
-        strategy_scores.insert(strategy.clone(), score);
+        strategy_scores.insert(*strategy, score);
     }
 
     // Sort strategies by score

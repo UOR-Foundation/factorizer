@@ -101,7 +101,7 @@ pub fn verify_factors(
     let avg_score = total_score / result.verification_steps.len() as f64;
 
     result.confidence *= avg_score;
-    result.confidence = result.confidence.min(1.0).max(0.0);
+    result.confidence = result.confidence.clamp(0.0, 1.0);
 
     // Determine if factorization is valid
     result.is_valid = result.confidence > 0.5 && basic_check.passed;
@@ -381,7 +381,7 @@ pub fn generate_correctness_proof(
     let mut proof = String::new();
 
     proof.push_str(&format!("Correctness Proof for Factorization of {}\n", n));
-    proof.push_str(&format!("======================================\n\n"));
+    proof.push_str("======================================\n\n");
 
     proof.push_str(&format!("Claim: {} = {} × {}\n\n", n, factors.p, factors.q));
 
@@ -396,7 +396,7 @@ pub fn generate_correctness_proof(
         ));
     }
 
-    proof.push_str(&format!("\nConclusion:\n"));
+    proof.push_str("\nConclusion:\n");
     proof.push_str(&format!("- Valid: {}\n", verification.is_valid));
     proof.push_str(&format!(
         "- Confidence: {:.2}%\n",
@@ -412,7 +412,7 @@ pub fn generate_correctness_proof(
     ));
 
     if !verification.warnings.is_empty() {
-        proof.push_str(&format!("\nWarnings:\n"));
+        proof.push_str("\nWarnings:\n");
         for warning in &verification.warnings {
             proof.push_str(&format!("- {}\n", warning));
         }

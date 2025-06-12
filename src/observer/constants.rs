@@ -64,10 +64,10 @@ impl ConstantDiscovery {
 
         let known = vec![
             ("phi", 1.618033988749895, "Golden ratio"),
-            ("pi", 3.141592653589793, "Circle constant"),
-            ("e", 2.718281828459045, "Euler's number"),
-            ("sqrt2", 1.414213562373095, "Square root of 2"),
-            ("ln2", 0.693147180559945, "Natural log of 2"),
+            ("pi", std::f64::consts::PI, "Circle constant"),
+            ("e", std::f64::consts::E, "Euler's number"),
+            ("sqrt2", std::f64::consts::SQRT_2, "Square root of 2"),
+            ("ln2", std::f64::consts::LN_2, "Natural log of 2"),
         ];
 
         for (name, value, meaning) in known {

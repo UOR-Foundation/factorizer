@@ -114,12 +114,12 @@ impl Expression {
     }
 
     /// Create addition
-    pub fn add(left: Expression, right: Expression) -> Self {
+    pub fn add_expr(left: Expression, right: Expression) -> Self {
         Self::binary(BinaryOperator::Add, left, right)
     }
 
     /// Create multiplication
-    pub fn mul(left: Expression, right: Expression) -> Self {
+    pub fn mul_expr(left: Expression, right: Expression) -> Self {
         Self::binary(BinaryOperator::Multiply, left, right)
     }
 
@@ -376,11 +376,11 @@ pub fn pattern_to_expression(pattern: &Pattern) -> Expression {
         } => {
             let mut expr = Expression::Constant(0.0);
             for (i, &amplitude) in harmonics.iter().enumerate() {
-                let harmonic = Expression::mul(
+                let harmonic = Expression::mul_expr(
                     Expression::Constant(amplitude),
                     Expression::UnaryOp {
                         op: UnaryOperator::Sin,
-                        operand: Box::new(Expression::mul(
+                        operand: Box::new(Expression::mul_expr(
                             Expression::Constant(
                                 2.0 * std::f64::consts::PI * base_frequency * (i + 1) as f64,
                             ),
@@ -388,7 +388,7 @@ pub fn pattern_to_expression(pattern: &Pattern) -> Expression {
                         )),
                     },
                 );
-                expr = Expression::add(expr, harmonic);
+                expr = Expression::add_expr(expr, harmonic);
             }
             expr
         },
@@ -416,7 +416,7 @@ pub fn create_pattern_constraints(
     // Basic factorization constraint: p * q = n
     constraints.push(PatternConstraint {
         id: "factorization".to_string(),
-        lhs: Expression::mul(Expression::var("p"), Expression::var("q")),
+        lhs: Expression::mul_expr(Expression::var("p"), Expression::var("q")),
         relation: ConstraintRelation::Equal,
         rhs: Expression::var("n"),
         confidence: 1.0,
@@ -485,7 +485,7 @@ pub fn create_pattern_constraints(
                     BinaryOperator::Subtract,
                     Expression::binary(
                         BinaryOperator::Divide,
-                        Expression::add(Expression::var("p"), Expression::var("q")),
+                        Expression::add_expr(Expression::var("p"), Expression::var("q")),
                         Expression::Constant(2.0),
                     ),
                     Expression::sqrt(Expression::var("n")),
@@ -508,8 +508,8 @@ mod tests {
     #[test]
     fn test_expression_evaluation() {
         // Test: 2 * 3 + 4
-        let expr = Expression::add(
-            Expression::mul(Expression::Constant(2.0), Expression::Constant(3.0)),
+        let expr = Expression::add_expr(
+            Expression::mul_expr(Expression::Constant(2.0), Expression::Constant(3.0)),
             Expression::Constant(4.0),
         );
 
@@ -520,8 +520,8 @@ mod tests {
     #[test]
     fn test_expression_simplification() {
         // Test: x * 1 + 0
-        let expr = Expression::add(
-            Expression::mul(Expression::var("x"), Expression::Constant(1.0)),
+        let expr = Expression::add_expr(
+            Expression::mul_expr(Expression::var("x"), Expression::Constant(1.0)),
             Expression::Constant(0.0),
         );
 

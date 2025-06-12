@@ -111,7 +111,7 @@ impl RelationshipSynthesis {
                 crate::types::PatternKind::Fibonacci { .. } => "fibonacci",
                 crate::types::PatternKind::Mersenne { .. } => "mersenne",
             };
-            by_type.entry(type_key.to_string()).or_insert_with(Vec::new).push(pattern);
+            by_type.entry(type_key.to_string()).or_default().push(pattern);
         }
 
         // Look for patterns that appear together
@@ -234,7 +234,7 @@ impl RelationshipSynthesis {
         // Law 3: Factor gap growth
         let mut by_scale: HashMap<usize, Vec<&Observation>> = HashMap::new();
         for obs in observations {
-            by_scale.entry(obs.scale.bit_length / 8).or_insert_with(Vec::new).push(obs);
+            by_scale.entry(obs.scale.bit_length / 8).or_default().push(obs);
         }
 
         let mut scale_gaps = Vec::new();

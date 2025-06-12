@@ -88,16 +88,10 @@ fn test_perfect_squares() {
 fn test_prime_recognition() {
     let primes = vec![2u32, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
 
-    // Need some semiprimes for pattern discovery
-    let mut collector = ObservationCollector::new();
-    let semiprimes = vec![
-        Number::from(15u32),
-        Number::from(21u32),
-        Number::from(35u32),
-    ];
-
-    let observations = collector.observe_parallel(&semiprimes).unwrap();
-    let patterns = Pattern::discover_from_observations(&observations).unwrap();
+    // Create empty patterns for prime testing
+    // Prime recognition should work even without patterns since it's based on
+    // the inability to find factors
+    let patterns = vec![];
 
     for p in primes {
         let n = Number::from(p);
