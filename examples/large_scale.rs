@@ -83,8 +83,10 @@ fn test_scale_progression(config: &LargeScaleConfig) {
 
                         // Execution (limited time for demo)
                         let exec_start = Instant::now();
+                        let patterns_clone = patterns.clone();
+                        let config_clone = config.clone();
                         let exec_result = std::thread::spawn(move || {
-                            quantum_search_large_scale(&formalization, &patterns, config)
+                            quantum_search_large_scale(&formalization, &patterns_clone, &config_clone)
                         });
 
                         // Wait max 5 seconds for demo
@@ -217,10 +219,10 @@ fn create_test_number(bits: usize) -> Number {
     let half_bits = bits / 2;
 
     // Use simple formula for demo (not cryptographically secure)
-    let p_base = Number::from(1u32) << (half_bits - 1);
+    let p_base = Number::from(1u32) << ((half_bits - 1) as u32);
     let p = &p_base + &Number::from(15u32); // Small offset
 
-    let q_base = Number::from(1u32) << (half_bits - 1);
+    let q_base = Number::from(1u32) << ((half_bits - 1) as u32);
     let q = &q_base + &Number::from(25u32); // Different offset
 
     &p * &q
@@ -230,7 +232,7 @@ fn create_test_patterns() -> Vec<Pattern> {
     vec![
         Pattern {
             id: "large_scale_balanced".to_string(),
-            kind: PatternKind::Balanced,
+            kind: PatternKind::TypeSpecific("balanced".to_string()),
             frequency: 0.6,
             description: "Balanced pattern for large numbers".to_string(),
             parameters: vec![],

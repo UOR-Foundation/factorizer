@@ -224,12 +224,20 @@ impl CorrelationAnalysis {
 /// Transitive relationship between three patterns
 #[derive(Debug, Clone)]
 pub struct TransitiveRelationship {
+    /// First pattern identifier
     pub pattern_a: String,
+    /// Second pattern identifier
     pub pattern_b: String,
+    /// Third pattern identifier
     pub pattern_c: String,
+    /// Correlation between pattern A and B
     pub correlation_ab: f64,
+    /// Correlation between pattern B and C
     pub correlation_bc: f64,
+    /// Actual correlation between pattern A and C
     pub correlation_ac: f64,
+    /// Predicted correlation between pattern A and C
     pub predicted_ac: f64,
+    /// Error between predicted and actual correlation
     pub error: f64,
 }

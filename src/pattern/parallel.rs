@@ -66,11 +66,17 @@ pub struct ParallelExecutor {
 /// Execution statistics
 #[derive(Debug, Default, Clone)]
 pub struct ExecutionStats {
+    /// Total numbers processed
     pub total_numbers: usize,
+    /// Number of successful factorizations
     pub successful: usize,
+    /// Number of failed factorizations
     pub failed: usize,
+    /// Number of cache hits
     pub cache_hits: usize,
+    /// Total execution time
     pub total_time: std::time::Duration,
+    /// Average time per number
     pub average_time_per_number: std::time::Duration,
 }
 

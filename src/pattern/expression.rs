@@ -20,23 +20,35 @@ pub enum Expression {
 
     /// Binary operation
     BinaryOp {
+        /// The binary operator
         op: BinaryOperator,
+        /// Left operand
         left: Box<Expression>,
+        /// Right operand
         right: Box<Expression>,
     },
 
     /// Unary operation
     UnaryOp {
+        /// The unary operator
         op: UnaryOperator,
+        /// The operand
         operand: Box<Expression>,
     },
 
     /// Function application
-    Function { name: String, args: Vec<Expression> },
+    Function {
+        /// Function name
+        name: String,
+        /// Function arguments
+        args: Vec<Expression>,
+    },
 
     /// Pattern reference
     PatternRef {
+        /// Pattern identifier
         pattern_id: String,
+        /// Component within the pattern
         component: String,
     },
 }
@@ -44,22 +56,34 @@ pub enum Expression {
 /// Binary operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BinaryOperator {
+    /// Addition operator (+)
     Add,
+    /// Subtraction operator (-)
     Subtract,
+    /// Multiplication operator (*)
     Multiply,
+    /// Division operator (/)
     Divide,
+    /// Power operator (^)
     Power,
+    /// Modulo operator (%)
     Modulo,
 }
 
 /// Unary operators
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum UnaryOperator {
+    /// Negation operator (-)
     Negate,
+    /// Square root function
     Sqrt,
+    /// Natural logarithm function
     Log,
+    /// Exponential function (e^x)
     Exp,
+    /// Sine function
     Sin,
+    /// Cosine function
     Cos,
 }
 
@@ -85,11 +109,17 @@ pub struct PatternConstraint {
 /// Constraint relations
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ConstraintRelation {
+    /// Equality constraint (=)
     Equal,
+    /// Less than constraint (<)
     LessThan,
+    /// Greater than constraint (>)
     GreaterThan,
+    /// Less than or equal constraint (≤)
     LessEqual,
+    /// Greater than or equal constraint (≥)
     GreaterEqual,
+    /// Approximately equal with tolerance
     Approximately(f64), // tolerance
 }
 

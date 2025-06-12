@@ -47,6 +47,14 @@ impl Collector {
 
     /// Observe a single number
     pub fn observe_single(&mut self, n: Number) -> crate::Result<Observation> {
+        // Validate input
+        if n <= Number::from(1u32) {
+            return Err(crate::error::PatternError::InvalidInput(format!(
+                "Cannot factor {}: must be greater than 1",
+                n
+            )));
+        }
+        
         if let Some((p, q)) = self.factor_semiprime(&n) {
             let observation = Observation::new(n, p, q);
             self.observations.push(observation.clone());
@@ -162,6 +170,16 @@ impl Collector {
     /// Factor a semiprime (product of exactly two primes)
     /// This method emerges from observing patterns in semiprimes
     pub fn factor_semiprime(&self, n: &Number) -> Option<(Number, Number)> {
+        // Edge cases
+        if n <= &Number::from(1u32) {
+            return None;
+        }
+        
+        // Quick primality check for small numbers to avoid expensive factorization
+        if n.bit_length() <= 32 && utils::is_probable_prime(n, 10) {
+            return None; // Prime, not a semiprime
+        }
+        
         // First check if n is even
         if n.is_even() {
             let half = n / &Number::from(2u32);
@@ -185,7 +203,8 @@ impl Collector {
         // This emerges from observing that semiprimes have factors near sqrt(n)
         let sqrt_n = utils::integer_sqrt(n).ok()?;
         let mut a = sqrt_n + 1u32;
-        let max_iterations = 1000000; // Prevent infinite loops
+        // Limit iterations based on number size to prevent hanging on primes
+        let max_iterations = if n.bit_length() > 40 { 10000 } else { 1000 };
 
         for _ in 0..max_iterations {
             let a_squared = &a * &a;

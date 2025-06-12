@@ -267,10 +267,16 @@ impl PatternNetwork {
 /// Network statistics
 #[derive(Debug)]
 pub struct NetworkStatistics {
+    /// Total number of nodes in the network
     pub node_count: usize,
+    /// Total number of edges in the network
     pub edge_count: usize,
+    /// Average degree of nodes
     pub avg_degree: f64,
+    /// Number of detected communities
     pub community_count: usize,
+    /// Number of positive correlation edges
     pub positive_edges: usize,
+    /// Number of negative correlation edges
     pub negative_edges: usize,
 }

@@ -52,9 +52,13 @@ struct CachedEntry<T> {
 /// Pattern cache statistics
 #[derive(Debug, Default, Clone)]
 pub struct CacheStats {
+    /// Number of cache hits
     pub hits: usize,
+    /// Number of cache misses
     pub misses: usize,
+    /// Number of cache evictions
     pub evictions: usize,
+    /// Total computation time saved by cache hits
     pub total_time_saved: Duration,
 }
 

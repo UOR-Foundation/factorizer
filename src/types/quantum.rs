@@ -215,10 +215,13 @@ pub struct DistributionAnalysis {
     /// The quantum region being analyzed
     pub region: QuantumRegion,
 
-    /// Statistical moments
+    /// Mean of the probability distribution
     pub mean: f64,
+    /// Variance of the probability distribution
     pub variance: f64,
+    /// Skewness of the probability distribution
     pub skewness: f64,
+    /// Kurtosis of the probability distribution
     pub kurtosis: f64,
 }
 

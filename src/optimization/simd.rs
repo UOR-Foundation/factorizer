@@ -20,6 +20,7 @@ pub const SIMD_WIDTH: usize = 2; // NEON: 128 bits / 64 bits = 2
     all(target_arch = "x86_64", target_feature = "avx2"),
     all(target_arch = "aarch64", target_feature = "neon")
 )))]
+/// Default vector size when SIMD is not available (scalar fallback)
 pub const SIMD_WIDTH: usize = 1; // No SIMD
 
 /// Batch modular reduction using SIMD
@@ -62,6 +63,7 @@ pub fn simd_batch_mod(values: &[u64], modulus: u64) -> Vec<u64> {
 }
 
 #[cfg(not(all(target_arch = "x86_64", target_feature = "avx2")))]
+/// Scalar fallback for batch modular reduction when SIMD is not available
 pub fn simd_batch_mod(values: &[u64], modulus: u64) -> Vec<u64> {
     // Fallback to scalar implementation
     values.iter().map(|&v| v % modulus).collect()
