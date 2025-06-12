@@ -14,6 +14,7 @@ pub mod formalization;
 pub mod large_scale;
 pub mod parallel;
 pub mod recognition;
+pub mod universal_pattern;
 pub mod verification;
 
 use crate::types::{Factors, Formalization, Number, Recognition};

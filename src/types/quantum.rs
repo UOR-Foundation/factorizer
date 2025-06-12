@@ -43,8 +43,18 @@ impl QuantumRegion {
 
     /// Initialize probability distribution based on quantum principles
     pub fn initialize_probability_distribution(&mut self) {
-        let radius_int = self.radius.as_integer().to_u64().unwrap_or(100) as usize;
-        let size = 2 * radius_int + 1;
+        // For very large radii, limit the distribution size to prevent overflow
+        let max_radius = 10000usize;
+        let radius_int = self.radius.as_integer().to_u64()
+            .unwrap_or(100)
+            .min(max_radius as u64) as usize;
+        
+        // Use checked arithmetic to prevent overflow
+        let size = match radius_int.checked_mul(2).and_then(|x| x.checked_add(1)) {
+            Some(s) if s <= 100_000 => s,  // Cap at 100k elements
+            _ => 100_001,  // Default size if too large
+        };
+        
         self.probability_distribution = vec![0.0; size];
 
         // Create Gaussian-like distribution with quantum fluctuations

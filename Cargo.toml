@@ -98,6 +98,18 @@ path = "examples/discover.rs"
 name = "visualize"
 path = "examples/visualize.rs"
 
+[[example]]
+name = "universal_pattern"
+path = "examples/universal_pattern.rs"
+
+[[example]]
+name = "test_universal_larger"
+path = "examples/test_universal_larger.rs"
+
+[[example]]
+name = "tune_universal_balanced"
+path = "examples/tune_universal_balanced.rs"
+
 [features]
 default = []
 # Enable additional visualization features

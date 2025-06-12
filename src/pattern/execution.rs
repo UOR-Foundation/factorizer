@@ -133,6 +133,18 @@ pub fn execute(formalization: Formalization, patterns: &[Pattern]) -> Result<Fac
         }
     }
 
+    // Try Universal Pattern as last resort before primality check
+    if let Ok(mut factors) = universal_pattern_decoding(&formalization) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
     // If no strategy worked, check if prime
     if utils::is_probable_prime(n, 25) {
         return Ok(Factors::new(
@@ -697,7 +709,9 @@ fn pattern_guided_decoding(formalization: &Formalization, patterns: &[Pattern]) 
                 let offset = (sqrt_n.to_f64().unwrap_or(1.0) * pattern.frequency) as u64;
 
                 for delta in 0..=100 {
-                    let candidate = &sqrt_n + &Number::from(offset + delta);
+                    // Use saturating add to prevent overflow
+                    let candidate_offset = offset.saturating_add(delta);
+                    let candidate = &sqrt_n + &Number::from(candidate_offset);
                     if n % &candidate == Number::from(0u32) {
                         let other = n / &candidate;
                         return Ok(Factors::new(candidate, other, "pattern_guided"));
@@ -832,4 +846,62 @@ fn generate_fibonacci_numbers(n: usize) -> Vec<Number> {
     }
 
     fibs
+}
+
+/// Decode using Universal Pattern approach
+fn universal_pattern_decoding(formalization: &Formalization) -> Result<Factors> {
+    use crate::pattern::universal_pattern::{UniversalPattern, UniversalRecognition};
+    
+    let n = &formalization.n;
+    let mut pattern = UniversalPattern::new();
+    
+    // Create UniversalRecognition from the formalization data
+    let universal_recognition = UniversalRecognition {
+        value: n.clone(),
+        phi_component: formalization.universal_encoding.get("phi_component")
+            .copied().unwrap_or(1.618033988749895),
+        pi_component: formalization.universal_encoding.get("pi_component")
+            .copied().unwrap_or(3.14159265358979),
+        e_component: formalization.universal_encoding.get("e_component")
+            .copied().unwrap_or(2.71828182845905),
+        unity_phase: formalization.universal_encoding.get("unity_coupling")
+            .copied().unwrap_or(0.0) * 2.0 * std::f64::consts::PI,
+        resonance_field: formalization.harmonic_series.iter()
+            .map(|&x| x)
+            .collect::<Vec<_>>()
+            .into(),
+    };
+    
+    // Formalize using universal pattern
+    match pattern.formalize(universal_recognition) {
+        Ok(universal_formalization) => {
+            // Execute to get factors
+            pattern.execute(universal_formalization)
+        },
+        Err(_) => {
+            // Fallback: try direct universal constant relationships
+            let sqrt_n = utils::integer_sqrt(n)?;
+            
+            // Golden ratio search
+            let phi = 1.618033988749895;
+            let candidates = vec![
+                (sqrt_n.to_f64().unwrap_or(1.0) * phi) as u64,
+                (sqrt_n.to_f64().unwrap_or(1.0) / phi) as u64,
+                (sqrt_n.to_f64().unwrap_or(1.0) * phi * phi) as u64,
+                (sqrt_n.to_f64().unwrap_or(1.0) / (phi * phi)) as u64,
+            ];
+            
+            for candidate_val in candidates {
+                let candidate = Number::from(candidate_val);
+                if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
+                    let other = n / &candidate;
+                    return Ok(Factors::new(candidate, other, "universal_pattern_direct"));
+                }
+            }
+            
+            Err(PatternError::ExecutionError(
+                "Universal pattern decoding did not yield factors".to_string(),
+            ))
+        }
+    }
 }
