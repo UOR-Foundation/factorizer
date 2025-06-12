@@ -3,8 +3,8 @@
 use rust_pattern_solver::{
     emergence::discover_all_patterns,
     observer::ObservationCollector,
-    pattern::{execution, formalization, recognition},
-    types::{Number, Pattern},
+    pattern::{execution, formalization, recognition, Pattern},
+    types::Number,
 };
 use std::time::Instant;
 

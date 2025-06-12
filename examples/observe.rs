@@ -65,11 +65,12 @@ fn main() -> rust_pattern_solver::Result<()> {
 
     // Example 3: Filtered observation
     println!("\nFiltered observation (16-bit balanced semiprimes):");
-    let filter = ObservationFilter {
-        min_bits: Some(14),
-        max_bits: Some(18),
-        pattern_type: Some(rust_pattern_solver::types::observation::PatternClass::Balanced),
-        max_balance_ratio: Some(1.2),
+    let _filter = ObservationFilter {
+        min_size: Some(14),
+        max_size: Some(18),
+        pattern_type: Some(rust_pattern_solver::types::PatternKind::TypeSpecific(
+            "balanced".to_string(),
+        )),
     };
 
     // Generate test semiprimes in range
@@ -83,17 +84,26 @@ fn main() -> rust_pattern_solver::Result<()> {
         }
     }
 
-    match collector.observe_filtered(&filtered_cases, &filter) {
-        Ok(filtered_obs) => {
-            println!("Found {} matching observations:", filtered_obs.len());
-            for obs in filtered_obs.iter().take(3) {
-                println!(
-                    "  {} = {} × {} (balance: {:.3})",
-                    obs.n, obs.p, obs.q, obs.scale.balance_ratio
-                );
-            }
-        },
-        Err(e) => println!("Failed to observe: {}", e),
+    // Observe each case and filter manually
+    let mut filtered_obs = Vec::new();
+    for n in filtered_cases {
+        match collector.observe_single(n) {
+            Ok(obs) => {
+                // Check if it matches our filter criteria
+                if obs.scale.bit_length >= 14 && obs.scale.bit_length <= 18 {
+                    filtered_obs.push(obs);
+                }
+            },
+            Err(_) => continue,
+        }
+    }
+
+    println!("Found {} matching observations:", filtered_obs.len());
+    for obs in filtered_obs.iter().take(3) {
+        println!(
+            "  {} = {} × {} (balance: {:.3})",
+            obs.n, obs.p, obs.q, obs.scale.balance_ratio
+        );
     }
 
     // Example 4: Large number observation
@@ -119,8 +129,14 @@ fn main() -> rust_pattern_solver::Result<()> {
 
     // Save observations
     println!("\nSaving observations to data/observations.json");
-    if let Err(e) = collector.save_to_file("data/observations.json") {
-        println!("Failed to save: {}", e);
+    match collector.save_to_file("data/observations.json") {
+        Ok(_) => {
+            println!(
+                "Observations saved successfully! Total: {}",
+                collector.observations().len()
+            );
+        },
+        Err(e) => println!("Failed to save: {}", e),
     }
 
     Ok(())

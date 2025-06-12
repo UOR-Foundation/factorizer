@@ -5,7 +5,7 @@
 use rug::Integer;
 use serde::{Deserialize, Serialize};
 use std::fmt;
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, Rem, Sub};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, Rem, Shl, Shr, Sub};
 use std::str::FromStr;
 
 /// Arbitrary precision integer for pattern observation
@@ -99,6 +99,16 @@ impl Number {
     pub fn set_bit(&mut self, bit_index: u32, value: bool) {
         self.0.set_bit(bit_index, value);
     }
+
+    /// Check if the number is a power of two
+    pub fn is_power_of_two(&self) -> bool {
+        if self.0 <= 0 {
+            return false;
+        }
+        // A power of two has only one bit set
+        // Count the number of set bits
+        self.0.count_ones() == Some(1)
+    }
 }
 
 // Arithmetic operations
@@ -181,6 +191,56 @@ impl Rem<&Number> for Number {
     type Output = Number;
     fn rem(self, other: &Number) -> Number {
         Number(Integer::from(self.0 % &other.0))
+    }
+}
+
+impl Mul<Number> for Number {
+    type Output = Number;
+    fn mul(self, other: Number) -> Number {
+        Number(Integer::from(self.0 * other.0))
+    }
+}
+
+impl Mul<&Number> for Number {
+    type Output = Number;
+    fn mul(self, other: &Number) -> Number {
+        Number(Integer::from(self.0 * &other.0))
+    }
+}
+
+impl Mul<Number> for &Number {
+    type Output = Number;
+    fn mul(self, other: Number) -> Number {
+        Number(Integer::from(&self.0 * other.0))
+    }
+}
+
+// Shift operations
+impl Shl<u32> for &Number {
+    type Output = Number;
+    fn shl(self, shift: u32) -> Number {
+        Number(Integer::from(&self.0 << shift))
+    }
+}
+
+impl Shl<u32> for Number {
+    type Output = Number;
+    fn shl(self, shift: u32) -> Number {
+        Number(Integer::from(self.0 << shift))
+    }
+}
+
+impl Shr<u32> for &Number {
+    type Output = Number;
+    fn shr(self, shift: u32) -> Number {
+        Number(Integer::from(&self.0 >> shift))
+    }
+}
+
+impl Shr<u32> for Number {
+    type Output = Number;
+    fn shr(self, shift: u32) -> Number {
+        Number(Integer::from(self.0 >> shift))
     }
 }
 

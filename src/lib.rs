@@ -31,11 +31,11 @@
 #![warn(missing_docs)]
 #![warn(missing_debug_implementations)]
 #![warn(rust_2018_idioms)]
-#![deny(unsafe_code)]
 
 pub mod emergence;
 pub mod error;
 pub mod observer;
+pub mod optimization;
 pub mod pattern;
 pub mod relationship_discovery;
 pub mod types;

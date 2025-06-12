@@ -2,7 +2,7 @@
 
 use clap::{Parser, Subcommand};
 use log::info;
-use rust_pattern_solver::{Observer, Pattern, Result};
+use rust_pattern_solver::{observer::ObservationCollector, types::Number, Result};
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -23,6 +23,9 @@ struct Cli {
 enum Commands {
     /// Observe patterns in factorizations
     Observe {
+        /// Number to observe (if not provided, observes a range)
+        number: Option<String>,
+
         /// Range start for observation
         #[arg(long, default_value = "1")]
         start: u64,
@@ -100,22 +103,51 @@ fn main() -> Result<()> {
 
     match cli.command {
         Commands::Observe {
+            number,
             start,
             end,
             output,
             threads,
         } => {
-            info!("Observing patterns from {} to {}", start, end);
-
-            let observer = Observer::new();
             if let Some(t) = threads {
                 rayon::ThreadPoolBuilder::new().num_threads(t).build_global().unwrap();
             }
 
-            let observations = observer.observe_range(start..end);
+            let mut collector = ObservationCollector::new();
+
+            let observations = if let Some(num_str) = number {
+                // Observe a single number
+                info!("Observing pattern for {}", num_str);
+                let n = num_str.parse::<Number>().map_err(|_| {
+                    rust_pattern_solver::error::PatternError::InvalidInput(
+                        "Invalid number format".to_string(),
+                    )
+                })?;
+
+                match collector.observe_single(n.clone()) {
+                    Ok(obs) => {
+                        println!("Number: {}", obs.n);
+                        println!("Factors: {} × {}", obs.p, obs.q);
+                        println!("Pattern type: {:?}", obs.scale.pattern_type);
+                        vec![obs]
+                    },
+                    Err(e) => {
+                        eprintln!("Failed to factor {}: {}", num_str, e);
+                        return Err(e);
+                    },
+                }
+            } else {
+                // Observe a range
+                info!("Observing patterns from {} to {}", start, end);
+                collector.collect_range(start..end)
+            };
 
             if let Some(output_path) = output {
                 info!("Writing observations to {:?}", output_path);
+                // Ensure directory exists
+                if let Some(parent) = output_path.parent() {
+                    std::fs::create_dir_all(parent)?;
+                }
                 std::fs::write(output_path, serde_json::to_string_pretty(&observations)?)?;
             } else {
                 println!("Collected {} observations", observations.len());
@@ -129,21 +161,38 @@ fn main() -> Result<()> {
         } => {
             info!("Recognizing factors of {}", number);
 
-            let n = number.parse::<rust_pattern_solver::Number>().map_err(|_| {
-                rust_pattern_solver::PatternError::InvalidInput("Invalid number format".to_string())
+            let n = number.parse::<Number>().map_err(|_| {
+                rust_pattern_solver::error::PatternError::InvalidInput(
+                    "Invalid number format".to_string(),
+                )
             })?;
 
-            let pattern_data = std::fs::read_to_string(pattern)?;
-            let pattern = Pattern::from_json(&pattern_data)?;
+            // Load patterns from file
+            let pattern_data = std::fs::read_to_string(&pattern)?;
+            let patterns: Vec<rust_pattern_solver::types::Pattern> =
+                serde_json::from_str(&pattern_data)?;
 
-            let recognition = pattern.recognize(&n)?;
+            if patterns.is_empty() {
+                return Err(rust_pattern_solver::error::PatternError::PatternNotFound(
+                    "No patterns found in file".to_string(),
+                ));
+            }
+
+            // Use pattern recognition pipeline
+            let recognition =
+                rust_pattern_solver::pattern::recognition::recognize(n.clone(), &patterns)?;
 
             if detailed {
                 println!("Recognition: {:#?}", recognition);
             }
 
-            let formalization = pattern.formalize(recognition)?;
-            let factors = pattern.execute(formalization)?;
+            let formalization = rust_pattern_solver::pattern::formalization::formalize(
+                recognition,
+                &patterns,
+                &[],
+            )?;
+            let factors =
+                rust_pattern_solver::pattern::execution::execute(formalization, &patterns)?;
 
             println!(
                 "Factors: {} × {} = {}",
@@ -157,10 +206,11 @@ fn main() -> Result<()> {
             info!("Discovering patterns from {:?}", input);
 
             let observations_data = std::fs::read_to_string(input)?;
-            let observations: Vec<rust_pattern_solver::Observation> =
+            let observations: Vec<rust_pattern_solver::types::Observation> =
                 serde_json::from_str(&observations_data)?;
 
-            let patterns = rust_pattern_solver::observer::Analyzer::find_patterns(&observations)?;
+            let patterns =
+                rust_pattern_solver::pattern::Pattern::discover_from_observations(&observations)?;
 
             if let Some(output_path) = output {
                 info!("Writing patterns to {:?}", output_path);
@@ -168,7 +218,7 @@ fn main() -> Result<()> {
             } else {
                 println!("Discovered {} patterns", patterns.len());
                 for pattern in patterns {
-                    println!("  - {}", pattern.describe());
+                    println!("  - {}: {}", pattern.id, pattern.description);
                 }
             }
         },
@@ -185,12 +235,57 @@ fn main() -> Result<()> {
 
             println!("Analyzing {}-{} bit numbers", bit_range.0, bit_range.1);
 
-            if let Some(pattern_name) = pattern {
+            if let Some(ref pattern_name) = pattern {
                 println!("Focusing on pattern: {}", pattern_name);
             }
 
-            // TODO: Implement scale analysis
-            println!("Scale analysis not yet implemented");
+            // Create observations for the scale
+            let mut collector = ObservationCollector::new();
+            let mut test_numbers = Vec::new();
+
+            // Generate sample numbers for the scale
+            let count = 100;
+            for _ in 0..count {
+                let p = rust_pattern_solver::utils::generate_random_prime(bit_range.0 / 2)?;
+                let q = rust_pattern_solver::utils::generate_random_prime(bit_range.0 / 2)?;
+                test_numbers.push(&p * &q);
+            }
+
+            println!(
+                "Collecting observations for {} numbers...",
+                test_numbers.len()
+            );
+            let observations = collector.observe_parallel(&test_numbers)?;
+
+            // Discover patterns at this scale
+            let patterns =
+                rust_pattern_solver::pattern::Pattern::discover_from_observations(&observations)?;
+
+            println!("\nPatterns at {:?} scale:", scale);
+            if let Some(pattern_filter) = pattern {
+                // Filter to specific pattern
+                let filtered: Vec<_> =
+                    patterns.into_iter().filter(|p| p.id.contains(&pattern_filter)).collect();
+
+                if filtered.is_empty() {
+                    println!("Pattern '{}' not found at this scale", pattern_filter);
+                } else {
+                    for p in filtered {
+                        println!("  {}: {}", p.id, p.description);
+                        println!("    Frequency: {:.1}%", p.frequency * 100.0);
+                    }
+                }
+            } else {
+                // Show all patterns
+                println!("Found {} patterns:", patterns.len());
+                for p in patterns.iter().take(10) {
+                    println!("  {}: {}", p.id, p.description);
+                    println!("    Frequency: {:.1}%", p.frequency * 100.0);
+                }
+                if patterns.len() > 10 {
+                    println!("  ... and {} more", patterns.len() - 10);
+                }
+            }
         },
     }
 

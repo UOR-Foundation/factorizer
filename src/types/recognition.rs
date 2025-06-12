@@ -68,6 +68,10 @@ pub struct Formalization {
 
     /// Decoding strategies to try
     pub strategies: Vec<DecodingStrategy>,
+
+    /// Pattern constraints (stored as JSON)
+    #[serde(skip_serializing_if = "Option::is_none")]
+    constraints: Option<serde_json::Value>,
 }
 
 /// Pattern matrix wrapper for serialization
@@ -95,7 +99,7 @@ impl PatternMatrix {
 }
 
 /// Strategies for decoding factors
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Hash)]
 pub enum DecodingStrategy {
     /// Use resonance peaks
     ResonancePeaks,
@@ -177,5 +181,41 @@ impl Recognition {
     /// Add metadata
     pub fn add_metadata(&mut self, key: impl Into<String>, value: serde_json::Value) {
         self.metadata.insert(key.into(), value);
+    }
+}
+
+impl Formalization {
+    /// Create a new formalization
+    pub fn new(
+        n: Number,
+        universal_encoding: HashMap<String, f64>,
+        resonance_peaks: Vec<usize>,
+        harmonic_series: Vec<f64>,
+        pattern_matrix: PatternMatrix,
+        strategies: Vec<DecodingStrategy>,
+    ) -> Self {
+        Formalization {
+            n,
+            universal_encoding,
+            resonance_peaks,
+            harmonic_series,
+            pattern_matrix,
+            strategies,
+            constraints: None,
+        }
+    }
+
+    /// Add constraints to the formalization
+    pub fn add_constraints(
+        &mut self,
+        constraints: Vec<crate::pattern::expression::PatternConstraint>,
+    ) {
+        self.constraints =
+            Some(serde_json::to_value(constraints).unwrap_or(serde_json::Value::Null));
+    }
+
+    /// Get constraints from the formalization
+    pub fn get_constraints(&self) -> Option<Vec<crate::pattern::expression::PatternConstraint>> {
+        self.constraints.as_ref().and_then(|v| serde_json::from_value(v.clone()).ok())
     }
 }

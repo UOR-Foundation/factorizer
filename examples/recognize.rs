@@ -4,8 +4,8 @@
 //! and identifying quantum neighborhoods where factors exist.
 
 use rust_pattern_solver::observer::ObservationCollector;
-use rust_pattern_solver::pattern::{execution, formalization, recognition};
-use rust_pattern_solver::types::{Number, Pattern};
+use rust_pattern_solver::pattern::{execution, formalization, recognition, Pattern};
+use rust_pattern_solver::types::Number;
 
 fn main() -> rust_pattern_solver::Result<()> {
     println!("=== The Pattern: Recognition Stage ===\n");
@@ -119,7 +119,7 @@ fn main() -> rust_pattern_solver::Result<()> {
     let batch_size = 100;
     let mut batch = Vec::new();
 
-    for i in 0..batch_size {
+    for _ in 0..batch_size {
         let p = rust_pattern_solver::utils::generate_random_prime(8)?;
         let q = rust_pattern_solver::utils::generate_random_prime(8)?;
         batch.push(&p * &q);

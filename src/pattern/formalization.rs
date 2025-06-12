@@ -2,6 +2,9 @@
 //!
 //! This module translates pattern recognition into mathematical structures.
 
+use crate::pattern::expression::{
+    create_pattern_constraints, pattern_to_expression, Expression, PatternConstraint,
+};
 use crate::types::recognition::{
     DecodingStrategy, Formalization, PatternMatrix, PatternType, Recognition,
 };
@@ -30,17 +33,26 @@ pub fn formalize(
     // Build pattern matrix
     let pattern_matrix = build_pattern_matrix(&recognition, patterns)?;
 
-    // Select decoding strategies based on pattern type
-    let strategies = select_strategies(recognition.pattern_type);
+    // Generate mathematical constraints
+    let constraints = generate_constraints(&recognition, patterns)?;
 
-    Ok(Formalization {
+    // Select and rank strategies
+    let strategies = select_and_rank_strategies(&recognition, &constraints)?;
+
+    // Create formalization with constraints
+    let mut formalization = Formalization::new(
         n,
         universal_encoding,
         resonance_peaks,
         harmonic_series,
         pattern_matrix,
         strategies,
-    })
+    );
+
+    // Store constraints
+    formalization.add_constraints(constraints);
+
+    Ok(formalization)
 }
 
 /// Build universal encoding from recognition
@@ -238,4 +250,110 @@ fn select_strategies(pattern_type: PatternType) -> Vec<DecodingStrategy> {
             DecodingStrategy::ModularPatterns,
         ],
     }
+}
+
+/// Generate mathematical constraints from recognition
+fn generate_constraints(
+    recognition: &Recognition,
+    patterns: &[Pattern],
+) -> Result<Vec<PatternConstraint>> {
+    let mut all_constraints = Vec::new();
+
+    // Find matching patterns
+    for pattern in patterns {
+        if pattern.applies_to(&recognition.signature.value) {
+            // Convert pattern to expression
+            let expr = pattern_to_expression(pattern);
+
+            // Create pattern-specific constraints
+            let constraints = create_pattern_constraints(pattern, &[]);
+            all_constraints.extend(constraints);
+
+            // Add expression-based constraint
+            all_constraints.push(PatternConstraint {
+                id: format!("pattern_{}_expr", pattern.id),
+                lhs: expr.clone(),
+                relation: crate::pattern::expression::ConstraintRelation::Equal,
+                rhs: Expression::var("n"),
+                confidence: pattern.frequency,
+            });
+        }
+    }
+
+    // Add recognition-based constraints
+    if let Some(quantum_region) = &recognition.quantum_neighborhood {
+        // Quantum neighborhood constraint
+        let (lower, upper) = quantum_region.bounds();
+        all_constraints.push(PatternConstraint {
+            id: "quantum_bounds".to_string(),
+            lhs: Expression::var("p"),
+            relation: crate::pattern::expression::ConstraintRelation::GreaterEqual,
+            rhs: Expression::Constant(lower.to_f64().unwrap_or(1.0)),
+            confidence: quantum_region.confidence,
+        });
+        all_constraints.push(PatternConstraint {
+            id: "quantum_bounds_upper".to_string(),
+            lhs: Expression::var("p"),
+            relation: crate::pattern::expression::ConstraintRelation::LessEqual,
+            rhs: Expression::Constant(upper.to_f64().unwrap_or(1e9)),
+            confidence: quantum_region.confidence,
+        });
+    }
+
+    Ok(all_constraints)
+}
+
+/// Select and rank strategies based on constraints
+fn select_and_rank_strategies(
+    recognition: &Recognition,
+    constraints: &[PatternConstraint],
+) -> Result<Vec<DecodingStrategy>> {
+    let mut strategies = select_strategies(recognition.pattern_type);
+
+    // Rank strategies based on constraint confidence
+    let mut strategy_scores: HashMap<DecodingStrategy, f64> = HashMap::new();
+
+    for strategy in &strategies {
+        let mut score = match strategy {
+            DecodingStrategy::ResonancePeaks => 0.8,
+            DecodingStrategy::Eigenvalues => 0.7,
+            DecodingStrategy::HarmonicIntersection => 0.6,
+            DecodingStrategy::ModularPatterns => 0.5,
+            DecodingStrategy::PhaseRelationships => 0.4,
+            DecodingStrategy::QuantumMaterialization => 0.9,
+        };
+
+        // Adjust score based on constraints
+        for constraint in constraints {
+            if constraint.confidence > 0.8 {
+                score *= 1.1;
+            }
+        }
+
+        // Adjust based on recognition confidence
+        score *= recognition.confidence;
+
+        strategy_scores.insert(strategy.clone(), score);
+    }
+
+    // Sort strategies by score
+    strategies.sort_by(|a, b| {
+        strategy_scores
+            .get(b)
+            .unwrap_or(&0.0)
+            .partial_cmp(strategy_scores.get(a).unwrap_or(&0.0))
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    // Add fallback strategies if needed
+    if strategies.len() < 3 {
+        if !strategies.contains(&DecodingStrategy::ModularPatterns) {
+            strategies.push(DecodingStrategy::ModularPatterns);
+        }
+        if !strategies.contains(&DecodingStrategy::ResonancePeaks) {
+            strategies.push(DecodingStrategy::ResonancePeaks);
+        }
+    }
+
+    Ok(strategies)
 }

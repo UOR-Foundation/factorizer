@@ -3,6 +3,7 @@
 use rust_pattern_solver::observer::ObservationCollector;
 use rust_pattern_solver::types::Number;
 use rust_pattern_solver::utils;
+use std::str::FromStr;
 
 #[test]
 fn test_large_number_arithmetic() {
@@ -115,9 +116,9 @@ fn test_conversion_precision() {
     // Converting back to string should give same result
     assert_eq!(n.to_string(), large_str);
 
-    // Test from_bytes
-    let bytes = n.to_bytes();
-    let n2 = Number::from_bytes(&bytes);
+    // Test serialization instead of bytes
+    let json = serde_json::to_string(&n).unwrap();
+    let n2: Number = serde_json::from_str(&json).unwrap();
     assert_eq!(n, n2);
 }
 
@@ -133,7 +134,7 @@ fn test_modular_arithmetic_precision() {
 
     // Verify n = quotient * m + remainder
     let quotient = &n / &m;
-    let reconstructed = &quotient * &m + &remainder;
+    let reconstructed = &(&quotient * &m) + &remainder;
     assert_eq!(reconstructed, n);
 }
 

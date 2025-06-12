@@ -103,4 +103,117 @@ impl PatternSignature {
 
         features
     }
+
+    /// Extract multi-dimensional signature components
+    pub fn extract_multidimensional(&self) -> HashMap<String, Vec<f64>> {
+        let mut dimensions = HashMap::new();
+
+        // Dimension 1: Modular patterns across different bases
+        let mut mod_patterns = Vec::new();
+        for base in &[2, 3, 5, 7, 11, 13, 17, 19, 23, 29] {
+            let pattern = self
+                .modular_dna
+                .iter()
+                .enumerate()
+                .filter(|(i, _)| i % base == 0)
+                .map(|(_, &v)| v as f64)
+                .collect::<Vec<_>>();
+            mod_patterns.extend(pattern);
+        }
+        dimensions.insert("modular_patterns".to_string(), mod_patterns);
+
+        // Dimension 2: Phase relationships
+        let phases = extract_phase_relationships(&self.resonance);
+        dimensions.insert("phase_relationships".to_string(), phases);
+
+        // Dimension 3: Harmonic decomposition
+        let harmonics = extract_harmonic_series(&self.resonance);
+        dimensions.insert("harmonic_series".to_string(), harmonics);
+
+        // Dimension 4: Statistical moments
+        let moments = calculate_statistical_moments(&self.resonance);
+        dimensions.insert("statistical_moments".to_string(), moments);
+
+        dimensions
+    }
+}
+
+/// Extract phase relationships from resonance field
+fn extract_phase_relationships(resonance: &[f64]) -> Vec<f64> {
+    let mut phases = Vec::new();
+
+    // Use Hilbert transform approximation for phase extraction
+    for i in 1..resonance.len() {
+        let phase = (resonance[i] - resonance[i - 1]).atan2(resonance[i]);
+        phases.push(phase);
+    }
+
+    // Normalize phases to [0, 2π]
+    phases.iter_mut().for_each(|p| {
+        while *p < 0.0 {
+            *p += 2.0 * std::f64::consts::PI;
+        }
+        while *p > 2.0 * std::f64::consts::PI {
+            *p -= 2.0 * std::f64::consts::PI;
+        }
+    });
+
+    phases
+}
+
+/// Extract harmonic series from resonance data
+fn extract_harmonic_series(resonance: &[f64]) -> Vec<f64> {
+    let mut harmonics = Vec::new();
+    let n = resonance.len();
+
+    // Simple DFT for harmonic extraction
+    for k in 0..n.min(20) {
+        // First 20 harmonics
+        let mut real = 0.0;
+        let mut imag = 0.0;
+
+        for (i, &val) in resonance.iter().enumerate() {
+            let angle = -2.0 * std::f64::consts::PI * k as f64 * i as f64 / n as f64;
+            real += val * angle.cos();
+            imag += val * angle.sin();
+        }
+
+        let magnitude = (real * real + imag * imag).sqrt() / n as f64;
+        harmonics.push(magnitude);
+    }
+
+    harmonics
+}
+
+/// Calculate statistical moments of the resonance field
+fn calculate_statistical_moments(resonance: &[f64]) -> Vec<f64> {
+    if resonance.is_empty() {
+        return vec![0.0; 4];
+    }
+
+    let n = resonance.len() as f64;
+
+    // Mean
+    let mean = resonance.iter().sum::<f64>() / n;
+
+    // Variance
+    let variance = resonance.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / n;
+
+    let std_dev = variance.sqrt();
+
+    // Skewness
+    let skewness = if std_dev > 0.0 {
+        resonance.iter().map(|x| ((x - mean) / std_dev).powi(3)).sum::<f64>() / n
+    } else {
+        0.0
+    };
+
+    // Kurtosis
+    let kurtosis = if std_dev > 0.0 {
+        resonance.iter().map(|x| ((x - mean) / std_dev).powi(4)).sum::<f64>() / n - 3.0
+    } else {
+        0.0
+    };
+
+    vec![mean, variance, skewness, kurtosis]
 }

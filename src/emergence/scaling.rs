@@ -2,13 +2,14 @@
 //!
 //! This module discovers how patterns behave at different scales.
 
-use crate::types::{Observation, Pattern, PatternKind};
 use crate::types::pattern::ScaleRange;
+use crate::types::{Observation, Pattern, PatternKind};
 use crate::Result;
-use statrs::statistics::{Data, OrderStatistics, Distribution, Max};
+use statrs::statistics::{Data, Distribution, Max, OrderStatistics};
 use std::collections::HashMap;
 
 /// Analysis of pattern scaling behavior
+#[derive(Debug)]
 pub struct ScalingAnalysis;
 
 impl ScalingAnalysis {
@@ -208,7 +209,7 @@ impl ScalingAnalysis {
                 .collect();
 
             if !gaps.is_empty() {
-                let mut data = Data::new(gaps);
+                let data = Data::new(gaps);
                 let mean_gap = data.mean().unwrap_or(0.0);
                 let max_gap = data.max();
 

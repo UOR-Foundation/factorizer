@@ -47,6 +47,38 @@ pub enum PatternKind {
 
     /// Universal pattern (appears across all scales and types)
     Universal,
+
+    /// Harmonic pattern (frequency relationships)
+    Harmonic {
+        /// Base frequency
+        base_frequency: f64,
+        /// Harmonic series coefficients
+        harmonics: Vec<f64>,
+    },
+
+    /// Power pattern (powers of primes)
+    Power {
+        /// Base prime
+        base: u64,
+        /// Exponent
+        exponent: u32,
+    },
+
+    /// Fibonacci-related pattern
+    Fibonacci {
+        /// Index in Fibonacci sequence
+        index: usize,
+        /// Relationship type
+        relationship: String,
+    },
+
+    /// Mersenne pattern (2^p - 1)
+    Mersenne {
+        /// Prime exponent
+        p: u32,
+        /// Whether it's a Mersenne prime
+        is_prime: bool,
+    },
 }
 
 /// Scale range where pattern appears

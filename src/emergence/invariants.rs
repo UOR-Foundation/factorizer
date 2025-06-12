@@ -2,11 +2,12 @@
 //!
 //! This module discovers relationships that hold true across all observations.
 
-use crate::types::{Observation, Pattern, PatternKind};
 use crate::types::pattern::ScaleRange;
+use crate::types::{Observation, Pattern, PatternKind};
 use crate::Result;
 
 /// Discovery of invariant relationships
+#[derive(Debug)]
 pub struct InvariantDiscovery;
 
 impl InvariantDiscovery {

@@ -4,8 +4,8 @@
 //! resonance fields, and quantum neighborhoods.
 
 use rust_pattern_solver::observer::ObservationCollector;
-use rust_pattern_solver::pattern::recognition;
-use rust_pattern_solver::types::{Number, Pattern};
+use rust_pattern_solver::pattern::{recognition, Pattern};
+use rust_pattern_solver::types::Number;
 
 fn main() -> rust_pattern_solver::Result<()> {
     println!("=== The Pattern: Visualization ===\n");
@@ -59,7 +59,11 @@ fn main() -> rust_pattern_solver::Result<()> {
 
                 // Visualize quantum neighborhood
                 println!("\n⚛️  Quantum Neighborhood:");
-                visualize_quantum_neighborhood(&recognition.quantum_neighborhood);
+                if let Some(ref quantum_region) = recognition.quantum_neighborhood {
+                    visualize_quantum_region(quantum_region);
+                } else {
+                    println!("   (not identified)");
+                }
 
                 // Show pattern DNA
                 println!("\n🧬 Pattern DNA:");
@@ -182,21 +186,19 @@ fn visualize_resonance_field(resonance: &[f64]) {
     );
 }
 
-fn visualize_quantum_neighborhood(bounds: &[(f64, f64)]) {
-    println!("   Dimensional bounds:");
-    for (i, &(lower, upper)) in bounds.iter().take(5).enumerate() {
-        let width = upper - lower;
-        println!(
-            "   Dim {}: [{:.4}, {:.4}] (width: {:.4})",
-            i + 1,
-            lower,
-            upper,
-            width
-        );
-    }
+fn visualize_quantum_region(region: &rust_pattern_solver::types::QuantumRegion) {
+    println!("   Center: {}", region.center);
+    println!("   Radius: {}", region.radius);
+    println!("   Peak offset: {}", region.peak_offset);
+    println!("   Confidence: {:.2}%", region.confidence * 100.0);
 
-    if bounds.len() > 5 {
-        println!("   ... and {} more dimensions", bounds.len() - 5);
+    if !region.probability_distribution.is_empty() {
+        println!(
+            "   Probability distribution: {} points",
+            region.probability_distribution.len()
+        );
+        let max_prob = region.probability_distribution.iter().fold(0.0f64, |a, &b| a.max(b));
+        println!("   Peak probability: {:.4}", max_prob);
     }
 }
 

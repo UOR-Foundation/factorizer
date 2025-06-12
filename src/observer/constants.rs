@@ -6,6 +6,7 @@ use crate::types::{Observation, Pattern, UniversalConstant};
 use std::collections::HashMap;
 
 /// Constant discovery from patterns
+#[derive(Debug)]
 pub struct ConstantDiscovery;
 
 impl ConstantDiscovery {
@@ -20,7 +21,7 @@ impl ConstantDiscovery {
                 if value.abs() > 0.001 && value.is_finite() {
                     // Round to identify similar values
                     let rounded = (value * 1000000.0).round() / 1000000.0;
-                    let key = format!("{:.6}", rounded);
+                    let key = format!("{:.6}_param{}", rounded, i);
 
                     let entry = ratio_counts.entry(key).or_insert((rounded, 0));
                     entry.1 += 1;

@@ -7,6 +7,7 @@ use statrs::statistics::{Data, Distribution};
 use std::collections::HashMap;
 
 /// Analyze correlations between patterns
+#[derive(Debug)]
 pub struct CorrelationAnalysis;
 
 impl CorrelationAnalysis {

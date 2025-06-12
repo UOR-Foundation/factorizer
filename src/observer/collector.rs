@@ -6,6 +6,7 @@ use crate::types::{Number, Observation};
 use crate::utils;
 use indicatif::{ProgressBar, ProgressStyle};
 use rayon::prelude::*;
+use serde_json;
 use std::sync::Mutex;
 
 /// Collector for empirical observations
@@ -16,6 +17,9 @@ pub struct Collector {
 
     /// Detail level for observations
     detail_level: DetailLevel,
+
+    /// Collected observations
+    observations: Vec<Observation>,
 }
 
 /// Level of detail for observations
@@ -37,30 +41,21 @@ impl Collector {
         Collector {
             show_progress: true,
             detail_level: DetailLevel::Standard,
+            observations: Vec::new(),
         }
     }
 
     /// Observe a single number
     pub fn observe_single(&mut self, n: Number) -> crate::Result<Observation> {
         if let Some((p, q)) = self.factor_semiprime(&n) {
-            Ok(Observation::new(n, p, q))
+            let observation = Observation::new(n, p, q);
+            self.observations.push(observation.clone());
+            Ok(observation)
         } else {
             Err(crate::error::PatternError::FactorizationFailed(format!(
                 "Could not factor {}",
                 n
             )))
-        }
-    }
-
-    /// Observe multiple numbers in parallel
-    pub fn observe_parallel(&mut self, numbers: &[Number]) -> crate::Result<Vec<Observation>> {
-        let observations = self.collect_numbers(numbers);
-        if observations.is_empty() {
-            Err(crate::error::PatternError::FactorizationFailed(
-                "No numbers could be factored".to_string(),
-            ))
-        } else {
-            Ok(observations)
         }
     }
 
@@ -271,14 +266,8 @@ impl Collector {
                 }
             } else {
                 // One of the factors is composite, recurse
-                if let Some((p1, q1)) = self.factor_semiprime(&d) {
-                    let result_p1 = p1.clone();
-                    return Some((p1, n / &result_p1));
-                }
-                if let Some((p2, q2)) = self.factor_semiprime(&other_factor) {
-                    let result_p2 = p2.clone();
-                    return Some((p2, n / &result_p2));
-                }
+                // Note: This is for semiprimes only, so if one factor is composite,
+                // the number is not a semiprime
                 None
             }
         }
@@ -303,6 +292,47 @@ impl Collector {
         }
 
         true
+    }
+
+    /// Observe multiple numbers in parallel
+    pub fn observe_parallel(&mut self, numbers: &[Number]) -> crate::Result<Vec<Observation>> {
+        // Use collect_numbers which already handles parallel processing
+        let results = self.collect_numbers(numbers);
+
+        // Add to our stored observations
+        self.observations.extend(results.clone());
+
+        if results.is_empty() {
+            Err(crate::error::PatternError::FactorizationFailed(
+                "No numbers could be factored".to_string(),
+            ))
+        } else {
+            Ok(results)
+        }
+    }
+
+    /// Get all collected observations
+    pub fn observations(&self) -> &[Observation] {
+        &self.observations
+    }
+
+    /// Save observations to a file
+    pub fn save_to_file(&self, path: &str) -> crate::Result<()> {
+        use std::fs;
+        use std::path::Path;
+
+        // Create directory if it doesn't exist
+        if let Some(parent) = Path::new(path).parent() {
+            fs::create_dir_all(parent)?;
+        }
+
+        // Serialize observations
+        let json = serde_json::to_string_pretty(&self.observations)?;
+
+        // Write to file
+        fs::write(path, json)?;
+
+        Ok(())
     }
 }
 

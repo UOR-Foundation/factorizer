@@ -5,9 +5,16 @@
 //! 2. Formalization - Express in mathematical language
 //! 3. Execution - Decode factors from pattern
 
+pub mod advanced;
+pub mod cache;
 pub mod execution;
+pub mod execution_enhanced;
+pub mod expression;
 pub mod formalization;
+pub mod large_scale;
+pub mod parallel;
 pub mod recognition;
+pub mod verification;
 
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;

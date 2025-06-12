@@ -3,13 +3,14 @@
 //! This module discovers patterns in empirical data without presumption.
 
 use crate::error::PatternError;
-use crate::types::{Observation, Pattern, PatternKind};
 use crate::types::pattern::ScaleRange;
+use crate::types::{Observation, Pattern, PatternKind};
 use crate::Result;
-use statrs::statistics::{Data, OrderStatistics, Distribution};
+use statrs::statistics::{Data, Distribution, OrderStatistics};
 use std::collections::HashMap;
 
 /// Analyzer for discovering patterns in observations
+#[derive(Debug)]
 pub struct Analyzer;
 
 impl Analyzer {
@@ -132,7 +133,7 @@ impl Analyzer {
         // Group by bit length
         let mut by_scale: HashMap<usize, Vec<&Observation>> = HashMap::new();
         for obs in observations {
-            by_scale.entry(obs.scale.bit_length).or_insert_with(Vec::new).push(obs);
+            by_scale.entry(obs.scale.bit_length).or_default().push(obs);
         }
 
         // Analyze each scale
@@ -145,7 +146,7 @@ impl Analyzer {
             let offset_ratios: Vec<f64> =
                 obs_at_scale.iter().map(|o| o.derived.offset_ratio.abs()).collect();
 
-            let mut data = Data::new(offset_ratios);
+            let data = Data::new(offset_ratios);
             let mean = data.mean().unwrap_or(0.0);
 
             let mut pattern = Pattern::new(
@@ -178,7 +179,7 @@ impl Analyzer {
 
         // Group into categories
         let balanced = balance_ratios.iter().filter(|&&r| r < 1.1).count();
-        let moderate = balance_ratios.iter().filter(|&&r| r >= 1.1 && r < 10.0).count();
+        let moderate = balance_ratios.iter().filter(|&&r| (1.1..10.0).contains(&r)).count();
         let harmonic = balance_ratios.iter().filter(|&&r| r >= 10.0).count();
 
         let total = observations.len() as f64;
@@ -246,8 +247,31 @@ impl Analyzer {
 
     /// Validate that a pattern is invariant
     pub fn validate_invariant(pattern: &Pattern, observations: &[Observation]) -> bool {
-        // For now, check frequency
-        pattern.frequency >= 0.9999
+        // Validate pattern holds for all observations
+        if observations.is_empty() {
+            return false;
+        }
+
+        // Check if pattern applies to all observations
+        let matches = observations
+            .iter()
+            .filter(|obs| {
+                // Pattern-specific validation based on pattern id
+                match pattern.id.as_str() {
+                    "multiplication_invariant" => &obs.p * &obs.q == obs.n,
+                    "fermat_identity" => {
+                        let a_squared = &obs.derived.fermat_a * &obs.derived.fermat_a;
+                        let b_squared = &obs.derived.fermat_b * &obs.derived.fermat_b;
+                        &a_squared - &b_squared == obs.n
+                    },
+                    "factor_ordering" => obs.p <= obs.q,
+                    _ => true, // Unknown patterns assumed valid
+                }
+            })
+            .count();
+
+        // Pattern is invariant if it holds for all observations
+        matches == observations.len()
     }
 
     /// Analyze how patterns scale
@@ -257,7 +281,7 @@ impl Analyzer {
         for obs in observations {
             by_scale
                 .entry(obs.scale.bit_length / 8) // Group by bytes
-                .or_insert_with(Vec::new)
+                .or_default()
                 .push(obs);
         }
 

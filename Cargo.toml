@@ -21,6 +21,7 @@ num-integer = "0.1"
 ndarray = { version = "0.15", features = ["rayon", "serde"] }
 nalgebra = "0.32"
 statrs = "0.16"
+petgraph = "0.6"
 
 # Serialization for observations
 serde = { version = "1.0", features = ["derive"] }
@@ -29,6 +30,7 @@ bincode = "1.3"
 
 # Parallel observation
 rayon = "1.8"
+num_cpus = "1"
 
 # Visualization of patterns
 plotters = { version = "0.3", default-features = false, features = ["bitmap_backend", "svg_backend"] }
@@ -47,12 +49,17 @@ anyhow = "1.0"
 itertools = "0.12"
 lazy_static = "1.4"
 once_cell = "1.19"
+chrono = "0.4"
+libm = "0.2"
+memmap2 = "0.9"
+tempfile = "3"
 
 [dev-dependencies]
 # Testing
 proptest = "1.4"
 criterion = { version = "0.5", features = ["html_reports"] }
 approx = "0.5"
+rand = "0.8"
 
 # Benchmarking
 pprof = { version = "0.13", features = ["flamegraph", "criterion"] }

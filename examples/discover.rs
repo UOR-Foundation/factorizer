@@ -5,7 +5,7 @@
 
 use rust_pattern_solver::emergence::{discover_all_patterns, UniversalPatterns};
 use rust_pattern_solver::observer::ObservationCollector;
-use rust_pattern_solver::types::{Number, PatternKind};
+use rust_pattern_solver::types::Number;
 use rust_pattern_solver::utils;
 
 fn main() -> rust_pattern_solver::Result<()> {
@@ -101,7 +101,9 @@ fn main() -> rust_pattern_solver::Result<()> {
         for constant in &constants {
             println!("  {}: {:.6}", constant.name, constant.value);
             println!("    Universality: {:.1}%", constant.universality * 100.0);
-            println!("    {}", constant.description);
+            if let Some(meaning) = &constant.meaning {
+                println!("    {}", meaning);
+            }
         }
     }
 

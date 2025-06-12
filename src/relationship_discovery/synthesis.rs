@@ -106,6 +106,10 @@ impl RelationshipSynthesis {
                 crate::types::PatternKind::TypeSpecific(_) => "type_specific",
                 crate::types::PatternKind::Probabilistic => "probabilistic",
                 crate::types::PatternKind::Emergent => "emergent",
+                crate::types::PatternKind::Harmonic { .. } => "harmonic",
+                crate::types::PatternKind::Power { .. } => "power",
+                crate::types::PatternKind::Fibonacci { .. } => "fibonacci",
+                crate::types::PatternKind::Mersenne { .. } => "mersenne",
             };
             by_type.entry(type_key.to_string()).or_insert_with(Vec::new).push(pattern);
         }
@@ -175,7 +179,7 @@ impl RelationshipSynthesis {
     /// Discover emergent laws from observations
     fn discover_emergent_laws(
         observations: &[Observation],
-        patterns: &[Pattern],
+        _patterns: &[Pattern],
     ) -> Result<Vec<EmergentLaw>> {
         let mut laws = Vec::new();
 

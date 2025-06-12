@@ -6,6 +6,7 @@ pub mod number;
 pub mod observation;
 pub mod pattern;
 pub mod quantum;
+pub mod quantum_enhanced;
 pub mod recognition;
 pub mod signature;
 

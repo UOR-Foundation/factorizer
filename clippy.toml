@@ -45,7 +45,7 @@ doc-valid-idents = ["The Pattern", "RSA", "GMP", "FFT"]
 max-include-file-size = 1000000
 
 # Large stack arrays
-large-stack-frames-threshold = 512
+# large-stack-frames-threshold = 512  # Not available in current clippy version
 
 # Disallowed names (enforce pattern-based naming)
 disallowed-names = ["foo", "bar", "baz", "tmp", "temp", "test"]

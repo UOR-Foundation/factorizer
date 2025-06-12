@@ -1,8 +1,8 @@
 //! Correctness tests - Verify The Pattern produces correct results
 
 use rust_pattern_solver::observer::ObservationCollector;
-use rust_pattern_solver::pattern::{execution, formalization, recognition};
-use rust_pattern_solver::types::{Number, Pattern};
+use rust_pattern_solver::pattern::{execution, formalization, recognition, Pattern};
+use rust_pattern_solver::types::Number;
 
 #[test]
 fn test_small_semiprimes() {
@@ -140,8 +140,11 @@ fn test_small_factor_cases() {
         assert!(factors.verify(&n_big));
 
         // Verify we found the expected factors
-        let found_p = factors.p.min(factors.q.clone());
-        let found_q = factors.p.max(factors.q);
+        let (found_p, found_q) = if factors.p < factors.q {
+            (factors.p, factors.q)
+        } else {
+            (factors.q, factors.p)
+        };
 
         assert_eq!(found_p, Number::from(expected_p));
         assert_eq!(found_q, Number::from(expected_q));
@@ -174,8 +177,11 @@ fn test_larger_semiprimes() {
             Ok(factors) => {
                 assert!(factors.verify(&n_big));
 
-                let found_p = factors.p.min(factors.q.clone());
-                let found_q = factors.p.max(factors.q);
+                let (found_p, found_q) = if factors.p < factors.q {
+                    (factors.p, factors.q)
+                } else {
+                    (factors.q, factors.p)
+                };
 
                 assert_eq!(found_p, Number::from(expected_p));
                 assert_eq!(found_q, Number::from(expected_q));

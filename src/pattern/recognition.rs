@@ -3,6 +3,7 @@
 //! This module implements pattern recognition based on empirical observation.
 
 use crate::pattern::RecognitionParams;
+use crate::types::quantum_enhanced::EnhancedQuantumRegion;
 use crate::types::{
     Number, PatternSignature, PatternType, QuantumRegion, Recognition, UniversalConstant,
 };
@@ -26,7 +27,7 @@ pub fn recognize_with_params(
     params: &RecognitionParams,
 ) -> Result<Recognition> {
     // Extract signature
-    let mut signature = extract_signature(n, constants, params)?;
+    let signature = extract_signature(n, constants, params)?;
 
     // Identify pattern type
     let pattern_type = identify_pattern_type(&signature)?;
@@ -68,6 +69,31 @@ fn extract_signature(
 
     // Extract emergent features
     extract_emergent_features(&mut signature, n)?;
+
+    // Extract multi-dimensional components
+    let multidim = signature.extract_multidimensional();
+    for (dim_name, values) in multidim {
+        // Store key statistics from each dimension
+        if !values.is_empty() {
+            let mean = values.iter().sum::<f64>() / values.len() as f64;
+            let max = values.iter().fold(f64::NEG_INFINITY, |a, &b| a.max(b));
+            signature.add_component(&format!("{}_mean", dim_name), mean);
+            signature.add_component(&format!("{}_max", dim_name), max);
+        }
+    }
+
+    // Check for advanced patterns
+    let advanced_patterns = crate::pattern::advanced::detect_advanced_patterns(n);
+    for pattern in advanced_patterns {
+        signature.add_emergent_feature(
+            format!("advanced_pattern_{}", pattern.id),
+            serde_json::json!({
+                "kind": format!("{:?}", pattern.kind),
+                "description": pattern.description,
+                "frequency": pattern.frequency
+            }),
+        );
+    }
 
     Ok(signature)
 }
@@ -139,7 +165,7 @@ fn generate_resonance_field(
     let damping_factor = if n.bit_length() > 100 {
         1.0 / (n.bit_length() as f64).sqrt()
     } else {
-        1.0 / n.to_f64().unwrap_or(1.0).powf(0.25)
+        1.0 / sqrt_n.to_f64().unwrap_or(1.0).sqrt()
     };
 
     for i in 0..field_size {
@@ -288,6 +314,52 @@ fn detect_quantum_region(
 
             let mut region = QuantumRegion::new(center, radius);
             region.confidence = 0.6;
+
+            Ok(Some(region))
+        },
+        _ => Ok(None),
+    }
+}
+
+/// Detect enhanced quantum neighborhood with adaptive distributions
+pub fn detect_enhanced_quantum_region(
+    n: &Number,
+    signature: &PatternSignature,
+    pattern_type: PatternType,
+    patterns: &[crate::types::Pattern],
+) -> Result<Option<EnhancedQuantumRegion>> {
+    match pattern_type {
+        PatternType::Balanced => {
+            // For balanced semiprimes, quantum region is near sqrt(n)
+            let sqrt_n = utils::integer_sqrt(n)?;
+
+            // Estimate offset from pattern
+            let phi_component = signature.get_component("phi_component").unwrap_or(1.0);
+            let offset_estimate = sqrt_n.to_f64().unwrap_or(1.0) * phi_component / 1000.0;
+
+            let center = &sqrt_n + &Number::from(offset_estimate as u64);
+            let _initial_radius = Number::from((offset_estimate * 0.1).max(1000.0) as u64);
+
+            let region = EnhancedQuantumRegion::from_pattern_analysis(center, patterns, n);
+            Ok(Some(region))
+        },
+        PatternType::Harmonic => {
+            // For harmonic patterns, use multi-modal distribution
+            let sqrt_n = utils::integer_sqrt(n)?;
+            let center = &sqrt_n / &Number::from(10u32);
+
+            let mut region = EnhancedQuantumRegion::from_pattern_analysis(center, patterns, n);
+            region.distribution_type = crate::types::quantum_enhanced::DistributionType::MultiModal;
+
+            Ok(Some(region))
+        },
+        PatternType::SmallFactor => {
+            // For numbers with small factors, use skewed distribution
+            let _sqrt_n = utils::integer_sqrt(n)?;
+            let center = Number::from(1000u32); // Start search near small primes
+
+            let mut region = EnhancedQuantumRegion::new(center, Number::from(500u32), n);
+            region.distribution_type = crate::types::quantum_enhanced::DistributionType::Skewed;
 
             Ok(Some(region))
         },

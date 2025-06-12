@@ -133,7 +133,7 @@ fn test_universal_pattern_discovery() {
     );
 
     // Extract constants
-    let constants = UniversalPatterns::extract_constants(&universal_patterns);
+    let _constants = UniversalPatterns::extract_constants(&universal_patterns);
 
     // Should discover some universal structure
     for pattern in &universal_patterns {
@@ -155,8 +155,8 @@ fn test_pattern_emergence_without_bias() {
         let bits_p = 4 + (rand::random::<usize>() % 12);
         let bits_q = 4 + (rand::random::<usize>() % 12);
 
-        let p = utils::generate_random_prime(bits_p).unwrap();
-        let q = utils::generate_random_prime(bits_q).unwrap();
+        let p = utils::generate_random_prime(bits_p as u32).unwrap();
+        let q = utils::generate_random_prime(bits_q as u32).unwrap();
         numbers.push(&p * &q);
     }
 

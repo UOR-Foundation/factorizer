@@ -3,21 +3,133 @@
 //! This module executes the pattern to manifest factors.
 
 use crate::error::PatternError;
+use crate::pattern::execution_enhanced::{
+    enhanced_quantum_search, multi_level_quantum_search, parallel_quantum_search,
+};
+use crate::pattern::expression::{Expression, PatternConstraint};
+use crate::pattern::verification::verify_factors;
 use crate::types::recognition::{DecodingStrategy, Factors, Formalization};
-use crate::types::{Number, Pattern};
+use crate::types::{Number, Pattern, PatternKind};
 use crate::utils;
 use crate::Result;
 use nalgebra::{DMatrix, SymmetricEigen};
+use std::collections::HashMap;
 
 /// Execute the formalized pattern to decode factors
 pub fn execute(formalization: Formalization, patterns: &[Pattern]) -> Result<Factors> {
     let n = &formalization.n;
 
+    // First try constraint-based decoding if available
+    if let Some(constraints) = formalization.get_constraints() {
+        if let Ok(mut factors) = decode_with_constraints(&formalization, &constraints, patterns) {
+            if factors.verify(n) {
+                // Run comprehensive verification
+                if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                    if verification.is_valid {
+                        factors.confidence = verification.confidence;
+                        return Ok(factors);
+                    }
+                }
+            }
+        }
+    }
+
+    // Try pattern-guided decoding
+    if let Ok(mut factors) = pattern_guided_decoding(&formalization, patterns) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
     // Try each decoding strategy
     for strategy in &formalization.strategies {
-        match decode_with_strategy(&formalization, strategy) {
-            Ok(factors) if factors.verify(n) => return Ok(factors),
+        match decode_with_strategy(&formalization, strategy, patterns) {
+            Ok(mut factors) if factors.verify(n) => {
+                if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                    if verification.is_valid {
+                        factors.confidence = verification.confidence;
+                        return Ok(factors);
+                    }
+                }
+            },
             _ => continue, // Try next strategy
+        }
+    }
+
+    // Try advanced decoding methods
+    if let Ok(mut factors) = advanced_resonance_decoding(&formalization, patterns) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
+    if let Ok(mut factors) = harmonic_interference_decoding(&formalization) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
+    if let Ok(mut factors) = quantum_collapse_decoding(&formalization) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
+    // Try enhanced quantum search methods
+    if let Ok(mut factors) = enhanced_quantum_search(&formalization, patterns) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
+    // Try multi-level quantum search
+    if let Ok(mut factors) = multi_level_quantum_search(&formalization, patterns) {
+        if factors.verify(n) {
+            if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                if verification.is_valid {
+                    factors.confidence = verification.confidence;
+                    return Ok(factors);
+                }
+            }
+        }
+    }
+
+    // Try parallel quantum search for large numbers
+    if n.bit_length() > 64 {
+        if let Ok(mut factors) = parallel_quantum_search(&formalization, patterns) {
+            if factors.verify(n) {
+                if let Ok(verification) = verify_factors(&factors, n, patterns, &factors.method) {
+                    if verification.is_valid {
+                        factors.confidence = verification.confidence;
+                        return Ok(factors);
+                    }
+                }
+            }
         }
     }
 
@@ -40,6 +152,7 @@ pub fn execute(formalization: Formalization, patterns: &[Pattern]) -> Result<Fac
 fn decode_with_strategy(
     formalization: &Formalization,
     strategy: &DecodingStrategy,
+    _patterns: &[Pattern],
 ) -> Result<Factors> {
     match strategy {
         DecodingStrategy::ResonancePeaks => decode_resonance_peaks(formalization),
@@ -173,6 +286,13 @@ fn decode_phase_relationships(formalization: &Formalization) -> Result<Factors> 
                 let q = n / &p_candidate;
                 return Ok(Factors::new(p_candidate, q, "phase_relationships"));
             }
+
+            // Also check q candidates
+            let q_candidate = Number::from((q_estimate + offset as f64) as u64);
+            if q_candidate > Number::from(1u32) && n % &q_candidate == Number::from(0u32) {
+                let p = n / &q_candidate;
+                return Ok(Factors::new(p, q_candidate, "phase_relationships"));
+            }
         }
     }
 
@@ -260,4 +380,454 @@ fn decode_modular_patterns(formalization: &Formalization) -> Result<Factors> {
     Err(PatternError::ExecutionError(
         "Modular patterns did not yield factors".to_string(),
     ))
+}
+
+/// Advanced resonance-based decoding using multiple resonance fields
+fn advanced_resonance_decoding(
+    formalization: &Formalization,
+    patterns: &[Pattern],
+) -> Result<Factors> {
+    let n = &formalization.n;
+    let sqrt_n = utils::integer_sqrt(n)?;
+
+    // Combine resonance information from multiple sources
+    let mut resonance_map: HashMap<usize, f64> = HashMap::new();
+
+    // Primary resonance peaks
+    for &peak in &formalization.resonance_peaks {
+        *resonance_map.entry(peak).or_insert(0.0) += 1.0;
+    }
+
+    // Harmonic series resonances
+    for (i, &harmonic) in formalization.harmonic_series.iter().enumerate() {
+        if harmonic.abs() > 0.5 {
+            *resonance_map.entry(i).or_insert(0.0) += harmonic.abs();
+        }
+    }
+
+    // Pattern-specific resonances
+    for pattern in patterns {
+        if pattern.applies_to(n) {
+            match &pattern.kind {
+                PatternKind::Emergent => {
+                    // Balanced patterns have strong resonance near sqrt(n)
+                    let center_idx = formalization.harmonic_series.len() / 2;
+                    *resonance_map.entry(center_idx).or_insert(0.0) += pattern.frequency;
+                },
+                PatternKind::Harmonic { base_frequency, .. } => {
+                    // Harmonic patterns create periodic resonances
+                    let period = (base_frequency * 10.0) as usize;
+                    for i in (0..formalization.harmonic_series.len()).step_by(period.max(1)) {
+                        *resonance_map.entry(i).or_insert(0.0) += pattern.frequency * 0.5;
+                    }
+                },
+                _ => {},
+            }
+        }
+    }
+
+    // Sort resonance points by strength
+    let mut resonance_points: Vec<(usize, f64)> = resonance_map.into_iter().collect();
+    resonance_points.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+
+    // Try the strongest resonance points
+    for (idx, strength) in resonance_points.iter().take(20) {
+        if *strength < 0.5 {
+            continue;
+        }
+
+        let field_size = formalization.harmonic_series.len().max(100) as f64;
+        let position_ratio = *idx as f64 / field_size;
+
+        // Multiple mapping strategies
+        let mappings = vec![
+            position_ratio * sqrt_n.to_f64().unwrap_or(1.0),
+            position_ratio.powf(2.0) * sqrt_n.to_f64().unwrap_or(1.0),
+            position_ratio.sqrt() * sqrt_n.to_f64().unwrap_or(1.0),
+            (position_ratio * std::f64::consts::PI).sin() * sqrt_n.to_f64().unwrap_or(1.0),
+        ];
+
+        for mapping in mappings {
+            let offset = mapping as i64;
+            for delta in -5..=5 {
+                let candidate = if offset + delta >= 0 {
+                    &sqrt_n + &Number::from((offset + delta).abs() as u64)
+                } else {
+                    let abs_val = (offset + delta).abs() as u64;
+                    if abs_val < sqrt_n.as_integer().to_u64().unwrap_or(0) {
+                        &sqrt_n - &Number::from(abs_val)
+                    } else {
+                        continue;
+                    }
+                };
+
+                if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
+                    let other = n / &candidate;
+                    return Ok(Factors::new(candidate, other, "advanced_resonance"));
+                }
+            }
+        }
+    }
+
+    Err(PatternError::ExecutionError(
+        "Advanced resonance decoding did not yield factors".to_string(),
+    ))
+}
+
+/// Harmonic interference decoding
+fn harmonic_interference_decoding(formalization: &Formalization) -> Result<Factors> {
+    let n = &formalization.n;
+    let harmonics = &formalization.harmonic_series;
+
+    if harmonics.len() < 3 {
+        return Err(PatternError::ExecutionError(
+            "Insufficient harmonics for interference".to_string(),
+        ));
+    }
+
+    // Find interference patterns
+    let mut interference_points = Vec::new();
+
+    for i in 0..harmonics.len() - 2 {
+        for j in i + 1..harmonics.len() - 1 {
+            for k in j + 1..harmonics.len() {
+                // Three-wave interference
+                let interference = harmonics[i] * harmonics[j] * harmonics[k];
+
+                if interference.abs() > 0.1 {
+                    // Constructive interference indicates factor relationship
+                    let freq_i = i as f64 / harmonics.len() as f64;
+                    let freq_j = j as f64 / harmonics.len() as f64;
+                    let freq_k = k as f64 / harmonics.len() as f64;
+
+                    // Beat frequency encodes factor information
+                    let beat = (freq_i - freq_j).abs() + (freq_j - freq_k).abs();
+                    interference_points.push((beat, interference));
+                }
+            }
+        }
+    }
+
+    // Sort by interference strength
+    interference_points
+        .sort_by(|a, b| b.1.abs().partial_cmp(&a.1.abs()).unwrap_or(std::cmp::Ordering::Equal));
+
+    let sqrt_n = utils::integer_sqrt(n)?;
+
+    // Use interference patterns to find factors
+    for (beat, strength) in interference_points.iter().take(10) {
+        let factor_estimate = sqrt_n.to_f64().unwrap_or(1.0) * (1.0 + beat * strength.signum());
+
+        // Search around estimate
+        let search_radius = (factor_estimate * 0.01).max(100.0) as u64;
+
+        for offset in 0..=search_radius {
+            let candidate = Number::from((factor_estimate + offset as f64) as u64);
+
+            if candidate > Number::from(1u32)
+                && candidate < *n
+                && n % &candidate == Number::from(0u32)
+            {
+                let other = n / &candidate;
+                return Ok(Factors::new(candidate, other, "harmonic_interference"));
+            }
+
+            if offset > 0 {
+                let candidate = Number::from((factor_estimate - offset as f64).abs() as u64);
+                if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
+                    let other = n / &candidate;
+                    return Ok(Factors::new(candidate, other, "harmonic_interference"));
+                }
+            }
+        }
+    }
+
+    Err(PatternError::ExecutionError(
+        "Harmonic interference did not yield factors".to_string(),
+    ))
+}
+
+/// Quantum collapse simulation decoding
+fn quantum_collapse_decoding(formalization: &Formalization) -> Result<Factors> {
+    let n = &formalization.n;
+    let encoding = &formalization.universal_encoding;
+
+    // Extract quantum state parameters
+    let phi_component = encoding.get("phi_component").copied().unwrap_or(1.618);
+    let unity_coupling = encoding.get("unity_coupling").copied().unwrap_or(0.0);
+    let resonance_integral = encoding.get("resonance_integral").copied().unwrap_or(0.0);
+
+    // Simulate quantum state collapse
+    let sqrt_n = utils::integer_sqrt(n)?;
+    let n_float = n.to_f64().unwrap_or(1e9);
+
+    // Wave function parameters
+    let alpha = phi_component;
+    let beta = unity_coupling * 2.0 * std::f64::consts::PI;
+    let gamma = resonance_integral;
+
+    // Collapse probabilities at different positions
+    let num_samples = 50;
+    let mut collapse_points = Vec::new();
+
+    for i in 0..num_samples {
+        let x = i as f64 / num_samples as f64;
+
+        // Quantum wave function
+        let psi = alpha * (beta * x).cos() + gamma * (beta * x * 2.0).sin();
+        let probability = psi * psi;
+
+        if probability > 0.1 {
+            // Map to factor space
+            let factor_pos = sqrt_n.to_f64().unwrap_or(1.0) * (0.5 + x);
+            collapse_points.push((factor_pos, probability));
+        }
+    }
+
+    // Sort by probability
+    collapse_points.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+
+    // Try collapse points
+    for (position, prob) in collapse_points.iter().take(20) {
+        if *prob < 0.1 {
+            continue;
+        }
+
+        let base_candidate = *position as u64;
+
+        // Quantum uncertainty principle - search within uncertainty bounds
+        let uncertainty = (n_float.ln() / (2.0 * std::f64::consts::PI)).max(10.0) as u64;
+
+        for delta in 0..=uncertainty {
+            for sign in &[-1i64, 1] {
+                let candidate_val = (base_candidate as i64 + sign * delta as i64).abs() as u64;
+                let candidate = Number::from(candidate_val);
+
+                if candidate > Number::from(1u32)
+                    && candidate < *n
+                    && n % &candidate == Number::from(0u32)
+                {
+                    let other = n / &candidate;
+                    return Ok(Factors::new(candidate, other, "quantum_collapse"));
+                }
+            }
+        }
+    }
+
+    Err(PatternError::ExecutionError(
+        "Quantum collapse did not yield factors".to_string(),
+    ))
+}
+
+/// Pattern-guided factor extraction
+fn pattern_guided_decoding(formalization: &Formalization, patterns: &[Pattern]) -> Result<Factors> {
+    let n = &formalization.n;
+
+    // Find the most applicable pattern
+    let mut best_pattern = None;
+    let mut best_score = 0.0;
+
+    for pattern in patterns {
+        if pattern.applies_to(n) {
+            let score = pattern.frequency;
+            if score > best_score {
+                best_score = score;
+                best_pattern = Some(pattern);
+            }
+        }
+    }
+
+    if let Some(pattern) = best_pattern {
+        match &pattern.kind {
+            PatternKind::Power { base, exponent } => {
+                // For power patterns, one factor is base^k for some k < exponent
+                let base_num = Number::from(*base);
+                let mut current = base_num.clone();
+
+                for _k in 1..*exponent {
+                    if n % &current == Number::from(0u32) {
+                        let other = n / &current;
+                        if other > Number::from(1u32) {
+                            return Ok(Factors::new(current, other, "pattern_guided_power"));
+                        }
+                    }
+                    current = &current * &base_num;
+                }
+            },
+
+            PatternKind::Mersenne { p, .. } => {
+                // For Mersenne numbers, check if it's a Mersenne prime
+                if utils::is_probable_prime(n, 25) {
+                    return Ok(Factors::new(
+                        n.clone(),
+                        Number::from(1u32),
+                        "mersenne_prime",
+                    ));
+                }
+
+                // Otherwise, use specialized Mersenne factorization
+                let two = Number::from(2u32);
+                for k in 2..(*p / 2) {
+                    let factor = &two.pow(k) - &Number::from(1u32);
+                    if n % &factor == Number::from(0u32) {
+                        let other = n / &factor;
+                        return Ok(Factors::new(factor, other, "pattern_guided_mersenne"));
+                    }
+                }
+            },
+
+            PatternKind::Fibonacci { index, .. } => {
+                // For Fibonacci pattern numbers, use GCD with nearby Fibonacci numbers
+                let fibs = generate_fibonacci_numbers(*index + 10);
+
+                for i in (*index).saturating_sub(5)..(*index + 5).min(fibs.len()) {
+                    let gcd = utils::gcd(n, &fibs[i]);
+                    if gcd > Number::from(1u32) && gcd < *n {
+                        let other = n / &gcd;
+                        return Ok(Factors::new(gcd, other, "pattern_guided_fibonacci"));
+                    }
+                }
+            },
+
+            _ => {
+                // For other patterns, use pattern frequency as a guide
+                let sqrt_n = utils::integer_sqrt(n)?;
+                let offset = (sqrt_n.to_f64().unwrap_or(1.0) * pattern.frequency) as u64;
+
+                for delta in 0..=100 {
+                    let candidate = &sqrt_n + &Number::from(offset + delta);
+                    if n % &candidate == Number::from(0u32) {
+                        let other = n / &candidate;
+                        return Ok(Factors::new(candidate, other, "pattern_guided"));
+                    }
+
+                    if offset > delta {
+                        let candidate = &sqrt_n + &Number::from(offset - delta);
+                        if n % &candidate == Number::from(0u32) {
+                            let other = n / &candidate;
+                            return Ok(Factors::new(candidate, other, "pattern_guided"));
+                        }
+                    }
+                }
+            },
+        }
+    }
+
+    Err(PatternError::ExecutionError(
+        "Pattern-guided decoding did not yield factors".to_string(),
+    ))
+}
+
+/// Decode using mathematical constraints
+fn decode_with_constraints(
+    formalization: &Formalization,
+    constraints: &[PatternConstraint],
+    _patterns: &[Pattern],
+) -> Result<Factors> {
+    let n = &formalization.n;
+    let sqrt_n = utils::integer_sqrt(n)?;
+    let n_float = n.to_f64().unwrap_or(1e9);
+
+    // Build variable bindings for constraint evaluation
+    let mut bindings = HashMap::new();
+    bindings.insert("n".to_string(), n_float);
+    bindings.insert("sqrt_n".to_string(), sqrt_n.to_f64().unwrap_or(1e4));
+
+    // Extract bounds from constraints
+    let mut p_min = 2.0;
+    let mut p_max = n_float;
+
+    for constraint in constraints {
+        match (&constraint.lhs, &constraint.relation, &constraint.rhs) {
+            (Expression::Variable(var), _, Expression::Constant(val)) if var == "p" => {
+                match constraint.relation {
+                    crate::pattern::expression::ConstraintRelation::GreaterEqual => {
+                        p_min = f64::max(p_min, *val)
+                    },
+                    crate::pattern::expression::ConstraintRelation::LessEqual => {
+                        p_max = f64::min(p_max, *val)
+                    },
+                    _ => {},
+                }
+            },
+            _ => {},
+        }
+    }
+
+    // Search within constrained bounds
+    let search_start = f64::max(p_min, 2.0) as u64;
+    let search_end = p_max.min(sqrt_n.to_f64().unwrap_or(1e9) * 2.0) as u64;
+
+    // Adaptive step size based on number size
+    let step = if n.bit_length() > 100 {
+        ((search_end - search_start) / 10000).max(1)
+    } else {
+        1
+    };
+
+    for p_val in (search_start..=search_end).step_by(step as usize) {
+        let p = Number::from(p_val);
+
+        if n % &p == Number::from(0u32) {
+            let q = n / &p;
+
+            // Verify constraints
+            bindings.insert("p".to_string(), p.to_f64().unwrap_or(0.0));
+            bindings.insert("q".to_string(), q.to_f64().unwrap_or(0.0));
+
+            let mut constraints_satisfied = true;
+            for constraint in constraints {
+                if let (Ok(lhs_val), Ok(rhs_val)) = (
+                    constraint.lhs.evaluate(&bindings),
+                    constraint.rhs.evaluate(&bindings),
+                ) {
+                    let satisfied = match &constraint.relation {
+                        crate::pattern::expression::ConstraintRelation::Equal => {
+                            (lhs_val - rhs_val).abs() < 1e-6
+                        },
+                        crate::pattern::expression::ConstraintRelation::LessThan => {
+                            lhs_val < rhs_val
+                        },
+                        crate::pattern::expression::ConstraintRelation::GreaterThan => {
+                            lhs_val > rhs_val
+                        },
+                        crate::pattern::expression::ConstraintRelation::LessEqual => {
+                            lhs_val <= rhs_val
+                        },
+                        crate::pattern::expression::ConstraintRelation::GreaterEqual => {
+                            lhs_val >= rhs_val
+                        },
+                        crate::pattern::expression::ConstraintRelation::Approximately(tol) => {
+                            (lhs_val - rhs_val).abs() < *tol
+                        },
+                    };
+
+                    if !satisfied && constraint.confidence > 0.5 {
+                        constraints_satisfied = false;
+                        break;
+                    }
+                }
+            }
+
+            if constraints_satisfied {
+                return Ok(Factors::new(p, q, "constraint_based"));
+            }
+        }
+    }
+
+    Err(PatternError::ExecutionError(
+        "Constraint-based decoding did not yield factors".to_string(),
+    ))
+}
+
+/// Generate Fibonacci numbers up to index n
+fn generate_fibonacci_numbers(n: usize) -> Vec<Number> {
+    let mut fibs = vec![Number::from(0u32), Number::from(1u32)];
+
+    for i in 2..=n {
+        let next = &fibs[i - 1] + &fibs[i - 2];
+        fibs.push(next);
+    }
+
+    fibs
 }
