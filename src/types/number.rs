@@ -78,6 +78,11 @@ impl Number {
         use rug::ops::Pow;
         Number((&self.0).pow(exp).into())
     }
+    
+    /// Convert to u32 (may overflow)
+    pub fn to_u32(&self) -> Option<u32> {
+        self.0.to_u32()
+    }
 
     /// Integer square root
     pub fn sqrt(&self) -> Self {

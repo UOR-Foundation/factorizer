@@ -24,12 +24,14 @@ pub mod universal_pattern;
 
 // 8-bit stream processor
 pub mod stream_processor;
+pub mod stream_processor_exact;
 
 // Empirical pattern implementation
 pub mod empirical_pattern;
 
 // Direct empirical pattern (no theory, just learned mappings)
 pub mod direct_empirical;
+pub mod direct_empirical_exact;
 
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;
