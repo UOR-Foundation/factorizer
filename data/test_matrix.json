@@ -1,0 +1,4606 @@
+{
+  "version": "1.0.0",
+  "generated": "2025-06-13T14:00:03.741912420+00:00",
+  "description": "Authoritative test matrix of hard semiprimes for The Pattern implementation. This matrix contains verified random hard semiprimes at each bit length. The factors are provided for verification only and must not be used by the implementation during factorization.",
+  "test_cases": {
+    "8": [
+      {
+        "bit_length": 8,
+        "n": "143",
+        "p": "11",
+        "q": "13",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 8,
+        "n": "143",
+        "p": "11",
+        "q": "13",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 7,
+        "n": "121",
+        "p": "11",
+        "q": "11",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 8,
+        "n": "143",
+        "p": "11",
+        "q": "13",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 8,
+        "n": "143",
+        "p": "11",
+        "q": "13",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 7,
+        "n": "121",
+        "p": "11",
+        "q": "11",
+        "balanced": true,
+        "p_bits": 4,
+        "q_bits": 4
+      },
+      {
+        "bit_length": 8,
+        "n": "203",
+        "p": "7",
+        "q": "29",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 7,
+        "n": "85",
+        "p": "5",
+        "q": "17",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 7,
+        "n": "119",
+        "p": "7",
+        "q": "17",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "161",
+        "p": "7",
+        "q": "23",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "161",
+        "p": "7",
+        "q": "23",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 7,
+        "n": "85",
+        "p": "5",
+        "q": "17",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "133",
+        "p": "7",
+        "q": "19",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "155",
+        "p": "5",
+        "q": "31",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "133",
+        "p": "7",
+        "q": "19",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 7,
+        "n": "115",
+        "p": "5",
+        "q": "23",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "161",
+        "p": "7",
+        "q": "23",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 7,
+        "n": "85",
+        "p": "5",
+        "q": "17",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "161",
+        "p": "7",
+        "q": "23",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      },
+      {
+        "bit_length": 8,
+        "n": "217",
+        "p": "7",
+        "q": "31",
+        "balanced": true,
+        "p_bits": 3,
+        "q_bits": 5
+      }
+    ],
+    "16": [
+      {
+        "bit_length": 15,
+        "n": "32399",
+        "p": "179",
+        "q": "181",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 15,
+        "n": "22657",
+        "p": "139",
+        "q": "163",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 15,
+        "n": "30301",
+        "p": "157",
+        "q": "193",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 16,
+        "n": "52961",
+        "p": "211",
+        "q": "251",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 16,
+        "n": "44521",
+        "p": "211",
+        "q": "211",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 16,
+        "n": "51067",
+        "p": "223",
+        "q": "229",
+        "balanced": true,
+        "p_bits": 8,
+        "q_bits": 8
+      },
+      {
+        "bit_length": 15,
+        "n": "29941",
+        "p": "79",
+        "q": "379",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      },
+      {
+        "bit_length": 15,
+        "n": "23501",
+        "p": "71",
+        "q": "331",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      },
+      {
+        "bit_length": 16,
+        "n": "46331",
+        "p": "107",
+        "q": "433",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      },
+      {
+        "bit_length": 15,
+        "n": "20831",
+        "p": "37",
+        "q": "563",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 16,
+        "n": "53863",
+        "p": "61",
+        "q": "883",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 15,
+        "n": "18157",
+        "p": "67",
+        "q": "271",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      },
+      {
+        "bit_length": 15,
+        "n": "31783",
+        "p": "37",
+        "q": "859",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 15,
+        "n": "25297",
+        "p": "41",
+        "q": "617",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 15,
+        "n": "24383",
+        "p": "37",
+        "q": "659",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 16,
+        "n": "57401",
+        "p": "61",
+        "q": "941",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 16,
+        "n": "34093",
+        "p": "103",
+        "q": "331",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      },
+      {
+        "bit_length": 15,
+        "n": "21127",
+        "p": "37",
+        "q": "571",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 16,
+        "n": "32863",
+        "p": "59",
+        "q": "557",
+        "balanced": false,
+        "p_bits": 6,
+        "q_bits": 10
+      },
+      {
+        "bit_length": 15,
+        "n": "18157",
+        "p": "67",
+        "q": "271",
+        "balanced": true,
+        "p_bits": 7,
+        "q_bits": 9
+      }
+    ],
+    "24": [
+      {
+        "bit_length": 23,
+        "n": "7252249",
+        "p": "2693",
+        "q": "2693",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 24,
+        "n": "14398889",
+        "p": "3739",
+        "q": "3851",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 24,
+        "n": "15241969",
+        "p": "3821",
+        "q": "3989",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 23,
+        "n": "5732369",
+        "p": "2099",
+        "q": "2731",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 23,
+        "n": "7413397",
+        "p": "2083",
+        "q": "3559",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 24,
+        "n": "8483749",
+        "p": "2447",
+        "q": "3467",
+        "balanced": true,
+        "p_bits": 12,
+        "q_bits": 12
+      },
+      {
+        "bit_length": 23,
+        "n": "6815477",
+        "p": "1091",
+        "q": "6247",
+        "balanced": true,
+        "p_bits": 11,
+        "q_bits": 13
+      },
+      {
+        "bit_length": 23,
+        "n": "7238333",
+        "p": "1087",
+        "q": "6659",
+        "balanced": true,
+        "p_bits": 11,
+        "q_bits": 13
+      },
+      {
+        "bit_length": 23,
+        "n": "7222867",
+        "p": "439",
+        "q": "16453",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 23,
+        "n": "8372071",
+        "p": "829",
+        "q": "10099",
+        "balanced": false,
+        "p_bits": 10,
+        "q_bits": 14
+      },
+      {
+        "bit_length": 23,
+        "n": "6632597",
+        "p": "263",
+        "q": "25219",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 24,
+        "n": "10143157",
+        "p": "347",
+        "q": "29231",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 24,
+        "n": "9933073",
+        "p": "1759",
+        "q": "5647",
+        "balanced": true,
+        "p_bits": 11,
+        "q_bits": 13
+      },
+      {
+        "bit_length": 23,
+        "n": "7686299",
+        "p": "317",
+        "q": "24247",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 24,
+        "n": "14544353",
+        "p": "499",
+        "q": "29147",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 24,
+        "n": "14013631",
+        "p": "491",
+        "q": "28541",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 23,
+        "n": "8143573",
+        "p": "379",
+        "q": "21487",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 23,
+        "n": "8098481",
+        "p": "137",
+        "q": "59113",
+        "balanced": false,
+        "p_bits": 8,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 24,
+        "n": "14971553",
+        "p": "467",
+        "q": "32059",
+        "balanced": false,
+        "p_bits": 9,
+        "q_bits": 15
+      },
+      {
+        "bit_length": 24,
+        "n": "8594437",
+        "p": "2017",
+        "q": "4261",
+        "balanced": true,
+        "p_bits": 11,
+        "q_bits": 13
+      }
+    ],
+    "32": [
+      {
+        "bit_length": 32,
+        "n": "3198060661",
+        "p": "54751",
+        "q": "58411",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 32,
+        "n": "2789668831",
+        "p": "47491",
+        "q": "58741",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 32,
+        "n": "2888158297",
+        "p": "48193",
+        "q": "59929",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 32,
+        "n": "3193524127",
+        "p": "52609",
+        "q": "60703",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 31,
+        "n": "2130992293",
+        "p": "45989",
+        "q": "46337",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 32,
+        "n": "2459479823",
+        "p": "41759",
+        "q": "58897",
+        "balanced": true,
+        "p_bits": 16,
+        "q_bits": 16
+      },
+      {
+        "bit_length": 31,
+        "n": "1610451719",
+        "p": "23297",
+        "q": "69127",
+        "balanced": true,
+        "p_bits": 15,
+        "q_bits": 17
+      },
+      {
+        "bit_length": 32,
+        "n": "2204420291",
+        "p": "2927",
+        "q": "753133",
+        "balanced": false,
+        "p_bits": 12,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 32,
+        "n": "2418032821",
+        "p": "3119",
+        "q": "775259",
+        "balanced": false,
+        "p_bits": 12,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 32,
+        "n": "2422184047",
+        "p": "3433",
+        "q": "705559",
+        "balanced": false,
+        "p_bits": 12,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 32,
+        "n": "3369166499",
+        "p": "3559",
+        "q": "946661",
+        "balanced": false,
+        "p_bits": 12,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 31,
+        "n": "2088255293",
+        "p": "6673",
+        "q": "312941",
+        "balanced": false,
+        "p_bits": 13,
+        "q_bits": 19
+      },
+      {
+        "bit_length": 32,
+        "n": "3365333677",
+        "p": "7841",
+        "q": "429197",
+        "balanced": false,
+        "p_bits": 13,
+        "q_bits": 19
+      },
+      {
+        "bit_length": 32,
+        "n": "2734809361",
+        "p": "6553",
+        "q": "417337",
+        "balanced": false,
+        "p_bits": 13,
+        "q_bits": 19
+      },
+      {
+        "bit_length": 32,
+        "n": "2703551549",
+        "p": "21991",
+        "q": "122939",
+        "balanced": true,
+        "p_bits": 15,
+        "q_bits": 17
+      },
+      {
+        "bit_length": 31,
+        "n": "1806790423",
+        "p": "13331",
+        "q": "135533",
+        "balanced": false,
+        "p_bits": 14,
+        "q_bits": 18
+      },
+      {
+        "bit_length": 32,
+        "n": "2372537413",
+        "p": "31123",
+        "q": "76231",
+        "balanced": true,
+        "p_bits": 15,
+        "q_bits": 17
+      },
+      {
+        "bit_length": 31,
+        "n": "1578895181",
+        "p": "19183",
+        "q": "82307",
+        "balanced": true,
+        "p_bits": 15,
+        "q_bits": 17
+      },
+      {
+        "bit_length": 31,
+        "n": "1872106139",
+        "p": "8819",
+        "q": "212281",
+        "balanced": false,
+        "p_bits": 14,
+        "q_bits": 18
+      },
+      {
+        "bit_length": 32,
+        "n": "2711500283",
+        "p": "21977",
+        "q": "123379",
+        "balanced": true,
+        "p_bits": 15,
+        "q_bits": 17
+      }
+    ],
+    "40": [
+      {
+        "bit_length": 40,
+        "n": "962551688471",
+        "p": "934951",
+        "q": "1029521",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 40,
+        "n": "1057066800211",
+        "p": "1016341",
+        "q": "1040071",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 39,
+        "n": "450337347223",
+        "p": "670541",
+        "q": "671603",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 39,
+        "n": "429476375767",
+        "p": "636749",
+        "q": "674483",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 39,
+        "n": "435762043219",
+        "p": "621701",
+        "q": "700919",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 40,
+        "n": "727271743019",
+        "p": "760141",
+        "q": "956759",
+        "balanced": true,
+        "p_bits": 20,
+        "q_bits": 20
+      },
+      {
+        "bit_length": 40,
+        "n": "581918392177",
+        "p": "22651",
+        "q": "25690627",
+        "balanced": false,
+        "p_bits": 15,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 40,
+        "n": "872328838919",
+        "p": "32063",
+        "q": "27206713",
+        "balanced": false,
+        "p_bits": 15,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 39,
+        "n": "517740215639",
+        "p": "121711",
+        "q": "4253849",
+        "balanced": false,
+        "p_bits": 17,
+        "q_bits": 23
+      },
+      {
+        "bit_length": 40,
+        "n": "626719814723",
+        "p": "22073",
+        "q": "28393051",
+        "balanced": false,
+        "p_bits": 15,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 40,
+        "n": "583433426057",
+        "p": "220021",
+        "q": "2651717",
+        "balanced": false,
+        "p_bits": 18,
+        "q_bits": 22
+      },
+      {
+        "bit_length": 39,
+        "n": "432595919117",
+        "p": "397379",
+        "q": "1088623",
+        "balanced": true,
+        "p_bits": 19,
+        "q_bits": 21
+      },
+      {
+        "bit_length": 40,
+        "n": "957891603029",
+        "p": "65357",
+        "q": "14656297",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 40,
+        "n": "920955791201",
+        "p": "509837",
+        "q": "1806373",
+        "balanced": true,
+        "p_bits": 19,
+        "q_bits": 21
+      },
+      {
+        "bit_length": 39,
+        "n": "432266309411",
+        "p": "24877",
+        "q": "17376143",
+        "balanced": false,
+        "p_bits": 15,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 40,
+        "n": "731074945903",
+        "p": "61643",
+        "q": "11859821",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 40,
+        "n": "699694791671",
+        "p": "61283",
+        "q": "11417437",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 39,
+        "n": "529495031389",
+        "p": "36697",
+        "q": "14428837",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 40,
+        "n": "581123930071",
+        "p": "107761",
+        "q": "5392711",
+        "balanced": false,
+        "p_bits": 17,
+        "q_bits": 23
+      },
+      {
+        "bit_length": 39,
+        "n": "403285916771",
+        "p": "159097",
+        "q": "2534843",
+        "balanced": false,
+        "p_bits": 18,
+        "q_bits": 22
+      }
+    ],
+    "48": [
+      {
+        "bit_length": 47,
+        "n": "90971814710039",
+        "p": "8390021",
+        "q": "10842859",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 48,
+        "n": "178113476577637",
+        "p": "11138623",
+        "q": "15990619",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 48,
+        "n": "146056334249101",
+        "p": "11984551",
+        "q": "12187051",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 48,
+        "n": "234182948503919",
+        "p": "14201221",
+        "q": "16490339",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 47,
+        "n": "126724544632757",
+        "p": "9326237",
+        "q": "13587961",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 48,
+        "n": "177147702269117",
+        "p": "11362067",
+        "q": "15591151",
+        "balanced": true,
+        "p_bits": 24,
+        "q_bits": 24
+      },
+      {
+        "bit_length": 48,
+        "n": "152545491609629",
+        "p": "8276899",
+        "q": "18430271",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 47,
+        "n": "132015156010081",
+        "p": "1556431",
+        "q": "84819151",
+        "balanced": false,
+        "p_bits": 21,
+        "q_bits": 27
+      },
+      {
+        "bit_length": 47,
+        "n": "124432039221773",
+        "p": "692663",
+        "q": "179642971",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 48,
+        "n": "145705037674307",
+        "p": "7580813",
+        "q": "19220239",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 48,
+        "n": "191814363724733",
+        "p": "3919873",
+        "q": "48933821",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 26
+      },
+      {
+        "bit_length": 48,
+        "n": "151703287526797",
+        "p": "615449",
+        "q": "246492053",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 48,
+        "n": "220711698822721",
+        "p": "1045829",
+        "q": "211039949",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 47,
+        "n": "106136094306601",
+        "p": "4716913",
+        "q": "22501177",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 47,
+        "n": "129747807285451",
+        "p": "3599879",
+        "q": "36042269",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 26
+      },
+      {
+        "bit_length": 48,
+        "n": "141819042358391",
+        "p": "50119",
+        "q": "2829646289",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 48,
+        "n": "178052218050793",
+        "p": "7941517",
+        "q": "22420429",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 48,
+        "n": "214527209486347",
+        "p": "6821393",
+        "q": "31449179",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      },
+      {
+        "bit_length": 48,
+        "n": "268583916910219",
+        "p": "64613",
+        "q": "4156809263",
+        "balanced": false,
+        "p_bits": 16,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 48,
+        "n": "209252956580467",
+        "p": "8181389",
+        "q": "25576703",
+        "balanced": true,
+        "p_bits": 23,
+        "q_bits": 25
+      }
+    ],
+    "56": [
+      {
+        "bit_length": 55,
+        "n": "36008979363753163",
+        "p": "180149269",
+        "q": "199884127",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 56,
+        "n": "62123830920730567",
+        "p": "240393143",
+        "q": "258425969",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 56,
+        "n": "56527036471626913",
+        "p": "210598273",
+        "q": "268411681",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 56,
+        "n": "52946749877050633",
+        "p": "215960279",
+        "q": "245168927",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 55,
+        "n": "23208307905857807",
+        "p": "145712513",
+        "q": "159274639",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 55,
+        "n": "35102944483568659",
+        "p": "169452167",
+        "q": "207155477",
+        "balanced": true,
+        "p_bits": 28,
+        "q_bits": 28
+      },
+      {
+        "bit_length": 55,
+        "n": "34016811041188123",
+        "p": "98461001",
+        "q": "345485123",
+        "balanced": true,
+        "p_bits": 27,
+        "q_bits": 29
+      },
+      {
+        "bit_length": 56,
+        "n": "55080261765622409",
+        "p": "26891017",
+        "q": "2048277377",
+        "balanced": false,
+        "p_bits": 25,
+        "q_bits": 31
+      },
+      {
+        "bit_length": 56,
+        "n": "50704070200522891",
+        "p": "7347953",
+        "q": "6900434747",
+        "balanced": false,
+        "p_bits": 23,
+        "q_bits": 33
+      },
+      {
+        "bit_length": 56,
+        "n": "44938847826448801",
+        "p": "8365057",
+        "q": "5372210593",
+        "balanced": false,
+        "p_bits": 23,
+        "q_bits": 33
+      },
+      {
+        "bit_length": 56,
+        "n": "59539699922185597",
+        "p": "3550279",
+        "q": "16770428443",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 34
+      },
+      {
+        "bit_length": 56,
+        "n": "68437678766289949",
+        "p": "4175803",
+        "q": "16389106183",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 34
+      },
+      {
+        "bit_length": 56,
+        "n": "53898987553383619",
+        "p": "15994639",
+        "q": "3369815821",
+        "balanced": false,
+        "p_bits": 24,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 55,
+        "n": "33059801053445141",
+        "p": "49448381",
+        "q": "668571961",
+        "balanced": false,
+        "p_bits": 26,
+        "q_bits": 30
+      },
+      {
+        "bit_length": 56,
+        "n": "47859742415127673",
+        "p": "881537",
+        "q": "54291246329",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 55,
+        "n": "28824240515101583",
+        "p": "644857",
+        "q": "44698654919",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 56,
+        "n": "61289280948250679",
+        "p": "1963193",
+        "q": "31219182703",
+        "balanced": false,
+        "p_bits": 21,
+        "q_bits": 35
+      },
+      {
+        "bit_length": 56,
+        "n": "54483113763685099",
+        "p": "970279",
+        "q": "56152007581",
+        "balanced": false,
+        "p_bits": 20,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 56,
+        "n": "39873948869731577",
+        "p": "22055651",
+        "q": "1807879027",
+        "balanced": false,
+        "p_bits": 25,
+        "q_bits": 31
+      },
+      {
+        "bit_length": 56,
+        "n": "58730937496071559",
+        "p": "60115219",
+        "q": "976972861",
+        "balanced": false,
+        "p_bits": 26,
+        "q_bits": 30
+      }
+    ],
+    "64": [
+      {
+        "bit_length": 64,
+        "n": "14245125304584127721",
+        "p": "3592620001",
+        "q": "3965107721",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 64,
+        "n": "9626494948132358987",
+        "p": "2312951821",
+        "q": "4161995447",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 63,
+        "n": "9181663209931362223",
+        "p": "2527954327",
+        "q": "3632052649",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 64,
+        "n": "15704372170399006583",
+        "p": "3863404087",
+        "q": "4064905409",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 64,
+        "n": "12383977825494539483",
+        "p": "3036873601",
+        "q": "4077870683",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 63,
+        "n": "5254706384666837389",
+        "p": "2205286883",
+        "q": "2382776783",
+        "balanced": true,
+        "p_bits": 32,
+        "q_bits": 32
+      },
+      {
+        "bit_length": 64,
+        "n": "10182836999294939407",
+        "p": "108424703",
+        "q": "93916208369",
+        "balanced": false,
+        "p_bits": 27,
+        "q_bits": 37
+      },
+      {
+        "bit_length": 63,
+        "n": "7167523077336049339",
+        "p": "167995211",
+        "q": "42665044049",
+        "balanced": false,
+        "p_bits": 28,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 64,
+        "n": "11538334331115641051",
+        "p": "42551359",
+        "q": "271162533989",
+        "balanced": false,
+        "p_bits": 26,
+        "q_bits": 38
+      },
+      {
+        "bit_length": 63,
+        "n": "8110424607269797537",
+        "p": "24289799",
+        "q": "333902499863",
+        "balanced": false,
+        "p_bits": 25,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 64,
+        "n": "17680885929702095351",
+        "p": "257672897",
+        "q": "68617561783",
+        "balanced": false,
+        "p_bits": 28,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 64,
+        "n": "12310204829107484111",
+        "p": "16416431",
+        "q": "749870957281",
+        "balanced": false,
+        "p_bits": 24,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 63,
+        "n": "5887698936658002151",
+        "p": "18610939",
+        "q": "316356898309",
+        "balanced": false,
+        "p_bits": 25,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 63,
+        "n": "9041161227007054709",
+        "p": "25956407",
+        "q": "348320983987",
+        "balanced": false,
+        "p_bits": 25,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 64,
+        "n": "10082279676378207293",
+        "p": "42407557",
+        "q": "237747241049",
+        "balanced": false,
+        "p_bits": 26,
+        "q_bits": 38
+      },
+      {
+        "bit_length": 63,
+        "n": "6393399236137359647",
+        "p": "35973521",
+        "q": "177725145007",
+        "balanced": false,
+        "p_bits": 26,
+        "q_bits": 38
+      },
+      {
+        "bit_length": 64,
+        "n": "12343384246203236903",
+        "p": "205280597",
+        "q": "60129327499",
+        "balanced": false,
+        "p_bits": 28,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 63,
+        "n": "5428312449965871383",
+        "p": "2104021",
+        "q": "2579970660923",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 42
+      },
+      {
+        "bit_length": 64,
+        "n": "9579601428276058687",
+        "p": "6335573",
+        "q": "1512033943619",
+        "balanced": false,
+        "p_bits": 23,
+        "q_bits": 41
+      },
+      {
+        "bit_length": 64,
+        "n": "9897591503979627949",
+        "p": "3021929",
+        "q": "3275256137381",
+        "balanced": false,
+        "p_bits": 22,
+        "q_bits": 42
+      }
+    ],
+    "72": [
+      {
+        "bit_length": 72,
+        "n": "2761363395996113422711",
+        "p": "48887779313",
+        "q": "56483715047",
+        "balanced": true,
+        "p_bits": 36,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 72,
+        "n": "2558507129330515717577",
+        "p": "46667359201",
+        "q": "54824339177",
+        "balanced": true,
+        "p_bits": 36,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 72,
+        "n": "3679061759114373639269",
+        "p": "59575723111",
+        "q": "61754378579",
+        "balanced": true,
+        "p_bits": 36,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 71,
+        "n": "1834754657971839357907",
+        "p": "36776744497",
+        "q": "49888990531",
+        "balanced": true,
+        "p_bits": 36,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 72,
+        "n": "4222003838992552158361",
+        "p": "64324560799",
+        "q": "65635952839",
+        "balanced": true,
+        "p_bits": 36,
+        "q_bits": 36
+      },
+      {
+        "bit_length": 72,
+        "n": "3620344500045468863581",
+        "p": "8028577519",
+        "q": "450932246899",
+        "balanced": false,
+        "p_bits": 33,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 72,
+        "n": "2755390933541473879087",
+        "p": "362485213",
+        "q": "7601388511099",
+        "balanced": false,
+        "p_bits": 29,
+        "q_bits": 43
+      },
+      {
+        "bit_length": 72,
+        "n": "2795233770101591004379",
+        "p": "14133989999",
+        "q": "197766785621",
+        "balanced": false,
+        "p_bits": 34,
+        "q_bits": 38
+      },
+      {
+        "bit_length": 72,
+        "n": "2386941705288502613347",
+        "p": "1559389781",
+        "q": "1530689590487",
+        "balanced": false,
+        "p_bits": 31,
+        "q_bits": 41
+      },
+      {
+        "bit_length": 72,
+        "n": "2553955898909278472573",
+        "p": "7126920371",
+        "q": "358353365263",
+        "balanced": false,
+        "p_bits": 33,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 72,
+        "n": "3217563936353864818921",
+        "p": "129216049",
+        "q": "24900652521529",
+        "balanced": false,
+        "p_bits": 27,
+        "q_bits": 45
+      },
+      {
+        "bit_length": 72,
+        "n": "3021710598383840462521",
+        "p": "2883052339",
+        "q": "1048094256739",
+        "balanced": false,
+        "p_bits": 32,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 72,
+        "n": "3894781990084876881689",
+        "p": "124539329",
+        "q": "31273510314841",
+        "balanced": false,
+        "p_bits": 27,
+        "q_bits": 45
+      },
+      {
+        "bit_length": 71,
+        "n": "2242605346917309251561",
+        "p": "5697942311",
+        "q": "393581616751",
+        "balanced": false,
+        "p_bits": 33,
+        "q_bits": 39
+      },
+      {
+        "bit_length": 71,
+        "n": "2332532941381537119737",
+        "p": "594786319",
+        "q": "3921631797623",
+        "balanced": false,
+        "p_bits": 30,
+        "q_bits": 42
+      }
+    ],
+    "80": [
+      {
+        "bit_length": 80,
+        "n": "695894851094365219541557",
+        "p": "831571604159",
+        "q": "836842970123",
+        "balanced": true,
+        "p_bits": 40,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 80,
+        "n": "725314205114982108221107",
+        "p": "845743194277",
+        "q": "857605724791",
+        "balanced": true,
+        "p_bits": 40,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 80,
+        "n": "978326311827830895841943",
+        "p": "912049394033",
+        "q": "1072668123271",
+        "balanced": true,
+        "p_bits": 40,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 79,
+        "n": "582995510226442233504821",
+        "p": "685232199173",
+        "q": "850799934577",
+        "balanced": true,
+        "p_bits": 40,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 79,
+        "n": "389247406006427018822251",
+        "p": "611494296709",
+        "q": "636551163439",
+        "balanced": true,
+        "p_bits": 40,
+        "q_bits": 40
+      },
+      {
+        "bit_length": 80,
+        "n": "694658424959309111553269",
+        "p": "2147448253",
+        "q": "323480868043673",
+        "balanced": false,
+        "p_bits": 31,
+        "q_bits": 49
+      },
+      {
+        "bit_length": 80,
+        "n": "783277635624485699693473",
+        "p": "48494704457",
+        "q": "16151817902489",
+        "balanced": false,
+        "p_bits": 36,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 80,
+        "n": "848307073592027688684167",
+        "p": "1635099859",
+        "q": "518810560054013",
+        "balanced": false,
+        "p_bits": 31,
+        "q_bits": 49
+      },
+      {
+        "bit_length": 79,
+        "n": "560672907311067443192467",
+        "p": "1974381763",
+        "q": "283973909108209",
+        "balanced": false,
+        "p_bits": 31,
+        "q_bits": 49
+      },
+      {
+        "bit_length": 80,
+        "n": "709404400708727383077989",
+        "p": "672565381",
+        "q": "1054773886300769",
+        "balanced": false,
+        "p_bits": 30,
+        "q_bits": 50
+      },
+      {
+        "bit_length": 80,
+        "n": "640343524583517854196679",
+        "p": "191729053",
+        "q": "3339835640785843",
+        "balanced": false,
+        "p_bits": 28,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 79,
+        "n": "466949134070790428502331",
+        "p": "5671285693",
+        "q": "82335674721367",
+        "balanced": false,
+        "p_bits": 33,
+        "q_bits": 47
+      },
+      {
+        "bit_length": 80,
+        "n": "843396829000798958557979",
+        "p": "267079144427",
+        "q": "3157853567377",
+        "balanced": false,
+        "p_bits": 38,
+        "q_bits": 42
+      },
+      {
+        "bit_length": 80,
+        "n": "711955689972463959747019",
+        "p": "7880612309",
+        "q": "90342686844191",
+        "balanced": false,
+        "p_bits": 33,
+        "q_bits": 47
+      },
+      {
+        "bit_length": 79,
+        "n": "466075615345904739700081",
+        "p": "374629933",
+        "q": "1244096037958357",
+        "balanced": false,
+        "p_bits": 29,
+        "q_bits": 51
+      }
+    ],
+    "88": [
+      {
+        "bit_length": 88,
+        "n": "267058292910260928841678757",
+        "p": "15212015529727",
+        "q": "17555746796891",
+        "balanced": true,
+        "p_bits": 44,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 88,
+        "n": "226005102613354751905096517",
+        "p": "13559936410001",
+        "q": "16667121126517",
+        "balanced": true,
+        "p_bits": 44,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 88,
+        "n": "263237128780055697552430367",
+        "p": "15975265371911",
+        "q": "16477793805097",
+        "balanced": true,
+        "p_bits": 44,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 88,
+        "n": "162587383621686058264241911",
+        "p": "12337401198739",
+        "q": "13178414238349",
+        "balanced": true,
+        "p_bits": 44,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 88,
+        "n": "230512581657763673430381979",
+        "p": "13572509350637",
+        "q": "16983785068967",
+        "balanced": true,
+        "p_bits": 44,
+        "q_bits": 44
+      },
+      {
+        "bit_length": 87,
+        "n": "146014038326958928376942123",
+        "p": "80144043533",
+        "q": "1821895076542231",
+        "balanced": false,
+        "p_bits": 37,
+        "q_bits": 51
+      },
+      {
+        "bit_length": 88,
+        "n": "174528548008874298688095431",
+        "p": "525703643771",
+        "q": "331990371527461",
+        "balanced": false,
+        "p_bits": 39,
+        "q_bits": 49
+      },
+      {
+        "bit_length": 88,
+        "n": "167074760563379974636347691",
+        "p": "4844863063553",
+        "q": "34484929371947",
+        "balanced": true,
+        "p_bits": 43,
+        "q_bits": 45
+      },
+      {
+        "bit_length": 88,
+        "n": "157234018003438959499785901",
+        "p": "5591616370001",
+        "q": "28119600415901",
+        "balanced": true,
+        "p_bits": 43,
+        "q_bits": 45
+      },
+      {
+        "bit_length": 87,
+        "n": "99753794275550589313698133",
+        "p": "5572156433201",
+        "q": "17902188402533",
+        "balanced": true,
+        "p_bits": 43,
+        "q_bits": 45
+      },
+      {
+        "bit_length": 88,
+        "n": "162344105425670992701265693",
+        "p": "612298604387",
+        "q": "265138780755839",
+        "balanced": false,
+        "p_bits": 40,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 87,
+        "n": "104433761805004177176301757",
+        "p": "22589374133",
+        "q": "4623136576964329",
+        "balanced": false,
+        "p_bits": 35,
+        "q_bits": 53
+      },
+      {
+        "bit_length": 88,
+        "n": "163931927401391143038250247",
+        "p": "1631284583",
+        "q": "100492537666183009",
+        "balanced": false,
+        "p_bits": 31,
+        "q_bits": 57
+      },
+      {
+        "bit_length": 88,
+        "n": "206813501674117001158846843",
+        "p": "1489669645207",
+        "q": "138831788873149",
+        "balanced": false,
+        "p_bits": 41,
+        "q_bits": 47
+      },
+      {
+        "bit_length": 87,
+        "n": "115261378517495914296937549",
+        "p": "95876808821",
+        "q": "1202182049390969",
+        "balanced": false,
+        "p_bits": 37,
+        "q_bits": 51
+      }
+    ],
+    "96": [
+      {
+        "bit_length": 96,
+        "n": "52960284132384347047481556323",
+        "p": "228714601529129",
+        "q": "231556200514987",
+        "balanced": true,
+        "p_bits": 48,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 95,
+        "n": "38451987864089486210002350013",
+        "p": "181288008762173",
+        "q": "212104419518081",
+        "balanced": true,
+        "p_bits": 48,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 95,
+        "n": "39318626877976160791186863341",
+        "p": "181754143609111",
+        "q": "216328640971931",
+        "balanced": true,
+        "p_bits": 48,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 96,
+        "n": "41255467141234664595560936179",
+        "p": "189327517415741",
+        "q": "217905287643119",
+        "balanced": true,
+        "p_bits": 48,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 95,
+        "n": "37527831561458977694542743593",
+        "p": "154094983240691",
+        "q": "243537010564723",
+        "balanced": true,
+        "p_bits": 48,
+        "q_bits": 48
+      },
+      {
+        "bit_length": 96,
+        "n": "45955177836362032633946806699",
+        "p": "57695282253109",
+        "q": "796515348252511",
+        "balanced": false,
+        "p_bits": 46,
+        "q_bits": 50
+      },
+      {
+        "bit_length": 96,
+        "n": "67008700786351317071137121087",
+        "p": "8080785567997",
+        "q": "8292349824468971",
+        "balanced": false,
+        "p_bits": 43,
+        "q_bits": 53
+      },
+      {
+        "bit_length": 96,
+        "n": "48119174972177226227338163071",
+        "p": "268300986361",
+        "q": "179347737870157111",
+        "balanced": false,
+        "p_bits": 38,
+        "q_bits": 58
+      },
+      {
+        "bit_length": 96,
+        "n": "51479659105705029256594234849",
+        "p": "16295086107107",
+        "q": "3159213689779307",
+        "balanced": false,
+        "p_bits": 44,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 96,
+        "n": "70768594819766102198914615259",
+        "p": "68733255545267",
+        "q": "1029612147109177",
+        "balanced": false,
+        "p_bits": 46,
+        "q_bits": 50
+      },
+      {
+        "bit_length": 95,
+        "n": "27294753188920098199940837693",
+        "p": "1193867762603",
+        "q": "22862459347599031",
+        "balanced": false,
+        "p_bits": 41,
+        "q_bits": 55
+      },
+      {
+        "bit_length": 95,
+        "n": "27555630559385270966800732111",
+        "p": "18937540632331",
+        "q": "1455079679794381",
+        "balanced": false,
+        "p_bits": 45,
+        "q_bits": 51
+      },
+      {
+        "bit_length": 95,
+        "n": "36056764777434594103991048369",
+        "p": "10094611369",
+        "q": "3571882409278573001",
+        "balanced": false,
+        "p_bits": 34,
+        "q_bits": 62
+      },
+      {
+        "bit_length": 96,
+        "n": "76472400650424398358327935167",
+        "p": "16992409597",
+        "q": "4500385905476616811",
+        "balanced": false,
+        "p_bits": 34,
+        "q_bits": 62
+      },
+      {
+        "bit_length": 96,
+        "n": "58326616489196883783429188513",
+        "p": "2141012441429",
+        "q": "27242539725863197",
+        "balanced": false,
+        "p_bits": 41,
+        "q_bits": 55
+      }
+    ],
+    "104": [
+      {
+        "bit_length": 103,
+        "n": "7581522364741354321759228086937",
+        "p": "2587712309953559",
+        "q": "2929816554792143",
+        "balanced": true,
+        "p_bits": 52,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 104,
+        "n": "11415753699008112932186631951389",
+        "p": "3126378614863027",
+        "q": "3651430330522607",
+        "balanced": true,
+        "p_bits": 52,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 103,
+        "n": "8614446928624002793166280152479",
+        "p": "2423230456848889",
+        "q": "3554943321332311",
+        "balanced": true,
+        "p_bits": 52,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 104,
+        "n": "18008152663056182293462634006143",
+        "p": "4194671435225879",
+        "q": "4293102079897817",
+        "balanced": true,
+        "p_bits": 52,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 104,
+        "n": "14125675167307964740413888622033",
+        "p": "3731504607142927",
+        "q": "3785517279080479",
+        "balanced": true,
+        "p_bits": 52,
+        "q_bits": 52
+      },
+      {
+        "bit_length": 103,
+        "n": "8308848467368081681667919893011",
+        "p": "2703844006883",
+        "q": "3072976268681472017",
+        "balanced": false,
+        "p_bits": 42,
+        "q_bits": 62
+      },
+      {
+        "bit_length": 104,
+        "n": "15841208272334198363891388395179",
+        "p": "538989256697",
+        "q": "29390582605321843907",
+        "balanced": false,
+        "p_bits": 39,
+        "q_bits": 65
+      },
+      {
+        "bit_length": 104,
+        "n": "19031722402973175891729612154259",
+        "p": "4237399233031",
+        "q": "4491368727926029589",
+        "balanced": false,
+        "p_bits": 42,
+        "q_bits": 62
+      },
+      {
+        "bit_length": 104,
+        "n": "11592390668271127340728969694651",
+        "p": "738748687856813",
+        "q": "15691927253233927",
+        "balanced": false,
+        "p_bits": 50,
+        "q_bits": 54
+      },
+      {
+        "bit_length": 104,
+        "n": "12188684190833775049719855893599",
+        "p": "26553187925057",
+        "q": "459029033547112607",
+        "balanced": false,
+        "p_bits": 45,
+        "q_bits": 59
+      },
+      {
+        "bit_length": 104,
+        "n": "10473459961322731597630338489943",
+        "p": "12031987710313",
+        "q": "870467973662040511",
+        "balanced": false,
+        "p_bits": 44,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 104,
+        "n": "15663444380798772221149904260649",
+        "p": "33542536403",
+        "q": "466972568580050926483",
+        "balanced": false,
+        "p_bits": 35,
+        "q_bits": 69
+      },
+      {
+        "bit_length": 103,
+        "n": "9517860962877452240923806400337",
+        "p": "169547127433",
+        "q": "56136963845870103689",
+        "balanced": false,
+        "p_bits": 38,
+        "q_bits": 66
+      },
+      {
+        "bit_length": 103,
+        "n": "8634823067450865758994727895879",
+        "p": "42463296247487",
+        "q": "203347922335677817",
+        "balanced": false,
+        "p_bits": 46,
+        "q_bits": 58
+      },
+      {
+        "bit_length": 104,
+        "n": "16404874705595425167038844511193",
+        "p": "928048354573",
+        "q": "17676745640202546941",
+        "balanced": false,
+        "p_bits": 40,
+        "q_bits": 64
+      }
+    ],
+    "112": [
+      {
+        "bit_length": 111,
+        "n": "1981139779696152380729487365265001",
+        "p": "38167442191708541",
+        "q": "51906537769684061",
+        "balanced": true,
+        "p_bits": 56,
+        "q_bits": 56
+      },
+      {
+        "bit_length": 111,
+        "n": "1854217911262814811094061648131363",
+        "p": "36647712641417377",
+        "q": "50595733747575619",
+        "balanced": true,
+        "p_bits": 56,
+        "q_bits": 56
+      },
+      {
+        "bit_length": 112,
+        "n": "3644741254242546117557091857292787",
+        "p": "53694106945867561",
+        "q": "67879725756814267",
+        "balanced": true,
+        "p_bits": 56,
+        "q_bits": 56
+      },
+      {
+        "bit_length": 111,
+        "n": "2308365372347086331911046452054387",
+        "p": "40415677464731531",
+        "q": "57115592689531577",
+        "balanced": true,
+        "p_bits": 56,
+        "q_bits": 56
+      },
+      {
+        "bit_length": 112,
+        "n": "3732980153197357656815853075904591",
+        "p": "59675436688690661",
+        "q": "62554718663748131",
+        "balanced": true,
+        "p_bits": 56,
+        "q_bits": 56
+      },
+      {
+        "bit_length": 112,
+        "n": "3043498745387139492087068436792431",
+        "p": "16861915080727",
+        "q": "180495437844176315753",
+        "balanced": false,
+        "p_bits": 44,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 111,
+        "n": "1996743819916016843102054004795991",
+        "p": "620695954083853",
+        "q": "3216943507974383347",
+        "balanced": false,
+        "p_bits": 50,
+        "q_bits": 62
+      },
+      {
+        "bit_length": 111,
+        "n": "1684412788413712098946531326947747",
+        "p": "9465451550417",
+        "q": "177953770027960829491",
+        "balanced": false,
+        "p_bits": 44,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 112,
+        "n": "4699564595435782535219970836206799",
+        "p": "4101194951067377",
+        "q": "1145901292551985087",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 112,
+        "n": "3391819657109594517596702135719099",
+        "p": "15240370281931",
+        "q": "222554937600888850129",
+        "balanced": false,
+        "p_bits": 44,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 112,
+        "n": "3275393345304859943559012106962923",
+        "p": "1498892186357",
+        "q": "2185209433418675635039",
+        "balanced": false,
+        "p_bits": 41,
+        "q_bits": 71
+      },
+      {
+        "bit_length": 112,
+        "n": "2954930843344013751122303539946531",
+        "p": "12717337435226617",
+        "q": "232354520621506043",
+        "balanced": false,
+        "p_bits": 54,
+        "q_bits": 58
+      },
+      {
+        "bit_length": 112,
+        "n": "3135335565343314076695333589199189",
+        "p": "332701449851",
+        "q": "9423871061419993405039",
+        "balanced": false,
+        "p_bits": 39,
+        "q_bits": 73
+      },
+      {
+        "bit_length": 111,
+        "n": "1854387608609278529029406036303447",
+        "p": "5256831631143749",
+        "q": "352757656840877803",
+        "balanced": false,
+        "p_bits": 53,
+        "q_bits": 59
+      },
+      {
+        "bit_length": 112,
+        "n": "4331482204189394122543907337172999",
+        "p": "1112428117950899",
+        "q": "3893718734984887901",
+        "balanced": false,
+        "p_bits": 50,
+        "q_bits": 62
+      }
+    ],
+    "120": [
+      {
+        "bit_length": 119,
+        "n": "472357013168843994643550937277686007",
+        "p": "614071958192101831",
+        "q": "769220946938396497",
+        "balanced": true,
+        "p_bits": 60,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 120,
+        "n": "732512962775845853304010440008985949",
+        "p": "638514959040898487",
+        "q": "1147213471515436427",
+        "balanced": true,
+        "p_bits": 60,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 119,
+        "n": "577658452233739753996953100093272197",
+        "p": "709785538411524779",
+        "q": "813849284005587343",
+        "balanced": true,
+        "p_bits": 60,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 119,
+        "n": "451718043882324461407306395389599463",
+        "p": "601163874116473303",
+        "q": "751405836796516721",
+        "balanced": true,
+        "p_bits": 60,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 119,
+        "n": "432614814063118757631964963859701847",
+        "p": "597111710016614629",
+        "q": "724512359757743243",
+        "balanced": true,
+        "p_bits": 60,
+        "q_bits": 60
+      },
+      {
+        "bit_length": 120,
+        "n": "675302139083552347333938081225662747",
+        "p": "458300054932550137",
+        "q": "1473493471832420531",
+        "balanced": true,
+        "p_bits": 59,
+        "q_bits": 61
+      },
+      {
+        "bit_length": 119,
+        "n": "586996023373249062431033153029367783",
+        "p": "192029047502317",
+        "q": "3056808493340917275299",
+        "balanced": false,
+        "p_bits": 48,
+        "q_bits": 72
+      },
+      {
+        "bit_length": 119,
+        "n": "472621854297165190443475452456012109",
+        "p": "2802705092399111",
+        "q": "168630604617984139019",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 120,
+        "n": "943150231322567360220871870994884117",
+        "p": "26943465088714001",
+        "q": "35004786066571346117",
+        "balanced": false,
+        "p_bits": 55,
+        "q_bits": 65
+      },
+      {
+        "bit_length": 119,
+        "n": "408497573039372516549543598946242127",
+        "p": "144580925063843",
+        "q": "2825390506105775090789",
+        "balanced": false,
+        "p_bits": 48,
+        "q_bits": 72
+      },
+      {
+        "bit_length": 120,
+        "n": "1046802203180507239095895588418599067",
+        "p": "3827144075859043",
+        "q": "273520458710596465769",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 120,
+        "n": "739104950345385797571908908927497119",
+        "p": "1558380434865349",
+        "q": "474277611428847123731",
+        "balanced": false,
+        "p_bits": 51,
+        "q_bits": 69
+      },
+      {
+        "bit_length": 120,
+        "n": "688231795732593639179639678012982197",
+        "p": "2682723909073207",
+        "q": "256542163509608083571",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 119,
+        "n": "470275318423981942560626082572988371",
+        "p": "3015841498395883",
+        "q": "155935024660321162937",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 120,
+        "n": "670668763172017702745114068263553733",
+        "p": "1838102521669",
+        "q": "364870161084948299779457",
+        "balanced": false,
+        "p_bits": 41,
+        "q_bits": 79
+      }
+    ],
+    "128": [
+      {
+        "bit_length": 127,
+        "n": "106893361638011102376878420025709279019",
+        "p": "9460717182332527249",
+        "q": "11298653112433140731",
+        "balanced": true,
+        "p_bits": 64,
+        "q_bits": 64
+      },
+      {
+        "bit_length": 128,
+        "n": "282084229634533959057990352341072768559",
+        "p": "15412405148336702557",
+        "q": "18302414640649147387",
+        "balanced": true,
+        "p_bits": 64,
+        "q_bits": 64
+      },
+      {
+        "bit_length": 128,
+        "n": "284596970437172975273175813500013736501",
+        "p": "16475705489863341061",
+        "q": "17273734991941373041",
+        "balanced": true,
+        "p_bits": 64,
+        "q_bits": 64
+      },
+      {
+        "bit_length": 127,
+        "n": "147078396142722931954960285180580101031",
+        "p": "9871649623718492887",
+        "q": "14899069734944750513",
+        "balanced": true,
+        "p_bits": 64,
+        "q_bits": 64
+      },
+      {
+        "bit_length": 128,
+        "n": "211638535720758582729355691655161571167",
+        "p": "13808364395962972393",
+        "q": "15326835941745094919",
+        "balanced": true,
+        "p_bits": 64,
+        "q_bits": 64
+      },
+      {
+        "bit_length": 128,
+        "n": "227706325993455983739325392087745387621",
+        "p": "3578625646717321",
+        "q": "63629546220441179394301",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 76
+      },
+      {
+        "bit_length": 128,
+        "n": "187368938160651838087525677529426375019",
+        "p": "6352146690712034711",
+        "q": "29496947612154244429",
+        "balanced": true,
+        "p_bits": 63,
+        "q_bits": 65
+      },
+      {
+        "bit_length": 127,
+        "n": "135532213119528550453842004036961538161",
+        "p": "9141344861007971",
+        "q": "14826288164407362916891",
+        "balanced": false,
+        "p_bits": 54,
+        "q_bits": 74
+      },
+      {
+        "bit_length": 128,
+        "n": "205401726763249385516782287713905284079",
+        "p": "860878458907307",
+        "q": "238595500489071382657997",
+        "balanced": false,
+        "p_bits": 50,
+        "q_bits": 78
+      },
+      {
+        "bit_length": 127,
+        "n": "165946333788060091891428756072256480087",
+        "p": "2497807725121099",
+        "q": "66436792599804559714213",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 76
+      },
+      {
+        "bit_length": 128,
+        "n": "245230840799224748459593103397085542127",
+        "p": "14569473800456291",
+        "q": "16831825511196192820997",
+        "balanced": false,
+        "p_bits": 54,
+        "q_bits": 74
+      },
+      {
+        "bit_length": 128,
+        "n": "235347837743728596019139059565531382053",
+        "p": "31048440633068659",
+        "q": "7580021184479952924167",
+        "balanced": false,
+        "p_bits": 55,
+        "q_bits": 73
+      },
+      {
+        "bit_length": 127,
+        "n": "100844915550293938948546533036398881043",
+        "p": "158850371196427",
+        "q": "634842177520591340291609",
+        "balanced": false,
+        "p_bits": 48,
+        "q_bits": 80
+      },
+      {
+        "bit_length": 127,
+        "n": "94689252729956506831421350216669930817",
+        "p": "36110515796513",
+        "q": "2622207150502683851589409",
+        "balanced": false,
+        "p_bits": 46,
+        "q_bits": 82
+      },
+      {
+        "bit_length": 127,
+        "n": "152511972330772967100690673216237866437",
+        "p": "808519763130951229",
+        "q": "188631100049030579753",
+        "balanced": false,
+        "p_bits": 60,
+        "q_bits": 68
+      }
+    ],
+    "136": [
+      {
+        "bit_length": 136,
+        "n": "47562305420601698108241185055622934353121",
+        "p": "183019658490625386847",
+        "q": "259875391599192222143",
+        "balanced": true,
+        "p_bits": 68,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 136,
+        "n": "47398815584936564826246187712674634849687",
+        "p": "213132132382924548121",
+        "q": "222391692209869728047",
+        "balanced": true,
+        "p_bits": 68,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 136,
+        "n": "80363784128789075982903001263943911677837",
+        "p": "279327794631871109351",
+        "q": "287704215882638209387",
+        "balanced": true,
+        "p_bits": 68,
+        "q_bits": 68
+      },
+      {
+        "bit_length": 136,
+        "n": "53535377397580412104866109484571929060059",
+        "p": "1708370876742782467",
+        "q": "31337093207566346210377",
+        "balanced": false,
+        "p_bits": 61,
+        "q_bits": 75
+      },
+      {
+        "bit_length": 136,
+        "n": "52074033354910108636156257406366999895213",
+        "p": "25572544976574347047",
+        "q": "2036325809676446765579",
+        "balanced": false,
+        "p_bits": 65,
+        "q_bits": 71
+      },
+      {
+        "bit_length": 136,
+        "n": "50496349384291062625054453903008038063057",
+        "p": "3170707628115262217",
+        "q": "15925892673462041744521",
+        "balanced": false,
+        "p_bits": 62,
+        "q_bits": 74
+      },
+      {
+        "bit_length": 135,
+        "n": "40158839869581168508057655042899647480001",
+        "p": "19009534628756611",
+        "q": "2112563019235148216144491",
+        "balanced": false,
+        "p_bits": 55,
+        "q_bits": 81
+      },
+      {
+        "bit_length": 135,
+        "n": "37678422489898569418336905291035177194717",
+        "p": "116002227279347",
+        "q": "324807750450898660360457711",
+        "balanced": false,
+        "p_bits": 47,
+        "q_bits": 89
+      },
+      {
+        "bit_length": 135,
+        "n": "24095544239440295235759074654578908689303",
+        "p": "2335791855030427",
+        "q": "10315792559832526950711989",
+        "balanced": false,
+        "p_bits": 52,
+        "q_bits": 84
+      },
+      {
+        "bit_length": 135,
+        "n": "39609343449514376148326229773191764479447",
+        "p": "452059685573566361",
+        "q": "87619720832346843135727",
+        "balanced": false,
+        "p_bits": 59,
+        "q_bits": 77
+      }
+    ],
+    "144": [
+      {
+        "bit_length": 144,
+        "n": "12693196963340326848088252934342967172034483",
+        "p": "3314574303625970498027",
+        "q": "3829510459142410807129",
+        "balanced": true,
+        "p_bits": 72,
+        "q_bits": 72
+      },
+      {
+        "bit_length": 143,
+        "n": "7647147270798874837848872048927239643069737",
+        "p": "2679598111723182098539",
+        "q": "2853841117943312369083",
+        "balanced": true,
+        "p_bits": 72,
+        "q_bits": 72
+      },
+      {
+        "bit_length": 143,
+        "n": "8512287068502418634388977731181555854952939",
+        "p": "2370097030426689593959",
+        "q": "3591535265950672032221",
+        "balanced": true,
+        "p_bits": 72,
+        "q_bits": 72
+      },
+      {
+        "bit_length": 143,
+        "n": "7388420859113628333334676643829193119666363",
+        "p": "22897856292134569",
+        "q": "322668671025398849286457027",
+        "balanced": false,
+        "p_bits": 55,
+        "q_bits": 89
+      },
+      {
+        "bit_length": 144,
+        "n": "15153655361234965705383361676245967796068021",
+        "p": "66698200483502867",
+        "q": "227197364417396401023242263",
+        "balanced": false,
+        "p_bits": 56,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 143,
+        "n": "10943624968709650709580774273350522318176313",
+        "p": "544032554522477142667",
+        "q": "20115753878580635636939",
+        "balanced": false,
+        "p_bits": 69,
+        "q_bits": 75
+      },
+      {
+        "bit_length": 143,
+        "n": "10580629595487691063330732099951367959029391",
+        "p": "816924171703756873879",
+        "q": "12951789115776793981129",
+        "balanced": false,
+        "p_bits": 70,
+        "q_bits": 74
+      },
+      {
+        "bit_length": 143,
+        "n": "8964822484878642351382177853252023893861319",
+        "p": "142670870453999",
+        "q": "62835689278065678402533312681",
+        "balanced": false,
+        "p_bits": 48,
+        "q_bits": 96
+      },
+      {
+        "bit_length": 144,
+        "n": "11459047450909228587338636012109895231435667",
+        "p": "1581717214005962835587",
+        "q": "7244687830062415761841",
+        "balanced": true,
+        "p_bits": 71,
+        "q_bits": 73
+      },
+      {
+        "bit_length": 144,
+        "n": "14478268502083596961037956638207048993698567",
+        "p": "850611069364729",
+        "q": "17021020562190141393999316223",
+        "balanced": false,
+        "p_bits": 50,
+        "q_bits": 94
+      }
+    ],
+    "152": [
+      {
+        "bit_length": 152,
+        "n": "3081751824341361500937774200351855155258356467",
+        "p": "47847859724989041811703",
+        "q": "64407307705173792668389",
+        "balanced": true,
+        "p_bits": 76,
+        "q_bits": 76
+      },
+      {
+        "bit_length": 151,
+        "n": "2219031145602409212574849542872035055046009601",
+        "p": "38922111677721930686887",
+        "q": "57012095437579473017623",
+        "balanced": true,
+        "p_bits": 76,
+        "q_bits": 76
+      },
+      {
+        "bit_length": 152,
+        "n": "4512707833000960991579600187308189706358707481",
+        "p": "60900235286415595516507",
+        "q": "74100006539836233648283",
+        "balanced": true,
+        "p_bits": 76,
+        "q_bits": 76
+      },
+      {
+        "bit_length": 152,
+        "n": "4870988130230830453761516127540925027962993907",
+        "p": "18327108583823618556997",
+        "q": "265780502579124633091031",
+        "balanced": false,
+        "p_bits": 74,
+        "q_bits": 78
+      },
+      {
+        "bit_length": 151,
+        "n": "1722050556316366277855733969530296085974399499",
+        "p": "1414310606087736336121",
+        "q": "1217590074559293367709219",
+        "balanced": false,
+        "p_bits": 71,
+        "q_bits": 81
+      },
+      {
+        "bit_length": 151,
+        "n": "2436856727140996078725562986049521233657937061",
+        "p": "1435692557621435851",
+        "q": "1697338830799698070714597711",
+        "balanced": false,
+        "p_bits": 61,
+        "q_bits": 91
+      },
+      {
+        "bit_length": 152,
+        "n": "3764085625869749318301909567832792403177059717",
+        "p": "6780222194266305523",
+        "q": "555156677468895944704435879",
+        "balanced": false,
+        "p_bits": 63,
+        "q_bits": 89
+      },
+      {
+        "bit_length": 152,
+        "n": "4167782627023820451646602271906591377720260983",
+        "p": "223964275410581327",
+        "q": "18609140316611901278107357529",
+        "balanced": false,
+        "p_bits": 58,
+        "q_bits": 94
+      },
+      {
+        "bit_length": 152,
+        "n": "4293178626705009161051152285038877318132190143",
+        "p": "904394661427810836301",
+        "q": "4747018983866140934269243",
+        "balanced": false,
+        "p_bits": 70,
+        "q_bits": 82
+      },
+      {
+        "bit_length": 151,
+        "n": "2484266144510553387146304655572624878968326313",
+        "p": "46179242104746153199",
+        "q": "53796165360956163133402087",
+        "balanced": false,
+        "p_bits": 66,
+        "q_bits": 86
+      }
+    ],
+    "160": [
+      {
+        "bit_length": 160,
+        "n": "1071036733439988481563991590926674410310349726387",
+        "p": "936372115096700398600007",
+        "q": "1143815280455442746732341",
+        "balanced": true,
+        "p_bits": 80,
+        "q_bits": 80
+      },
+      {
+        "bit_length": 159,
+        "n": "570456057607910655111495976898348042767174070491",
+        "p": "607801141636744216306147",
+        "q": "938557068306474058090153",
+        "balanced": true,
+        "p_bits": 80,
+        "q_bits": 80
+      },
+      {
+        "bit_length": 160,
+        "n": "826621407894049846859134451361472899731097192623",
+        "p": "843814394157501578803547",
+        "q": "979624682415357580098109",
+        "balanced": true,
+        "p_bits": 80,
+        "q_bits": 80
+      },
+      {
+        "bit_length": 160,
+        "n": "1014662890353027298665718200029721126520247611127",
+        "p": "119627916115787747606261",
+        "q": "8481823668740798263749307",
+        "balanced": false,
+        "p_bits": 77,
+        "q_bits": 83
+      },
+      {
+        "bit_length": 159,
+        "n": "692929892188677449524472497057843714652345908583",
+        "p": "2357264872248660277",
+        "q": "293955041008044388998075147179",
+        "balanced": false,
+        "p_bits": 62,
+        "q_bits": 98
+      },
+      {
+        "bit_length": 159,
+        "n": "438426618745714129542149276389016853948631290731",
+        "p": "2461933393733060732921",
+        "q": "178082242136097071331956611",
+        "balanced": false,
+        "p_bits": 72,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 159,
+        "n": "661747959080897665367795599729589342710882243219",
+        "p": "441703997711897137426421",
+        "q": "1498170635785200463956839",
+        "balanced": true,
+        "p_bits": 79,
+        "q_bits": 81
+      },
+      {
+        "bit_length": 159,
+        "n": "574848175209434855476359415064275137970010552389",
+        "p": "5921591537094117167",
+        "q": "97076634146151894179294206667",
+        "balanced": false,
+        "p_bits": 63,
+        "q_bits": 97
+      },
+      {
+        "bit_length": 159,
+        "n": "665997147454374432050065512409162973842498225063",
+        "p": "1655823879039943661",
+        "q": "402214967355419141014148029283",
+        "balanced": false,
+        "p_bits": 61,
+        "q_bits": 99
+      },
+      {
+        "bit_length": 160,
+        "n": "1151674827256534325125902206630695908581391942823",
+        "p": "17826608810150363",
+        "q": "64604257574821390560607659280421",
+        "balanced": false,
+        "p_bits": 54,
+        "q_bits": 106
+      }
+    ],
+    "168": [
+      {
+        "bit_length": 168,
+        "n": "245653096529074368291072554237804214881929266155227",
+        "p": "13954868145322348034695661",
+        "q": "17603397894620519008549607",
+        "balanced": true,
+        "p_bits": 84,
+        "q_bits": 84
+      },
+      {
+        "bit_length": 167,
+        "n": "156724837603272974746710095049095247541256619622939",
+        "p": "10227332681415612121218841",
+        "q": "15324116510657984156554579",
+        "balanced": true,
+        "p_bits": 84,
+        "q_bits": 84
+      },
+      {
+        "bit_length": 168,
+        "n": "298156568662307666541263689666718149646923284850633",
+        "p": "17031930066319148504387063",
+        "q": "17505741715785690876643391",
+        "balanced": true,
+        "p_bits": 84,
+        "q_bits": 84
+      },
+      {
+        "bit_length": 168,
+        "n": "216789459816413926559771551915983689553289801509733",
+        "p": "23894053757310911267",
+        "q": "9072946014867084799907467862999",
+        "balanced": false,
+        "p_bits": 65,
+        "q_bits": 103
+      },
+      {
+        "bit_length": 167,
+        "n": "139704465080558893208907020470609502743206136419949",
+        "p": "5900317714910334047",
+        "q": "23677447864802303130944590860467",
+        "balanced": false,
+        "p_bits": 63,
+        "q_bits": 105
+      },
+      {
+        "bit_length": 168,
+        "n": "194737594297924747862099693963999204206206792407267",
+        "p": "12876693188677239815489",
+        "q": "15123261185500778062588967203",
+        "balanced": false,
+        "p_bits": 74,
+        "q_bits": 94
+      },
+      {
+        "bit_length": 167,
+        "n": "155246428127022182104365721414215828082235877467431",
+        "p": "6069803162724490386809107",
+        "q": "25576847216465304245256733",
+        "balanced": true,
+        "p_bits": 83,
+        "q_bits": 85
+      },
+      {
+        "bit_length": 168,
+        "n": "193860005158564008150038479930029401314135413046211",
+        "p": "1779502820311626173136803",
+        "q": "108940543923732182311261537",
+        "balanced": false,
+        "p_bits": 81,
+        "q_bits": 87
+      },
+      {
+        "bit_length": 168,
+        "n": "246837000909855805888715075636895671504611686960307",
+        "p": "1085751832284452642382239",
+        "q": "227342007234290138601800813",
+        "balanced": false,
+        "p_bits": 80,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 167,
+        "n": "163885935107375059939354740989479720624282571175301",
+        "p": "182964304863737476966849",
+        "q": "895726274201019603299505349",
+        "balanced": false,
+        "p_bits": 78,
+        "q_bits": 90
+      }
+    ],
+    "176": [
+      {
+        "bit_length": 175,
+        "n": "40771439537729300657571302763930765509970467168732239",
+        "p": "176886619336026910822611571",
+        "q": "230494763768857254417501109",
+        "balanced": true,
+        "p_bits": 88,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 176,
+        "n": "48595254697992709341737062084530998887135210397725561",
+        "p": "211973777960397405950802643",
+        "q": "229251255346647894073479427",
+        "balanced": true,
+        "p_bits": 88,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 176,
+        "n": "71481877495922610749332454857493969687445039083274587",
+        "p": "262135039371798483575206811",
+        "q": "272691043773573872319210817",
+        "balanced": true,
+        "p_bits": 88,
+        "q_bits": 88
+      },
+      {
+        "bit_length": 175,
+        "n": "42735074991426447478582478143020259577836911519798011",
+        "p": "23938780734923895361769",
+        "q": "1785181771145133807979299927619",
+        "balanced": false,
+        "p_bits": 75,
+        "q_bits": 101
+      },
+      {
+        "bit_length": 176,
+        "n": "49052150617237764170812265425996776328393848990090841",
+        "p": "486799243581612597761",
+        "q": "100764640175563666675320310920281",
+        "balanced": false,
+        "p_bits": 69,
+        "q_bits": 107
+      },
+      {
+        "bit_length": 175,
+        "n": "44876114021051750688118911635024273743534530474663611",
+        "p": "403110476713750145843",
+        "q": "111324603584834145177436122725977",
+        "balanced": false,
+        "p_bits": 69,
+        "q_bits": 107
+      },
+      {
+        "bit_length": 176,
+        "n": "57975141873879057217430162087927048290246986262304449",
+        "p": "1764717291905445729239",
+        "q": "32852367991068219733632913348391",
+        "balanced": false,
+        "p_bits": 71,
+        "q_bits": 105
+      },
+      {
+        "bit_length": 176,
+        "n": "61449542466688512461512865972719867519055965768471373",
+        "p": "1952528505126022492648949",
+        "q": "31471777392936120349424662777",
+        "balanced": false,
+        "p_bits": 81,
+        "q_bits": 95
+      },
+      {
+        "bit_length": 175,
+        "n": "29203273128232466194200864462716439533620931848483193",
+        "p": "20854611944583086152817",
+        "q": "1400326853639581441277468379529",
+        "balanced": false,
+        "p_bits": 75,
+        "q_bits": 101
+      },
+      {
+        "bit_length": 176,
+        "n": "61355391312895956579069406465476258219445387992286379",
+        "p": "495248119485466506133111",
+        "q": "123888186343121459899793044589",
+        "balanced": false,
+        "p_bits": 79,
+        "q_bits": 97
+      }
+    ],
+    "184": [
+      {
+        "bit_length": 184,
+        "n": "17598543263158199807549023815633838149032977924949064511",
+        "p": "4003026878167000448158509737",
+        "q": "4396309042825271338873556903",
+        "balanced": true,
+        "p_bits": 92,
+        "q_bits": 92
+      },
+      {
+        "bit_length": 183,
+        "n": "9785898671775182240195488863054221879120792791368897223",
+        "p": "2570633534941590019689839399",
+        "q": "3806804252243421231806836577",
+        "balanced": true,
+        "p_bits": 92,
+        "q_bits": 92
+      },
+      {
+        "bit_length": 184,
+        "n": "21102519068249452060533086280607673313632260783763635693",
+        "p": "4501598535843056298085052047",
+        "q": "4687783439643710188759124419",
+        "balanced": true,
+        "p_bits": 92,
+        "q_bits": 92
+      },
+      {
+        "bit_length": 184,
+        "n": "15703610933968152345125661605652279454391053979671855903",
+        "p": "472620105564142727346787",
+        "q": "33226709463033837394391963054869",
+        "balanced": false,
+        "p_bits": 79,
+        "q_bits": 105
+      },
+      {
+        "bit_length": 183,
+        "n": "10678044622706020707215228923807234812561297221523007619",
+        "p": "902747105239243909789814399",
+        "q": "11828389768002801285749238781",
+        "balanced": false,
+        "p_bits": 90,
+        "q_bits": 94
+      },
+      {
+        "bit_length": 183,
+        "n": "12183948828869373416801869756829257526956158812285864273",
+        "p": "6452160403178627705221",
+        "q": "1888351818232387094741778933048413",
+        "balanced": false,
+        "p_bits": 73,
+        "q_bits": 111
+      },
+      {
+        "bit_length": 183,
+        "n": "10685625615414467305441324770014954386058523782684236781",
+        "p": "1802004334206506496055817",
+        "q": "5929855668254965245423914007493",
+        "balanced": false,
+        "p_bits": 81,
+        "q_bits": 103
+      },
+      {
+        "bit_length": 183,
+        "n": "9402892033046733694693146406249408514907095190573166331",
+        "p": "774314514071585756362619611",
+        "q": "12143504818995852785128359521",
+        "balanced": false,
+        "p_bits": 90,
+        "q_bits": 94
+      },
+      {
+        "bit_length": 183,
+        "n": "9385304374844976843912667614917296488719811143665605431",
+        "p": "12262640221431292487429",
+        "q": "765357558027542483091038703523339",
+        "balanced": false,
+        "p_bits": 74,
+        "q_bits": 110
+      },
+      {
+        "bit_length": 183,
+        "n": "9988467030969503350251257035261342552460674480127897713",
+        "p": "81447030553036117471",
+        "q": "122637583754085203289394240315024303",
+        "balanced": false,
+        "p_bits": 67,
+        "q_bits": 117
+      }
+    ],
+    "192": [
+      {
+        "bit_length": 191,
+        "n": "2177363714253322783006316743372767584125566837939221285333",
+        "p": "43573796873997016123851908899",
+        "q": "49969565896440863047892620967",
+        "balanced": true,
+        "p_bits": 96,
+        "q_bits": 96
+      },
+      {
+        "bit_length": 192,
+        "n": "3611992356348914810721926144725800167679046713590412517279",
+        "p": "45792433828735323249421266413",
+        "q": "78877492510178495171797185083",
+        "balanced": true,
+        "p_bits": 96,
+        "q_bits": 96
+      },
+      {
+        "bit_length": 192,
+        "n": "4873917802298886971561519218758332405488278780366875491547",
+        "p": "66530006256771908125995274433",
+        "q": "73258940988041529813967100059",
+        "balanced": true,
+        "p_bits": 96,
+        "q_bits": 96
+      },
+      {
+        "bit_length": 192,
+        "n": "3673132155864710181203668562852358919618263053650700120947",
+        "p": "2278699011668329893150527",
+        "q": "1611942664237809120920726012064461",
+        "balanced": false,
+        "p_bits": 81,
+        "q_bits": 111
+      },
+      {
+        "bit_length": 191,
+        "n": "3136402849230539400386716267044704358172011951187499791951",
+        "p": "6767389638810756679211634491",
+        "q": "463458292876085095589911768061",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 99
+      },
+      {
+        "bit_length": 191,
+        "n": "3099220248785244351333355493253508919700298723737052829059",
+        "p": "26353593315534318868303375159",
+        "q": "117601429591705289186787182101",
+        "balanced": true,
+        "p_bits": 95,
+        "q_bits": 97
+      },
+      {
+        "bit_length": 191,
+        "n": "1761753143305984411124147485443321414246896036220661299547",
+        "p": "1276223501627269703989739429",
+        "q": "1380442486021948487486989042943",
+        "balanced": false,
+        "p_bits": 91,
+        "q_bits": 101
+      },
+      {
+        "bit_length": 191,
+        "n": "2906317185101766076237074997241286195915883141626816535831",
+        "p": "56272204797590837071",
+        "q": "51647473127375902176700791290362309561",
+        "balanced": false,
+        "p_bits": 66,
+        "q_bits": 126
+      },
+      {
+        "bit_length": 191,
+        "n": "2528996762162437358102443643278469224848776551008151322617",
+        "p": "5538336059979969085358359483",
+        "q": "456634760833127228111740468699",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 99
+      },
+      {
+        "bit_length": 192,
+        "n": "3716984203001959355798106110239773882867355022791339585111",
+        "p": "8754703343937609779933",
+        "q": "424569977642459836859214592400771267",
+        "balanced": false,
+        "p_bits": 73,
+        "q_bits": 119
+      }
+    ],
+    "200": [
+      {
+        "bit_length": 199,
+        "n": "786422499176819918860804291324349065013086464079948967669521",
+        "p": "753449729219868569002088334623",
+        "q": "1043762402026598078647704638927",
+        "balanced": true,
+        "p_bits": 100,
+        "q_bits": 100
+      },
+      {
+        "bit_length": 199,
+        "n": "499377220369989605805657375735274783807460268947147529089609",
+        "p": "675803555397106064985100364351",
+        "q": "738938433190918435365372227959",
+        "balanced": true,
+        "p_bits": 100,
+        "q_bits": 100
+      },
+      {
+        "bit_length": 200,
+        "n": "818324705008930256138583185293987654671215985770103971808797",
+        "p": "661528821670354207959667634677",
+        "q": "1237020486790988003659371815561",
+        "balanced": true,
+        "p_bits": 100,
+        "q_bits": 100
+      },
+      {
+        "bit_length": 200,
+        "n": "880825706101253203875857206150838954356603142094496371614671",
+        "p": "2993013681851676989558567",
+        "q": "294293912333977684405326399098629913",
+        "balanced": false,
+        "p_bits": 82,
+        "q_bits": 118
+      },
+      {
+        "bit_length": 200,
+        "n": "912249139013271762898840533736723233602075459935668958436107",
+        "p": "283812320010570872669192911289",
+        "q": "3214268989377537009977562664163",
+        "balanced": false,
+        "p_bits": 98,
+        "q_bits": 102
+      },
+      {
+        "bit_length": 200,
+        "n": "1151576155076816344566966922448651367119433466449001791908461",
+        "p": "146119202838058678360218306037",
+        "q": "7881073347717943537075475910553",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 103
+      },
+      {
+        "bit_length": 200,
+        "n": "1248297446786948554497123360632091729825093324091188741784441",
+        "p": "281302746921912743114839384903",
+        "q": "4437558681691314373184303498047",
+        "balanced": false,
+        "p_bits": 98,
+        "q_bits": 102
+      },
+      {
+        "bit_length": 200,
+        "n": "1217569849000359086993512705141211476675424724104892660630637",
+        "p": "2063204875763812246843807043",
+        "q": "590135213086682234571651594095759",
+        "balanced": false,
+        "p_bits": 91,
+        "q_bits": 109
+      },
+      {
+        "bit_length": 199,
+        "n": "689292607104431456864945438378511929194912374721948087704217",
+        "p": "5473136036203825587861847229",
+        "q": "125941069716682160738091475298573",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 107
+      },
+      {
+        "bit_length": 200,
+        "n": "1088955518625897892299626133697602469905683689181162281572707",
+        "p": "1030519088701094043843889",
+        "q": "1056705819975115042041705637741169363",
+        "balanced": false,
+        "p_bits": 80,
+        "q_bits": 120
+      }
+    ],
+    "208": [
+      {
+        "bit_length": 208,
+        "n": "256435717271003730841464302605333322337207416692351824718626809",
+        "p": "14011823868922364681534633913391",
+        "q": "18301380296377215639772849882199",
+        "balanced": true,
+        "p_bits": 104,
+        "q_bits": 104
+      },
+      {
+        "bit_length": 208,
+        "n": "244162999354567249303759070133957453809167868322201851251512419",
+        "p": "12557484851173168924257962902069",
+        "q": "19443622847114690741954745700151",
+        "balanced": true,
+        "p_bits": 104,
+        "q_bits": 104
+      },
+      {
+        "bit_length": 208,
+        "n": "239780797006170046171917007973195515270049673040681527148258427",
+        "p": "12844977191120363876519873041723",
+        "q": "18667280870839436579130123418049",
+        "balanced": true,
+        "p_bits": 104,
+        "q_bits": 104
+      },
+      {
+        "bit_length": 207,
+        "n": "156362766420287270637402590938747202039569517347069333712669771",
+        "p": "320747463645874179316180127473",
+        "q": "487494942728282388883571527436027",
+        "balanced": false,
+        "p_bits": 99,
+        "q_bits": 109
+      },
+      {
+        "bit_length": 207,
+        "n": "160948533806282230589028224965680554187964228325115652910819651",
+        "p": "398843020695003779857086013",
+        "q": "403538548890291257428128737672992127",
+        "balanced": false,
+        "p_bits": 89,
+        "q_bits": 119
+      },
+      {
+        "bit_length": 208,
+        "n": "282063913466302421153129309212589753435489072961644179992386059",
+        "p": "113097270627071077519642823251",
+        "q": "2493993992095396477760722906376809",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 111
+      },
+      {
+        "bit_length": 208,
+        "n": "244816311754372381328180492872348241184265782298879421494050199",
+        "p": "3907362584935748061509862401",
+        "q": "62655130265674613584421722353672599",
+        "balanced": false,
+        "p_bits": 92,
+        "q_bits": 116
+      },
+      {
+        "bit_length": 208,
+        "n": "220412662569312925512285419077970819637376521671718486509073587",
+        "p": "914297229453787299200491",
+        "q": "241073313435489934859116805999388461657",
+        "balanced": false,
+        "p_bits": 80,
+        "q_bits": 128
+      },
+      {
+        "bit_length": 207,
+        "n": "115249352799164376709737031261554346268108335346683240135813211",
+        "p": "1255648348326709630939",
+        "q": "91784736509028895181598121829797134014849",
+        "balanced": false,
+        "p_bits": 71,
+        "q_bits": 137
+      },
+      {
+        "bit_length": 208,
+        "n": "232126028418512438145665175946779603500509575618459834015233027",
+        "p": "4813408723548914040907429",
+        "q": "48224873836885911958241402795115485063",
+        "balanced": false,
+        "p_bits": 82,
+        "q_bits": 126
+      }
+    ],
+    "216": [
+      {
+        "bit_length": 216,
+        "n": "57062823544498448262548510037956992322914036556587941897226799119",
+        "p": "216348531981644735464346402455189",
+        "q": "263754151793087856455099826116371",
+        "balanced": true,
+        "p_bits": 108,
+        "q_bits": 108
+      },
+      {
+        "bit_length": 215,
+        "n": "51564838833889474514346198257223882946957238430094457471499775471",
+        "p": "185810059941327947840663853870871",
+        "q": "277513708623589989162267550842601",
+        "balanced": true,
+        "p_bits": 108,
+        "q_bits": 108
+      },
+      {
+        "bit_length": 216,
+        "n": "60012230018868315027046982532613186560636928511323873545529703797",
+        "p": "204800220075303474351764651217079",
+        "q": "293028152004925957101994554318643",
+        "balanced": true,
+        "p_bits": 108,
+        "q_bits": 108
+      },
+      {
+        "bit_length": 215,
+        "n": "36002725067571006028941104260995702683334970528541968148679891007",
+        "p": "376412056262777577876842601319",
+        "q": "95647109247842716094808724104686953",
+        "balanced": false,
+        "p_bits": 99,
+        "q_bits": 117
+      },
+      {
+        "bit_length": 216,
+        "n": "65110018334272142370979735043771029092811889663803355753940691807",
+        "p": "3358902064542074089203787418977",
+        "q": "19384315792234544604175634374553791",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 114
+      },
+      {
+        "bit_length": 216,
+        "n": "84005177280924411540281397239975357185581564550807860383608797047",
+        "p": "255868793297388761188503500723",
+        "q": "328313493014709568631007381514034989",
+        "balanced": false,
+        "p_bits": 98,
+        "q_bits": 118
+      },
+      {
+        "bit_length": 216,
+        "n": "70199273098177122435464833353200022008187857621223221877691780921",
+        "p": "499783063437381921783568135151",
+        "q": "140459487793292190319180674841405271",
+        "balanced": false,
+        "p_bits": 99,
+        "q_bits": 117
+      },
+      {
+        "bit_length": 216,
+        "n": "66851074547328336266297194090270994269850405127945783432422960213",
+        "p": "8948627266230227356323937903",
+        "q": "7470539621155834794718027497107579771",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 123
+      },
+      {
+        "bit_length": 215,
+        "n": "43735661972803127575079572465174329982300237177724133747583726063",
+        "p": "41527886633412112809241571505197",
+        "q": "1053163681525144210959324151661579",
+        "balanced": false,
+        "p_bits": 106,
+        "q_bits": 110
+      },
+      {
+        "bit_length": 216,
+        "n": "57323700415851327768100821041785460501379511221830125252917572647",
+        "p": "132138716663838202547364711287",
+        "q": "433814568985736504763295488424323281",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 119
+      }
+    ],
+    "224": [
+      {
+        "bit_length": 224,
+        "n": "20474421719106563004642507088817864686680658929760370228038461778037",
+        "p": "3981047109934910091216641792922013",
+        "q": "5142973984912557016235773631153849",
+        "balanced": true,
+        "p_bits": 112,
+        "q_bits": 112
+      },
+      {
+        "bit_length": 223,
+        "n": "13260042290409050233899501006701961704945497543897725831607649070221",
+        "p": "2986278482578341482981131044259907",
+        "q": "4440323421866664008323817196491503",
+        "balanced": true,
+        "p_bits": 112,
+        "q_bits": 112
+      },
+      {
+        "bit_length": 223,
+        "n": "8894503981088105883300337168438966486290661704609445427586526306043",
+        "p": "2835995003518051972292969311949969",
+        "q": "3136290427188508146257749685817547",
+        "balanced": true,
+        "p_bits": 112,
+        "q_bits": 112
+      },
+      {
+        "bit_length": 224,
+        "n": "15453609023348975501702159836556001625355636167617439238081414239327",
+        "p": "4353667980143606561828048271011",
+        "q": "3549560759761757322843213009122644757",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 122
+      },
+      {
+        "bit_length": 224,
+        "n": "16276075081054135506323407508223268293779708415827548776190873828409",
+        "p": "1200549995649585684475440706139",
+        "q": "13557182241500558250737386319660967931",
+        "balanced": false,
+        "p_bits": 100,
+        "q_bits": 124
+      },
+      {
+        "bit_length": 224,
+        "n": "18147299845093426925686286206356921494180608003803342502783845202663",
+        "p": "133958642580857122797317381221",
+        "q": "135469421722004679602725738133964679003",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 127
+      },
+      {
+        "bit_length": 224,
+        "n": "14620577059877627141940731290076885734317975081813127732439423997181",
+        "p": "58925233368321084618168253",
+        "q": "248120817248011537210329111963402360038977",
+        "balanced": false,
+        "p_bits": 86,
+        "q_bits": 138
+      },
+      {
+        "bit_length": 224,
+        "n": "16861410347689897969272966090047068529701091293705581788116852952941",
+        "p": "1929493330257420655841204216431",
+        "q": "8738776176769865524541293001573706211",
+        "balanced": false,
+        "p_bits": 101,
+        "q_bits": 123
+      },
+      {
+        "bit_length": 223,
+        "n": "11039865131894498226059740516696175907914976284218630145478512072981",
+        "p": "858563994373923012549005658121",
+        "q": "12858523306634729960864490498887455661",
+        "balanced": false,
+        "p_bits": 100,
+        "q_bits": 124
+      },
+      {
+        "bit_length": 224,
+        "n": "18167995546618832605671279533975735821612382614091603329807930771447",
+        "p": "1820138623704072822637662176374501",
+        "q": "9981654864092744814478095088619947",
+        "balanced": true,
+        "p_bits": 111,
+        "q_bits": 113
+      }
+    ],
+    "232": [
+      {
+        "bit_length": 232,
+        "n": "4844885569874498687630243092445260594892158717975742721033644678969983",
+        "p": "59724764695854392449355733562832951",
+        "q": "81120211934644779784898334275312633",
+        "balanced": true,
+        "p_bits": 116,
+        "q_bits": 116
+      },
+      {
+        "bit_length": 232,
+        "n": "4213824679524615286450998833401430214449205973808821097657038091107529",
+        "p": "55029411122154530201870850808804063",
+        "q": "76574046379866733904568024507428183",
+        "balanced": true,
+        "p_bits": 116,
+        "q_bits": 116
+      },
+      {
+        "bit_length": 232,
+        "n": "4439976654919517559123169184150579528354810091268514921822044566335401",
+        "p": "60186345319101462499683199749669661",
+        "q": "73770497799446765242017025900121341",
+        "balanced": true,
+        "p_bits": 116,
+        "q_bits": 116
+      },
+      {
+        "bit_length": 232,
+        "n": "4448395833592375377918936144982564719226824254138660454475655436276383",
+        "p": "35855786421691037569825656229711",
+        "q": "124063541133246723216536977170575864753",
+        "balanced": false,
+        "p_bits": 105,
+        "q_bits": 127
+      },
+      {
+        "bit_length": 232,
+        "n": "6575412965640324153241849041741717422945675971924836981562810796334743",
+        "p": "310533255096627325620379691539",
+        "q": "21174585516112535463230395437068588960237",
+        "balanced": false,
+        "p_bits": 98,
+        "q_bits": 134
+      },
+      {
+        "bit_length": 231,
+        "n": "3421891235872383297432305791000219782317067870173865092482288188319033",
+        "p": "4818948101965246375395665099758897",
+        "q": "710090908527709545833624941683287689",
+        "balanced": false,
+        "p_bits": 112,
+        "q_bits": 120
+      },
+      {
+        "bit_length": 232,
+        "n": "3884685044180237801050447281525885041104434804311373225354966211778393",
+        "p": "1182095856603802074627097151",
+        "q": "3286269063949735834667157639861837066915943",
+        "balanced": false,
+        "p_bits": 90,
+        "q_bits": 142
+      },
+      {
+        "bit_length": 231,
+        "n": "3289255545317291474939783769959465025758547282056359512698677395205303",
+        "p": "143380338859374006805746449893",
+        "q": "22940771178838963455136759277787722315371",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 135
+      },
+      {
+        "bit_length": 232,
+        "n": "3902197933587047580712093186301672461799228041639917915327840909290477",
+        "p": "5749418328102782763507638791",
+        "q": "678711777592066650639792976089469413930347",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 139
+      },
+      {
+        "bit_length": 231,
+        "n": "2876615847271553686025372335188713896182705109463913048605914686220763",
+        "p": "341015659295888114922146207",
+        "q": "8435436229559207313453960506832357484080709",
+        "balanced": false,
+        "p_bits": 89,
+        "q_bits": 143
+      }
+    ],
+    "240": [
+      {
+        "bit_length": 240,
+        "n": "1003801672406445634911728130605992742611367827330338782178794647957225451",
+        "p": "902223689274383731851689446759927681",
+        "q": "1112586251435889827578963739059832171",
+        "balanced": true,
+        "p_bits": 120,
+        "q_bits": 120
+      },
+      {
+        "bit_length": 240,
+        "n": "1194461535063737896062909545676723350074640104647564105265856570618608109",
+        "p": "1051814216218977968144769827213360851",
+        "q": "1135620261301984607003037856886352959",
+        "balanced": true,
+        "p_bits": 120,
+        "q_bits": 120
+      },
+      {
+        "bit_length": 240,
+        "n": "1024534517571966377379052719328347861510015990509909788767367670046152299",
+        "p": "898604477039226914128294917487214993",
+        "q": "1140139565014922823011865343306013243",
+        "balanced": true,
+        "p_bits": 120,
+        "q_bits": 120
+      },
+      {
+        "bit_length": 240,
+        "n": "936341312680535021761704188249660866059667796620715986580999301194000417",
+        "p": "9697564933996928011894368439",
+        "q": "96554271000340139133505611185008878448700903",
+        "balanced": false,
+        "p_bits": 93,
+        "q_bits": 147
+      },
+      {
+        "bit_length": 240,
+        "n": "1474821656127815459832934303614394836884407716024042901816640937867044833",
+        "p": "18233736669729883780535762475831763",
+        "q": "80884224821354930802341906380896688891",
+        "balanced": false,
+        "p_bits": 114,
+        "q_bits": 126
+      },
+      {
+        "bit_length": 239,
+        "n": "608031404063536200340998071567318766931493802779590343268478221373800277",
+        "p": "220893361720277964818151787914083",
+        "q": "2752601523777339676765171777874406226919",
+        "balanced": false,
+        "p_bits": 108,
+        "q_bits": 132
+      },
+      {
+        "bit_length": 239,
+        "n": "779166520374348987741946123380407628463898110788602343396884230646554567",
+        "p": "83835652526916080370008645641769",
+        "q": "9293975735731186560301361915481619346543",
+        "balanced": false,
+        "p_bits": 107,
+        "q_bits": 133
+      },
+      {
+        "bit_length": 240,
+        "n": "1085023901401269261672830223402015722694522845385550008915080446685240483",
+        "p": "3435092975655843158111963",
+        "q": "315864493069248495378166595700059113838821550041",
+        "balanced": false,
+        "p_bits": 82,
+        "q_bits": 158
+      },
+      {
+        "bit_length": 240,
+        "n": "1153892725092813274458977016469353834236083301322746340733183943286900409",
+        "p": "226919265253382215234700157685521323",
+        "q": "5085036406249401016235466381265642283",
+        "balanced": false,
+        "p_bits": 118,
+        "q_bits": 122
+      },
+      {
+        "bit_length": 239,
+        "n": "647070469546172335978577876232096439924252079985241706518580286542461649",
+        "p": "11151007452043552703812463",
+        "q": "58027982882173493181813712685578883200566425023",
+        "balanced": false,
+        "p_bits": 84,
+        "q_bits": 156
+      }
+    ],
+    "248": [
+      {
+        "bit_length": 248,
+        "n": "235606086704809355599010574846610781882535235508179059259827338461642589863",
+        "p": "12788212200687445783439871581304132421",
+        "q": "18423692304084856052761919935275940603",
+        "balanced": true,
+        "p_bits": 124,
+        "q_bits": 124
+      },
+      {
+        "bit_length": 248,
+        "n": "289860494272024545562605065857394643903662212381712143376323947959447464151",
+        "p": "15343227996696575578795985158824837451",
+        "q": "18891754351459290590389643016746961701",
+        "balanced": true,
+        "p_bits": 124,
+        "q_bits": 124
+      },
+      {
+        "bit_length": 247,
+        "n": "168202150607977698037283103301928928287270675929960973143699100465507951917",
+        "p": "10990575869209596005068443197279563489",
+        "q": "15304216322203889372509267357393583053",
+        "balanced": true,
+        "p_bits": 124,
+        "q_bits": 124
+      },
+      {
+        "bit_length": 248,
+        "n": "274023318736589440689830668079979035781578881004980021013319822710585057969",
+        "p": "8928216423792932503058466046920621379",
+        "q": "30691832022165228095417239886908393211",
+        "balanced": true,
+        "p_bits": 123,
+        "q_bits": 125
+      },
+      {
+        "bit_length": 248,
+        "n": "272585458492947124312149537732226328132404767431943145953512845719947522867",
+        "p": "4237426727901841310085622877033",
+        "q": "64328064175853634445753962354404719021130299",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 146
+      },
+      {
+        "bit_length": 248,
+        "n": "287333039851191642800817991119302989624903800278310555844249477913911314103",
+        "p": "4094875851349240845842211267196460717",
+        "q": "70168925818963928290280088358869785459",
+        "balanced": false,
+        "p_bits": 122,
+        "q_bits": 126
+      },
+      {
+        "bit_length": 248,
+        "n": "290919885675924476898910762138389302946859448970897553042443377401519837363",
+        "p": "30671540812380385973960002460491",
+        "q": "9485010468026320553732791434236199176148793",
+        "balanced": false,
+        "p_bits": 105,
+        "q_bits": 143
+      },
+      {
+        "bit_length": 247,
+        "n": "173752373557870004630895952566476302319128127179671220138760395538409088481",
+        "p": "203954168160102754050796901989",
+        "q": "851918718432248325429993671962853317670497229",
+        "balanced": false,
+        "p_bits": 98,
+        "q_bits": 150
+      },
+      {
+        "bit_length": 248,
+        "n": "371556993015119382619281985509240957408494224138275612999790452461165344433",
+        "p": "67043433380546049242239325431",
+        "q": "5542034085666827451287356811360722109475073943",
+        "balanced": false,
+        "p_bits": 96,
+        "q_bits": 152
+      },
+      {
+        "bit_length": 247,
+        "n": "172967414890435734803064474217675174841251326897808283156793018836604976087",
+        "p": "97222055863332397198748452691",
+        "q": "1779096454549167139589240175110183405180779757",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 151
+      }
+    ],
+    "256": [
+      {
+        "bit_length": 256,
+        "n": "105551306552807479569559871836862818935726422991115721152397925427618012408361",
+        "p": "312913761564741546667976740105480749907",
+        "q": "337317560036326555150691224432302901523",
+        "balanced": true,
+        "p_bits": 128,
+        "q_bits": 128
+      },
+      {
+        "bit_length": 256,
+        "n": "74793960441554034800207680181675670248744818142961492151695708225271616684863",
+        "p": "258726712718447664380199513368864002381",
+        "q": "289084801703280387255386153908632232123",
+        "balanced": true,
+        "p_bits": 128,
+        "q_bits": 128
+      },
+      {
+        "bit_length": 255,
+        "n": "57434008341483212336823686761655863465327546532008826046936216070830517068847",
+        "p": "188557506508534604530734168891764665777",
+        "q": "304596774771645589844552728631065298911",
+        "balanced": true,
+        "p_bits": 128,
+        "q_bits": 128
+      },
+      {
+        "bit_length": 255,
+        "n": "55138433983977727100123051915102492135612382876162518437256878911920690025449",
+        "p": "5045099490640946420953367081446157039",
+        "q": "10929107361760422855880610750779544129191",
+        "balanced": false,
+        "p_bits": 122,
+        "q_bits": 134
+      },
+      {
+        "bit_length": 255,
+        "n": "55914197648835549510224215903170838880817359320920709693259212620325494993017",
+        "p": "5156423070718194961782413465263",
+        "q": "10843601636637571216051436085920489625829897559",
+        "balanced": false,
+        "p_bits": 103,
+        "q_bits": 153
+      },
+      {
+        "bit_length": 256,
+        "n": "91488252782984246278954829933664502433124014120853818328472338410631872509291",
+        "p": "5129299443746361338597754641117003",
+        "q": "17836403155313279015398282028441529814720097",
+        "balanced": false,
+        "p_bits": 112,
+        "q_bits": 144
+      },
+      {
+        "bit_length": 255,
+        "n": "57098835733529518243551442660538505079821507371466766002402388444772502619363",
+        "p": "496631256251226904990449942169223",
+        "q": "114972295873068013648569643815643369677130181",
+        "balanced": false,
+        "p_bits": 109,
+        "q_bits": 147
+      },
+      {
+        "bit_length": 256,
+        "n": "66988034423442451136323264524156620593826988005619906903447448862681997913723",
+        "p": "80256572627947606442079236276541515303",
+        "q": "834673500623864476281596433979499552141",
+        "balanced": false,
+        "p_bits": 126,
+        "q_bits": 130
+      },
+      {
+        "bit_length": 255,
+        "n": "50517401250354758716253066862576490978438322892954981097596484483994053813703",
+        "p": "45232368099782228640698971",
+        "q": "1116841840756906443773810766939575326537598922751493",
+        "balanced": false,
+        "p_bits": 86,
+        "q_bits": 170
+      },
+      {
+        "bit_length": 256,
+        "n": "65419008202784284039372701403054136408166048636027101778983161971165083730203",
+        "p": "19767439988819173376569168484077910419",
+        "q": "3309432493018138664680756619209732501337",
+        "balanced": false,
+        "p_bits": 124,
+        "q_bits": 132
+      }
+    ],
+    "264": [
+      {
+        "bit_length": 264,
+        "n": "18620450703694361824920174928836861507514972701363243243651344666044883633994977",
+        "p": "3714218840664849808004339078645258039657",
+        "q": "5013288527813637903396376627013368088761",
+        "balanced": true,
+        "p_bits": 132,
+        "q_bits": 132
+      },
+      {
+        "bit_length": 264,
+        "n": "15769398473677833479034887105073638076944428042223916376806061177657147181282983",
+        "p": "4333854414968245849873228473283",
+        "q": "3638654408697615620617959837656250269345216685901",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 162
+      },
+      {
+        "bit_length": 264,
+        "n": "17975022041098979473590857523726962992821535973806345666940295817133682768709601",
+        "p": "505993333931638398098456534650269779",
+        "q": "35524226972380376330682643971798042467332219",
+        "balanced": false,
+        "p_bits": 119,
+        "q_bits": 145
+      },
+      {
+        "bit_length": 263,
+        "n": "14209434162365257064716590409772820878346773833065203186375363228064648822800753",
+        "p": "51161806444450516099532047556689",
+        "q": "277735192516966805502288221796632170301803161377",
+        "balanced": false,
+        "p_bits": 106,
+        "q_bits": 158
+      },
+      {
+        "bit_length": 264,
+        "n": "24496908927210376391959488016802615411802350417092326559651331311902926607873953",
+        "p": "4454691485773554267513083301707",
+        "q": "5499125810495158039807467274003410623156313261379",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 162
+      }
+    ],
+    "272": [
+      {
+        "bit_length": 272,
+        "n": "5158870063255847726636672017306606385747549093036146662998581672032684086049567031",
+        "p": "64998961332291086501535299615382430027841",
+        "q": "79368500011598687304946723428868577993591",
+        "balanced": true,
+        "p_bits": 136,
+        "q_bits": 136
+      },
+      {
+        "bit_length": 272,
+        "n": "4037434364064921775429902633081181286743111250082986594133038984421844798290475043",
+        "p": "957577312502628155987925974288808765049",
+        "q": "4216301191924741510838004739307614807645307",
+        "balanced": false,
+        "p_bits": 130,
+        "q_bits": 142
+      },
+      {
+        "bit_length": 272,
+        "n": "4224899408888370480419635933295707371792293761439822716135763692388870670359107823",
+        "p": "2251537480088100625874411677018119713",
+        "q": "1876450845811837867553971987993349722702771471",
+        "balanced": false,
+        "p_bits": 121,
+        "q_bits": 151
+      },
+      {
+        "bit_length": 272,
+        "n": "5859914687077773618845470636586727391869250349478369503897385575017897252307919703",
+        "p": "158162050925172957116469498247554253",
+        "q": "37050067654029857137040218896510742545392617651",
+        "balanced": false,
+        "p_bits": 117,
+        "q_bits": 155
+      },
+      {
+        "bit_length": 271,
+        "n": "3739782138558282603298819672092938994566468711680648153838309445913067368936612931",
+        "p": "99371366442213161737009256767",
+        "q": "37634403877630643363443465687683803257623182922960893",
+        "balanced": false,
+        "p_bits": 97,
+        "q_bits": 175
+      }
+    ],
+    "280": [
+      {
+        "bit_length": 279,
+        "n": "793831667041649249787664776044688263849981278908317995932542608529199625374248490701",
+        "p": "699012834177479408009056783242207352695799",
+        "q": "1135646769598647073498366110410066972113499",
+        "balanced": true,
+        "p_bits": 140,
+        "q_bits": 140
+      },
+      {
+        "bit_length": 280,
+        "n": "1002562939533048826174483952139511536052815559491316368670329909377899427168267919569",
+        "p": "10171878269017878366347115980340029",
+        "q": "98562223516448837541084670049080026561383526868261",
+        "balanced": false,
+        "p_bits": 113,
+        "q_bits": 167
+      },
+      {
+        "bit_length": 279,
+        "n": "784366284207710627247396436113521145103969749618061083175517872634473189137862584281",
+        "p": "849231527782258533810961552548503",
+        "q": "923618893726259253256609910413690991937960170374927",
+        "balanced": false,
+        "p_bits": 110,
+        "q_bits": 170
+      },
+      {
+        "bit_length": 280,
+        "n": "1425400149831659258836188798265150595791525584099221000590347950817097781447158608319",
+        "p": "9494554886265058323351638603689875277",
+        "q": "150128169978106179312042176717914008422669573947",
+        "balanced": false,
+        "p_bits": 123,
+        "q_bits": 157
+      },
+      {
+        "bit_length": 280,
+        "n": "1019510482795000529206144207105248078240666491625623296683043731910496310620369994643",
+        "p": "11516732440085653449440316472637815451",
+        "q": "88524283089745733382712536858685244947803442793",
+        "balanced": false,
+        "p_bits": 124,
+        "q_bits": 156
+      }
+    ],
+    "288": [
+      {
+        "bit_length": 288,
+        "n": "408122382860715203167452765519862435361229490551518655550376289519766963763578170259591",
+        "p": "19787179626103380412677091886851344298748639",
+        "q": "20625596500994887187641520408574948701556569",
+        "balanced": true,
+        "p_bits": 144,
+        "q_bits": 144
+      },
+      {
+        "bit_length": 288,
+        "n": "309749727067639180799051340783769227998008287637720787922359020789935318802416715226831",
+        "p": "130906430286138233877928030670683999351613",
+        "q": "2366191839396897668492350715612567357656910587",
+        "balanced": false,
+        "p_bits": 137,
+        "q_bits": 151
+      },
+      {
+        "bit_length": 287,
+        "n": "188565853303998884754247199764694409383108957702567937211877804157248939245345440841373",
+        "p": "738003423932846402049524766906193",
+        "q": "255508100896232661699578061176323087012228598039525261",
+        "balanced": false,
+        "p_bits": 110,
+        "q_bits": 178
+      },
+      {
+        "bit_length": 287,
+        "n": "182659194852892759363574955206883788429800991826422480033431423344775387585329445250983",
+        "p": "46433156814548130060611486159062193",
+        "q": "3933809531461000873974762417911890563458440321411031",
+        "balanced": false,
+        "p_bits": 116,
+        "q_bits": 172
+      },
+      {
+        "bit_length": 288,
+        "n": "359926338774671430235865425473660099146916773562562255892323812532815202121915060349991",
+        "p": "4095297391634044202642184826190363803865173",
+        "q": "87887717143554992365031451396823825901065867",
+        "balanced": false,
+        "p_bits": 142,
+        "q_bits": 146
+      }
+    ],
+    "296": [
+      {
+        "bit_length": 296,
+        "n": "64155017658926364240334721122041603852332994006896645915179429217217471379205019627487919",
+        "p": "211169239287136658438967450739262295244052611",
+        "q": "303808537055398471673312153591774377785040229",
+        "balanced": true,
+        "p_bits": 148,
+        "q_bits": 148
+      },
+      {
+        "bit_length": 296,
+        "n": "89603124133358231640591514103346195519423095714474570660135003662121948884712260862343587",
+        "p": "20116241754473080289096187000795359395081",
+        "q": "4454267612559087235094195937559901023514202724427",
+        "balanced": false,
+        "p_bits": 134,
+        "q_bits": 162
+      },
+      {
+        "bit_length": 295,
+        "n": "46348662444439363960010464457267225654415002037637559078605164263692782871728051758993509",
+        "p": "14073100527957303004246141206833257703",
+        "q": "3293422252783895071168160882057587337328582650286803",
+        "balanced": false,
+        "p_bits": 124,
+        "q_bits": 172
+      },
+      {
+        "bit_length": 296,
+        "n": "84737421271803968943001583763839342910947111180761033521891903956492310134117699726216117",
+        "p": "280031718876006613361846536003918827991223",
+        "q": "302599368428418244395405420756006171214632526579",
+        "balanced": false,
+        "p_bits": 138,
+        "q_bits": 158
+      },
+      {
+        "bit_length": 296,
+        "n": "85333628791055629818412883066732475363653512968812450017907430658240244342155572343889269",
+        "p": "243125594522394564704570313684961",
+        "q": "350985789705474451150263105550300855991009097093659281429",
+        "balanced": false,
+        "p_bits": 108,
+        "q_bits": 188
+      }
+    ],
+    "304": [
+      {
+        "bit_length": 303,
+        "n": "13471570942408291666224665454843577280563783144925940516471079282846849136409863834915573287",
+        "p": "2947312159946267554203055079602168770602494663",
+        "q": "4570798819848757338978619970311343328402399649",
+        "balanced": true,
+        "p_bits": 152,
+        "q_bits": 152
+      },
+      {
+        "bit_length": 303,
+        "n": "12940463714311076725157478564234459438956138940605983830008202700476924565505047812668350357",
+        "p": "196368034840948482909774932441933085177080081",
+        "q": "65899033540730893317694772412438400937152982597",
+        "balanced": false,
+        "p_bits": 148,
+        "q_bits": 156
+      },
+      {
+        "bit_length": 303,
+        "n": "14451039708706873053470788392477908998868119502024765111620598569825477739595104742314395121",
+        "p": "63007495990146747953385493620865179013",
+        "q": "229354293193412395126424364249111252799727253589896317",
+        "balanced": false,
+        "p_bits": 126,
+        "q_bits": 178
+      },
+      {
+        "bit_length": 304,
+        "n": "23677573431177480354517131775357649650331039800131784895056428964461903315299376067661894423",
+        "p": "3709255940763624604246549081753",
+        "q": "6383375482658923174175623841065331066035792419848686114393391",
+        "balanced": false,
+        "p_bits": 102,
+        "q_bits": 202
+      },
+      {
+        "bit_length": 303,
+        "n": "11637551190101729064248310853817629400192530861373755308927110721955774773483231199408741609",
+        "p": "5356754200879133079713818281266633",
+        "q": "2172500501925552605589161397130031065244513709253772387873",
+        "balanced": false,
+        "p_bits": 113,
+        "q_bits": 191
+      }
+    ],
+    "312": [
+      {
+        "bit_length": 311,
+        "n": "3989168549495342719950154509413835846784686531941368113642997646034234583972958575164199107991",
+        "p": "48262094411241138811402552445589398467176150199",
+        "q": "82656349629248398721045793613638510091157003809",
+        "balanced": true,
+        "p_bits": 156,
+        "q_bits": 156
+      },
+      {
+        "bit_length": 312,
+        "n": "5828977051666428037828138250139174382500442201657056576405345530202767858624686458949358649427",
+        "p": "8122520415354486214702350412473602740666283",
+        "q": "717631566754521667789296749933679884121981303077369",
+        "balanced": false,
+        "p_bits": 143,
+        "q_bits": 169
+      },
+      {
+        "bit_length": 311,
+        "n": "2874873792428682490877462352247357046482574854596986832239343702319782006172763486663350694149",
+        "p": "25156969388714511560543581189877938994551",
+        "q": "114277429367877638667376321160948204969464684067353699",
+        "balanced": false,
+        "p_bits": 135,
+        "q_bits": 177
+      },
+      {
+        "bit_length": 312,
+        "n": "5413251386486014045461999950948980314866263642357769113795278607351834893724931995418673628019",
+        "p": "5473943623800405318521840047504622046920621",
+        "q": "988912520572827098778958428830378741630479509287839",
+        "balanced": false,
+        "p_bits": 142,
+        "q_bits": 170
+      },
+      {
+        "bit_length": 312,
+        "n": "5451372936666099666712699343139437978790026242834324050834186723590811376273927265573999127467",
+        "p": "4821303288367472123570735235693131627",
+        "q": "1130684508028942864018964756375271906049689414540296137921",
+        "balanced": false,
+        "p_bits": 122,
+        "q_bits": 190
+      }
+    ],
+    "320": [
+      {
+        "bit_length": 320,
+        "n": "1340627619741285083097402247991134195760361500382228709801894984074716821716548805269408745134963",
+        "p": "997530817928480296238278692030390250285323200413",
+        "q": "1343946067275691634522202890996395927417443830351",
+        "balanced": true,
+        "p_bits": 160,
+        "q_bits": 160
+      },
+      {
+        "bit_length": 319,
+        "n": "885777068731424554409350843750088144951789733816573481033891354279884233081966289606363846945977",
+        "p": "1011737309406625862621438300879322299924137",
+        "q": "875501042114305570136539423330020040922624210356754321",
+        "balanced": false,
+        "p_bits": 140,
+        "q_bits": 180
+      },
+      {
+        "bit_length": 320,
+        "n": "1684677639678928484309551011682846323553016453156588781378156299279990808103430486831895842802713",
+        "p": "74759651077566129601678399886406000869320657",
+        "q": "22534584035591712680479623559736211731989127706622409",
+        "balanced": false,
+        "p_bits": 146,
+        "q_bits": 174
+      },
+      {
+        "bit_length": 320,
+        "n": "1327666408096900352677854249169955086195826880741576053450522406723671926289015759614962329211631",
+        "p": "30464374670271435234035234471284193838154623761",
+        "q": "43580950617460054601787957297677143791982573788671",
+        "balanced": false,
+        "p_bits": 155,
+        "q_bits": 165
+      },
+      {
+        "bit_length": 320,
+        "n": "1858975979613334876462483876816687871520706806296402730668013747738426906180528167836403340349507",
+        "p": "339734541483456389818299278989415459351437437983",
+        "q": "5471848613026176518143854086652066218337557256029",
+        "balanced": false,
+        "p_bits": 158,
+        "q_bits": 162
+      }
+    ],
+    "384": [
+      {
+        "bit_length": 383,
+        "n": "17718274191641737995723504767604411765009388292973002897152776960950610380286962086440957892283509588599930550049461",
+        "p": "3537926452038434240613728112718297714483793799422126110457",
+        "q": "5008095683117738152806005408523344194823098456127976457373",
+        "balanced": true,
+        "p_bits": 192,
+        "q_bits": 192
+      },
+      {
+        "bit_length": 383,
+        "n": "15035044139836488250286354129134923088355024452967503886498462659288967059671857061437085309984006384054346243232123",
+        "p": "210838186190879866152870042779680322781820829",
+        "q": "71310820926075925812915584743820105013871669955527172778844382736580087",
+        "balanced": false,
+        "p_bits": 148,
+        "q_bits": 236
+      },
+      {
+        "bit_length": 384,
+        "n": "34849941999039272818488644381355049636869891748857072013475640817656512030380783415882605685832236031702509860938149",
+        "p": "682405617066172367436303823387471268211335857",
+        "q": "51069248446206590567396185072588520720579717896916189754477729701339957",
+        "balanced": false,
+        "p_bits": 149,
+        "q_bits": 235
+      },
+      {
+        "bit_length": 384,
+        "n": "29123219917367761592194669552241456209442416294406944911021295147461878991248406807445126266909898372493348474541217",
+        "p": "137415095570652551180976460171227086453886763",
+        "q": "211936103500316929827711711319630563856782424706249400874761584880559459",
+        "balanced": false,
+        "p_bits": 147,
+        "q_bits": 237
+      },
+      {
+        "bit_length": 384,
+        "n": "31346819347318122752060509892564618249843589903761485323508682627042877471314327262136113286120915588708599648805259",
+        "p": "45245303047356189654675124379833694573445441533341273",
+        "q": "692819303575198522055062140456028675946311493337900018931825283",
+        "balanced": false,
+        "p_bits": 175,
+        "q_bits": 209
+      }
+    ],
+    "448": [
+      {
+        "bit_length": 447,
+        "n": "344103694106876891731082729471403705257395280303790890476478874228002263388680881516262593859397065742373711007987937815429166750204071",
+        "p": "15054836442831003016000438415805780284314180144919887333147094242733",
+        "q": "22856687644104989032670058696840740170580560006432466188403579761187",
+        "balanced": true,
+        "p_bits": 224,
+        "q_bits": 224
+      },
+      {
+        "bit_length": 447,
+        "n": "316186399832881845912326537840158775028637867064183390391823592506348233198972245027080723162580943207642154120828885452048886604612003",
+        "p": "2333733077693885764713591336319516526070520083414283341540168691",
+        "q": "135485245872816911902756576663301135865686447419037760447111907557177233",
+        "balanced": false,
+        "p_bits": 211,
+        "q_bits": 237
+      },
+      {
+        "bit_length": 447,
+        "n": "277566374578734031225814622567297722934764937418126060832361851717154576623385190191743125083749147308665519757599265740723698824908191",
+        "p": "537354564939638906970212082733578317861176212682621069",
+        "q": "516542321753446144749876700733031857070890664216497976221247933572380827384408539",
+        "balanced": false,
+        "p_bits": 179,
+        "q_bits": 269
+      },
+      {
+        "bit_length": 448,
+        "n": "419266311861569342467839377095476852922228139959538626688624109031407114022951086772089376950544527584261237528988859053921335095533851",
+        "p": "163970161718526963610919884558004458735416638840632141067",
+        "q": "2556967118086317687132801564467904687738414719933288987841086587451794684091953",
+        "balanced": false,
+        "p_bits": 187,
+        "q_bits": 261
+      },
+      {
+        "bit_length": 447,
+        "n": "319963433941045660444884224102091227589266518512579321053626334601261361998250596962579642301843377868099132948345077000143507148413339",
+        "p": "3465156784089968302281958904878364720469017987",
+        "q": "92337361302130975904302877265212782316801593611461890338361807024172733929628861220517897",
+        "balanced": false,
+        "p_bits": 152,
+        "q_bits": 296
+      }
+    ],
+    "512": [
+      {
+        "bit_length": 512,
+        "n": "10569764533232493398118931446014690676764130161949805152937189650103102014896502641454139754522658230732068968685005136241383417401569560977600878078346413",
+        "p": "93135862082633788036698178359501813387834356793654973844449751631686342067979",
+        "q": "113487590031158824070243232009936493090095018811191195644060807668092701316647",
+        "balanced": true,
+        "p_bits": 256,
+        "q_bits": 256
+      },
+      {
+        "bit_length": 511,
+        "n": "5908939519673090095344789271711419312192092586910905578411509248311889082750341433507495316087158814840396295063226461059971775564752253180482264554896593",
+        "p": "1167121889780777657976724569846096657135034234602276424795789223667317",
+        "q": "5062829830724000479591217121771783313947600066238945974370408426649018745661913893229",
+        "balanced": false,
+        "p_bits": 230,
+        "q_bits": 282
+      },
+      {
+        "bit_length": 511,
+        "n": "5482366292460617800047644350263029701063334996012989175179549878101157576639158946319350476530245544845004599814798100466785342242381462990908154388634223",
+        "p": "26691189872116017088294903656735137578059312022378807133473",
+        "q": "205399846118811795621425210998240829694522348090642142477677160431187292799384074075789159652751",
+        "balanced": false,
+        "p_bits": 195,
+        "q_bits": 317
+      },
+      {
+        "bit_length": 512,
+        "n": "9569541452920435298121815854235556992157919403345217357674859733527310616482015715550167179227625410872974043174623343675404219808598782823190313531110859",
+        "p": "10911632933818200624066489795387140981981909261329817495115539039",
+        "q": "877003608072422536529656601783417910767704096503330633311483457475272526091203040109583381",
+        "balanced": false,
+        "p_bits": 213,
+        "q_bits": 299
+      },
+      {
+        "bit_length": 512,
+        "n": "8541167501653199586682216376552473835423639130175399751822243636269189619293098342721896005208417947665465416856464252313274695673113196418016179205783289",
+        "p": "286162333067458697804245152180404118463690277149053160009",
+        "q": "29847280772762433736357533256787432464954572110841571547632458975668746165031305744940146293935921",
+        "balanced": false,
+        "p_bits": 188,
+        "q_bits": 324
+      }
+    ],
+    "768": [
+      {
+        "bit_length": 768,
+        "n": "801768613200419945280056511632124238204664683961471056943019595734990260553129182543992228737567647429287699714725048244195281328752502531114319391073518030307202618626652106001217404287252765460612645867385497243399575369091116767",
+        "p": "27950282282640494964354311518708071058908397486697401848217967787535124381711449797221663614002932287070292132267143",
+        "q": "28685528292441844786764732742998397266901463962747235542187016980730859873191095692762840779935250688299476301787369",
+        "balanced": true,
+        "p_bits": 384,
+        "q_bits": 384
+      },
+      {
+        "bit_length": 768,
+        "n": "1020685989202189612636628870179926332828526076474839821699699674482871444303082236258535835304566339506785547791404860621172359042433994970462152833012117602371926656312140562701399487360557934501891142098386245720225458782063959023",
+        "p": "55756984017988645283633657944155372945285983417216591138853917276861451398800605683492857781",
+        "q": "18305975604291830256101582474778297678237393211641449292024500730473929632386175995831708109593946734917623015910381045135698936357359547283",
+        "balanced": false,
+        "p_bits": 305,
+        "q_bits": 463
+      },
+      {
+        "bit_length": 767,
+        "n": "588707825390759125398766900372624145986144723555357581988773302115468494999273347408829473139771445203929213781637032276080114879428163888076455009473762290552009849972773727849453227049924108186566809282702977171532110095869347933",
+        "p": "42311639903563394478901258338412119250105618136663775222941577560744004826704877573",
+        "q": "13913614001549947726892064341025075899514162913413051727310058831669825878729062157270996985924877187153937139842553573519434219639000855882577139321",
+        "balanced": false,
+        "p_bits": 275,
+        "q_bits": 493
+      }
+    ],
+    "1024": [
+      {
+        "bit_length": 1024,
+        "n": "99701580459362414908173680858564436199457487294629615629676142503462462594476866505695987461001361838860373725284942017005124690192782391605391605933399927125797934743101956258922274432908538454446958773086797702597673748669073802884441827825240698540897952058023079944176994426470738486965169609670952918359",
+        "p": "9487020681984991246752285749864934361736697676609037852020927186549493938898244954125973914892782514863837261486432306896683607237365865349663598124936913",
+        "q": "10509261421627007877083344519102034209664890256144977780846243141201962732197437612940587550471948214402372520840477745243757162349552779572286992545784743",
+        "balanced": true,
+        "p_bits": 512,
+        "q_bits": 512
+      },
+      {
+        "bit_length": 1023,
+        "n": "58141040481158804683780416540158073570142395665730577929001268021208461703374339937556416494198817270434822665710090588289525720348595329327581253922113267601213163485386712065535771069726526764734469572677820026255803050777836024783907853043815653070466928563868591087305918174236689318978580376090757573831",
+        "p": "46287738873858902742497075866456179957924146035775305962900995939372988272337740004945765048498620226845797094044429461462667",
+        "q": "1256078648378179449031311898879181606686312450012385777125336034921954726564950932721936286036114435949716455166253749134447056112233183079316261379166404844097068616127442477213437493",
+        "balanced": false,
+        "p_bits": 415,
+        "q_bits": 609
+      },
+      {
+        "bit_length": 1023,
+        "n": "69982143414206756908485771111652543097738280609226204637659940108407886369554486967490467691665174125945975012015413281925321652351931497746292321132003770485329023200822312619567612831658081103390847744908141170919560869417948692944996458617283057648788726556253855227546163366208722178665079890222475918477",
+        "p": "105427603959832156480960442753328081323545809261276574808497336993893566021158910735927105965368573467631318931953203707072767289003548697",
+        "q": "663793359477939996634783033356329951628902797117946372667433571273905202881092163607060698710387777313796417171495181545496791568953147871305492459043997148454236575022741",
+        "balanced": false,
+        "p_bits": 456,
+        "q_bits": 568
+      }
+    ]
+  }
+}
