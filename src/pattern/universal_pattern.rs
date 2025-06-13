@@ -9,7 +9,7 @@ use crate::error::PatternError;
 use crate::types::{Number, Factors};
 use crate::utils;
 use crate::Result;
-use crate::pattern::precomputed_basis::{UniversalBasis, ScaledBasis};
+use crate::pattern::basis::Basis;
 use nalgebra::{DMatrix, SymmetricEigen};
 use ndarray::{Array1, Array2};
 use std::collections::HashMap;
@@ -93,7 +93,7 @@ pub struct UniversalPattern {
     pattern_constants: PatternConstants,
     cache: HashMap<String, (Number, Number)>,
     /// Pre-computed universal basis for poly-time solving
-    universal_basis: Option<UniversalBasis>,
+    universal_basis: Option<Basis>,
 }
 
 impl UniversalPattern {
@@ -110,7 +110,12 @@ impl UniversalPattern {
     /// Initialize with pre-computed basis for poly-time solving
     pub fn with_precomputed_basis() -> Self {
         let mut pattern = Self::new();
-        pattern.universal_basis = Some(UniversalBasis::new());
+        // Load enhanced basis if available, otherwise create new
+        pattern.universal_basis = if let Ok(basis) = Basis::load_enhanced(std::path::Path::new("data/basis/enhanced_basis.json")) {
+            Some(basis)
+        } else {
+            Some(Basis::new())
+        };
         pattern
     }
 
@@ -184,6 +189,14 @@ impl UniversalPattern {
                 self.cache.insert(cache_key.clone(), (factors.p.clone(), factors.q.clone()));
                 return Ok(factors);
             }
+        }
+        
+        // For very large numbers (RSA-scale), we need different strategies
+        if n.bit_length() > 300 {
+            // RSA-scale numbers cannot be factored with current methods
+            return Err(PatternError::ExecutionError(
+                format!("Cannot factor {}-bit number with current methods. RSA-scale factorization requires quantum computers or centuries of computation.", n.bit_length())
+            ));
         }
         
         // 1. Quick check for small factors (helps with unbalanced cases)
@@ -301,7 +314,7 @@ impl UniversalPattern {
     }
     
     // Pre-computed basis decoding - THE POLY-TIME APPROACH
-    fn decode_with_precomputed_basis(&self, n: &Number, formalization: &UniversalFormalization, basis: &UniversalBasis) -> Result<Factors> {
+    fn decode_with_precomputed_basis(&self, n: &Number, _formalization: &UniversalFormalization, basis: &Basis) -> Result<Factors> {
         // Scale the pre-computed basis to this number
         let scaled_basis = basis.scale_to_number(n);
         
@@ -376,15 +389,20 @@ impl UniversalPattern {
         }
         
         // Adaptive limit based on number size and balance detection
-        // For very balanced semiprimes, factors are within tiny distance of sqrt(n)
+        // For RSA-scale numbers, even "close" factors are astronomically far in absolute terms
         let max_iterations = if n.bit_length() > 300 {
-            100_000_000  // Very large numbers need more iterations
+            // Cannot brute force RSA-scale numbers
+            return Err(PatternError::ExecutionError(
+                format!("Fermat search not feasible for {}-bit numbers. Use specialized algorithms.", n.bit_length())
+            ));
+        } else if n.bit_length() > 250 {
+            1_000_000    // Very limited search for large numbers
         } else if n.bit_length() > 200 {
-            50_000_000   // Increased for better coverage
+            10_000_000   // Still limited but more thorough
         } else if n.bit_length() > 150 {
-            20_000_000   // Critical range that was failing
+            20_000_000   // More iterations for medium-large
         } else if n.bit_length() > 100 {
-            5_000_000    // Better coverage for medium-large numbers
+            5_000_000    // Better coverage for medium numbers
         } else if n.bit_length() > 64 {
             1_000_000
         } else {
@@ -440,7 +458,9 @@ impl UniversalPattern {
             }
         }
         
-        Err(PatternError::ExecutionError("Fermat search failed".to_string()))
+        Err(PatternError::ExecutionError(
+            format!("Fermat search failed after {} iterations for {}-bit number", iterations, n.bit_length())
+        ))
     }
     
     // Universal intersection search - THE KEY METHOD

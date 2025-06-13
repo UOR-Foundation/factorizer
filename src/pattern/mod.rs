@@ -5,19 +5,22 @@
 //! 2. Formalization - Express in mathematical language
 //! 3. Execution - Decode factors from pattern
 
-pub mod advanced;
-pub mod cache;
-pub mod execution;
-pub mod execution_enhanced;
-pub mod expression;
-pub mod formalization;
-pub mod large_scale;
-pub mod parallel;
+// Core modules - The three stages of The Pattern
 pub mod recognition;
-pub mod universal_pattern;
-pub mod precomputed_basis;
-pub mod enhanced_basis;
+pub mod formalization;
+pub mod execution;
+
+// Unified basis system
+pub mod basis;
+
+// Supporting modules
+pub mod advanced;
+pub mod expression;
 pub mod verification;
+pub mod cache;
+
+// Pattern implementations
+pub mod universal_pattern;
 
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;

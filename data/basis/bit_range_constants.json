@@ -1,0 +1,218 @@
+{
+  "288-320": {
+    "resonance_decay_alpha": 1.845073882840364,
+    "phase_coupling_beta": 0.3127688512579838,
+    "scale_transition_gamma": 216.48035713200403,
+    "interference_null_delta": 0.10141798631660186,
+    "adelic_threshold_epsilon": 10.9116,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "16-24": {
+    "resonance_decay_alpha": 0.9344431063012846,
+    "phase_coupling_beta": 0.25861507224372443,
+    "scale_transition_gamma": 55.52604001727478,
+    "interference_null_delta": 0.19866933079506122,
+    "adelic_threshold_epsilon": 4.763000000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "192-208": {
+    "resonance_decay_alpha": 1.661700935788387,
+    "phase_coupling_beta": 0.3044365155943059,
+    "scale_transition_gamma": 175.5887559042435,
+    "interference_null_delta": 0.9092974268256817,
+    "adelic_threshold_epsilon": 8.66,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "176-192": {
+    "resonance_decay_alpha": 1.6274206459147094,
+    "phase_coupling_beta": 0.30277722157641884,
+    "scale_transition_gamma": 168.41881814096666,
+    "interference_null_delta": 0.9639829961524481,
+    "adelic_threshold_epsilon": 8.3136,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "64-80": {
+    "resonance_decay_alpha": 1.2871480101371404,
+    "phase_coupling_beta": 0.2841056557684195,
+    "scale_transition_gamma": 105.35325354254608,
+    "interference_null_delta": 0.6593846719714731,
+    "adelic_threshold_epsilon": 5.8888,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "240-256": {
+    "resonance_decay_alpha": 1.7535101566209645,
+    "phase_coupling_beta": 0.3087172320486832,
+    "scale_transition_gamma": 195.5273635274613,
+    "interference_null_delta": 0.6143742578057118,
+    "adelic_threshold_epsilon": 9.699200000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "768-1024": {
+    "resonance_decay_alpha": 2.4175327600968886,
+    "phase_coupling_beta": 0.3342790142182011,
+    "scale_transition_gamma": 371.65134491348203,
+    "interference_null_delta": 0.4482243269405849,
+    "adelic_threshold_epsilon": 23.7284,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "144-160": {
+    "resonance_decay_alpha": 1.5515160139587143,
+    "phase_coupling_beta": 0.2989752223648409,
+    "scale_transition_gamma": 153.0747285217256,
+    "interference_null_delta": 0.998710143975583,
+    "adelic_threshold_epsilon": 7.6208,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "512-768": {
+    "resonance_decay_alpha": 2.222492781157463,
+    "phase_coupling_beta": 0.327583216709439,
+    "scale_transition_gamma": 314.1027154292048,
+    "interference_null_delta": 0.11654920485049364,
+    "adelic_threshold_epsilon": 18.186,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "320-384": {
+    "resonance_decay_alpha": 1.9139519536674738,
+    "phase_coupling_beta": 0.3156862603944021,
+    "scale_transition_gamma": 232.9448082958708,
+    "interference_null_delta": 0.3694409585444771,
+    "adelic_threshold_epsilon": 11.9508,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "384-448": {
+    "resonance_decay_alpha": 1.9955779573221328,
+    "phase_coupling_beta": 0.31901063667919916,
+    "scale_transition_gamma": 253.23770512307206,
+    "interference_null_delta": 0.8512734009355745,
+    "adelic_threshold_epsilon": 13.336400000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "224-240": {
+    "resonance_decay_alpha": 1.7245165307239099,
+    "phase_coupling_beta": 0.3073900736961596,
+    "scale_transition_gamma": 189.11487776481258,
+    "interference_null_delta": 0.7322314440302514,
+    "adelic_threshold_epsilon": 9.3528,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "112-128": {
+    "resonance_decay_alpha": 1.4624824966279242,
+    "phase_coupling_beta": 0.29427108568136273,
+    "scale_transition_gamma": 136.01046547968286,
+    "interference_null_delta": 0.9320390859672263,
+    "adelic_threshold_epsilon": 6.928000000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "128-144": {
+    "resonance_decay_alpha": 1.5089682176067702,
+    "phase_coupling_beta": 0.29676183222614744,
+    "scale_transition_gamma": 144.7941974527985,
+    "interference_null_delta": 0.9778646024353163,
+    "adelic_threshold_epsilon": 7.274400000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "32-48": {
+    "resonance_decay_alpha": 1.1112463905787315,
+    "phase_coupling_beta": 0.2724087011368673,
+    "scale_transition_gamma": 78.5256788573012,
+    "interference_null_delta": 0.3894183423086505,
+    "adelic_threshold_epsilon": 5.196,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "256-288": {
+    "resonance_decay_alpha": 1.7944757406909455,
+    "phase_coupling_beta": 0.3105554611192904,
+    "scale_transition_gamma": 204.7699177906755,
+    "interference_null_delta": 0.4092141696720173,
+    "adelic_threshold_epsilon": 10.218800000000002,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "208-224": {
+    "resonance_decay_alpha": 1.6939820469650018,
+    "phase_coupling_beta": 0.3059680403129149,
+    "scale_transition_gamma": 182.47718787837564,
+    "interference_null_delta": 0.8313834607786831,
+    "adelic_threshold_epsilon": 9.006400000000001,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "48-64": {
+    "resonance_decay_alpha": 1.2087663800484443,
+    "phase_coupling_beta": 0.27910449864562953,
+    "scale_transition_gamma": 92.91283622837051,
+    "interference_null_delta": 0.5311861979208834,
+    "adelic_threshold_epsilon": 5.5424,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "448-512": {
+    "resonance_decay_alpha": 2.0682625814644746,
+    "phase_coupling_beta": 0.3218583434676486,
+    "scale_transition_gamma": 272.0209309593657,
+    "interference_null_delta": 0.9961646088358407,
+    "adelic_threshold_epsilon": 14.722,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "24-32": {
+    "resonance_decay_alpha": 1.016447315861946,
+    "phase_coupling_beta": 0.2653108697524866,
+    "scale_transition_gamma": 65.69929655635592,
+    "interference_null_delta": 0.27635564856411376,
+    "adelic_threshold_epsilon": 4.9362,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "80-96": {
+    "resonance_decay_alpha": 1.3533684053035115,
+    "phase_coupling_beta": 0.28809900260811633,
+    "scale_transition_gamma": 116.4724041479354,
+    "interference_null_delta": 0.7707388788989693,
+    "adelic_threshold_epsilon": 6.2352,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "8-16": {
+    "resonance_decay_alpha": 0.8224143452214371,
+    "phase_coupling_beta": 0.24844964233078123,
+    "scale_transition_gamma": 43.01028565355036,
+    "interference_null_delta": 0.11971220728891936,
+    "adelic_threshold_epsilon": 4.5898,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "96-112": {
+    "resonance_decay_alpha": 1.411086706008879,
+    "phase_coupling_beta": 0.2914233788929133,
+    "scale_transition_gamma": 126.61885256153603,
+    "interference_null_delta": 0.8624042272433384,
+    "adelic_threshold_epsilon": 6.5816,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  },
+  "160-176": {
+    "resonance_decay_alpha": 1.5908260205124136,
+    "phase_coupling_beta": 0.3009668831901249,
+    "scale_transition_gamma": 160.929753022864,
+    "interference_null_delta": 0.994043202198076,
+    "adelic_threshold_epsilon": 7.967199999999999,
+    "golden_ratio_phi": 1.618033988749895,
+    "tribonacci_tau": 1.839286755214161
+  }
+}

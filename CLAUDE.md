@@ -114,6 +114,7 @@ The codebase follows a data-driven architecture where patterns emerge from empir
 - **Emergence over engineering** - Code structure follows discovered patterns
 - **Data-first development** - Every function exists because data revealed its necessity
 - **Arbitrary precision** - Uses `rug` (GMP bindings) for exact arithmetic at any scale
+- **Refactoring** - Code is continuously refactored to match emerging patterns
 
 ## Important Patterns
 
