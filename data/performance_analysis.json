@@ -1,0 +1,24 @@
+{
+  "critical_transition": 48,
+  "failing_bit_ranges": [
+    48,
+    56,
+    64
+  ],
+  "failing_methods": [
+    "phi_sum_guided"
+  ],
+  "pattern_count": 5,
+  "successful_bit_ranges": [
+    8,
+    16,
+    24,
+    32,
+    40
+  ],
+  "working_methods": [
+    "precomputed_basis",
+    "universal_pattern_cached",
+    "quick_factor_scan"
+  ]
+}

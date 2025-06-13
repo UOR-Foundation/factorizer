@@ -22,6 +22,15 @@ pub mod cache;
 // Pattern implementations
 pub mod universal_pattern;
 
+// 8-bit stream processor
+pub mod stream_processor;
+
+// Empirical pattern implementation
+pub mod empirical_pattern;
+
+// Direct empirical pattern (no theory, just learned mappings)
+pub mod direct_empirical;
+
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;
 use serde::{Deserialize, Serialize};
