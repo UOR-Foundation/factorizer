@@ -72,21 +72,21 @@ fn main() -> rust_pattern_solver::Result<()> {
         
         // Medium semiprimes
         (Number::from(9409u32), "97² - prime square"),
-        (Number::from(25117u32), "151 × 167 - twin-like primes"),
-        (Number::from(142687u32), "367 × 389 - consecutive primes"),
+        (Number::from(25217u32), "151 × 167 - twin-like primes"),
+        (Number::from(142763u32), "367 × 389 - consecutive primes"),
         
         // Larger semiprimes (32-bit range)
-        (Number::from(1073676289u64), "32749 × 32771 - near sqrt(n)"),
-        (Number::from(2147483629u64), "46337 × 46349 - twin primes"),
+        (Number::from(1073676289u64), "32767² - Mersenne prime square"),
+        (Number::from(2147673613u64), "46337 × 46349 - twin primes"),
         
         // 48-bit semiprime
-        (Number::from(140737488355333u64), "11863283 × 11863279"),
+        (Number::from(140737436084957u64), "11863283 × 11863279"),
         
         // 56-bit semiprime  
-        (Number::from(36028797018963913u64), "189812507 × 189812533"),
+        (Number::from(36028792748750231u64), "189812507 × 189812533"),
         
         // 64-bit semiprime (if it can handle it)
-        (Number::from(9223372036854775783u64), "3037000493 × 3037000499"),
+        (Number::from(9223372012704246007u64), "3037000493 × 3037000499"),
     ];
     
     for (n, desc) in test_cases {
@@ -95,7 +95,7 @@ fn main() -> rust_pattern_solver::Result<()> {
     
     // Test with RSA-8 (the smallest RSA challenge that was factored)
     println!("\n=== RSA-8 Test ===");
-    let rsa8 = Number::from(1977u32); // 59 × 71 (not actual RSA-8, but similar size for testing)
+    let rsa8 = Number::from(4189u32); // 59 × 71 (not actual RSA-8, but similar size for testing)
     test_number(&mut pattern, rsa8, "59 × 71 (RSA-8 sized)");
     
     // Test special cases

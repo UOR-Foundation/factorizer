@@ -257,6 +257,12 @@ impl From<u64> for Number {
     }
 }
 
+impl From<u128> for Number {
+    fn from(value: u128) -> Self {
+        Number(Integer::from(value))
+    }
+}
+
 impl From<&str> for Number {
     fn from(s: &str) -> Self {
         Number(Integer::from_str(s).unwrap())
