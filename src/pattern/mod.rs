@@ -12,6 +12,7 @@ pub mod execution;
 
 // Unified basis system
 pub mod basis;
+pub mod basis_exact;
 
 // Supporting modules
 pub mod advanced;
@@ -32,6 +33,10 @@ pub mod empirical_pattern;
 // Direct empirical pattern (no theory, just learned mappings)
 pub mod direct_empirical;
 pub mod direct_empirical_exact;
+
+// Wave synthesis auto-tuner
+pub mod wave_synthesis;
+pub mod wave_synthesis_exact;
 
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;

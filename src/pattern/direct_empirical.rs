@@ -3,7 +3,7 @@
 //! This implementation directly uses the empirical patterns discovered
 //! from the test matrix without any theoretical assumptions.
 
-use crate::types::{Number, Factors};
+use crate::types::{Number, Factors, integer_sqrt, Rational};
 use crate::error::PatternError;
 use crate::Result;
 use std::collections::HashMap;
@@ -35,8 +35,8 @@ struct ChannelRule {
 
 #[derive(Debug, Clone)]
 struct FactorHint {
-    p_multiplier: f64,
-    q_multiplier: f64,
+    p_multiplier: Rational,
+    q_multiplier: Rational,
     confidence: f64,
 }
 
@@ -78,7 +78,7 @@ impl DirectEmpiricalPattern {
         let mut temp = n.clone();
         
         while !temp.is_zero() {
-            let byte_val = (&temp % &Number::from(256u32)).to_f64().unwrap() as u8;
+            let byte_val = (&temp % &Number::from(256u32)).to_u32().unwrap_or(0) as u8;
             bytes.push(byte_val);
             temp = &temp / &Number::from(256u32);
         }
@@ -111,23 +111,26 @@ impl DirectEmpiricalPattern {
             
             for (byte_val, cases) in byte_stats {
                 if cases.len() >= 2 {  // Need multiple cases to find pattern
-                    // Calculate average p/sqrt(n) and q/sqrt(n) ratios
-                    let mut p_ratios = Vec::new();
-                    let mut q_ratios = Vec::new();
+                    // Calculate average p/sqrt(n) and q/sqrt(n) ratios using exact arithmetic
+                    let mut p_sum = Rational::zero();
+                    let mut q_sum = Rational::zero();
+                    let mut count = 0;
                     
                     for (n, p, q) in &cases {
-                        let sqrt_n = self.approximate_sqrt(n);
+                        let sqrt_n = integer_sqrt(n);
                         if !sqrt_n.is_zero() {
-                            let p_ratio = p.to_f64().unwrap_or(1.0) / sqrt_n.to_f64().unwrap_or(1.0);
-                            let q_ratio = q.to_f64().unwrap_or(1.0) / sqrt_n.to_f64().unwrap_or(1.0);
-                            p_ratios.push(p_ratio);
-                            q_ratios.push(q_ratio);
+                            let p_ratio = Rational::from_ratio(p.clone(), sqrt_n.clone());
+                            let q_ratio = Rational::from_ratio(q.clone(), sqrt_n);
+                            p_sum = &p_sum + &p_ratio;
+                            q_sum = &q_sum + &q_ratio;
+                            count += 1;
                         }
                     }
                     
-                    if !p_ratios.is_empty() {
-                        let avg_p_ratio = p_ratios.iter().sum::<f64>() / p_ratios.len() as f64;
-                        let avg_q_ratio = q_ratios.iter().sum::<f64>() / q_ratios.len() as f64;
+                    if count > 0 {
+                        let count_rat = Rational::from_integer(Number::from(count as u32));
+                        let avg_p_ratio = &p_sum / &count_rat;
+                        let avg_q_ratio = &q_sum / &count_rat;
                         
                         byte_to_factor_map.insert(byte_val, FactorHint {
                             p_multiplier: avg_p_ratio,
@@ -144,16 +147,6 @@ impl DirectEmpiricalPattern {
                     byte_to_factor_map,
                 });
             }
-        }
-    }
-    
-    /// Approximate square root
-    fn approximate_sqrt(&self, n: &Number) -> Number {
-        let bits = n.bit_length();
-        if bits <= 1 {
-            n.clone()
-        } else {
-            Number::from(1u32) << ((bits / 2) as u32)
         }
     }
     
@@ -217,25 +210,42 @@ impl DirectEmpiricalPattern {
         matches
     }
     
-    /// Adapt a similar pattern to the target number
+    /// Adapt a similar pattern to the target number using exact arithmetic
     fn adapt_pattern(&self, n: &Number, pattern: &PatternEntry) -> Result<Factors> {
-        // Simple adaptation: scale factors proportionally
         let pattern_n = Self::bytes_to_number(&pattern.n_bytes);
         
         if !pattern_n.is_zero() {
-            let scale = n.to_f64().unwrap_or(1e100) / pattern_n.to_f64().unwrap_or(1.0);
-            let scale_sqrt = scale.sqrt();
+            // Use exact integer arithmetic to avoid precision loss
+            let n_bits = n.bit_length();
+            let pattern_bits = pattern_n.bit_length();
             
-            let p_scaled = pattern.p.to_f64().unwrap_or(1.0) * scale_sqrt;
-            let q_scaled = pattern.q.to_f64().unwrap_or(1.0) * scale_sqrt;
-            
-            // Round to nearest integers
-            let p = Number::from((p_scaled.round() as u128).max(1));
-            let q = Number::from((q_scaled.round() as u128).max(1));
-            
-            // Verify
-            if &p * &q == *n {
-                return Ok(Factors::new(p, q, "adapted_empirical_pattern"));
+            if (n_bits as i32 - pattern_bits as i32).abs() <= 10 {
+                // Compute sqrt(n) and sqrt(pattern_n) exactly
+                let sqrt_n = integer_sqrt(n);
+                let sqrt_pattern_n = integer_sqrt(&pattern_n);
+                
+                // Scale factors using integer arithmetic
+                let p_scaled = (&pattern.p * &sqrt_n) / &sqrt_pattern_n;
+                let q_scaled = (&pattern.q * &sqrt_n) / &sqrt_pattern_n;
+                
+                // Try the scaled values
+                if &p_scaled * &q_scaled == *n {
+                    return Ok(Factors::new(p_scaled, q_scaled, "adapted_empirical_pattern"));
+                }
+                
+                // Try small adjustments
+                for dp in -2..=2 {
+                    for dq in -2..=2 {
+                        let p_adj = &p_scaled + &Number::from(dp);
+                        let q_adj = &q_scaled + &Number::from(dq);
+                        
+                        if p_adj > Number::from(1u32) && q_adj > Number::from(1u32) {
+                            if &p_adj * &q_adj == *n {
+                                return Ok(Factors::new(p_adj, q_adj, "adapted_empirical_pattern"));
+                            }
+                        }
+                    }
+                }
             }
         }
         
@@ -255,36 +265,39 @@ impl DirectEmpiricalPattern {
         n
     }
     
-    /// Apply learned channel rules
+    /// Apply learned channel rules using exact arithmetic
     fn apply_channel_rules(&self, n: &Number, bytes: &[u8]) -> Result<Factors> {
-        let sqrt_n = self.approximate_sqrt(n);
-        let mut p_estimate = sqrt_n.to_f64().unwrap_or(1.0);
-        let mut q_estimate = sqrt_n.to_f64().unwrap_or(1.0);
+        let sqrt_n = integer_sqrt(n);
+        let mut p_estimate = Rational::from_integer(sqrt_n.clone());
+        let mut q_estimate = Rational::from_integer(sqrt_n);
         let mut total_confidence = 0.0;
         
         // Apply rules from each channel
         for rule in &self.channel_rules {
             if let Some(&byte_val) = bytes.get(rule.channel_idx) {
                 if let Some(hint) = rule.byte_to_factor_map.get(&byte_val) {
-                    p_estimate *= hint.p_multiplier;
-                    q_estimate *= hint.q_multiplier;
+                    p_estimate = &p_estimate * &hint.p_multiplier;
+                    q_estimate = &q_estimate * &hint.q_multiplier;
                     total_confidence += hint.confidence;
                 }
             }
         }
         
         if total_confidence > 0.0 {
-            // Try nearby integers
-            let p_center = p_estimate.round() as u128;
-            let q_center = q_estimate.round() as u128;
+            // Round to nearest integers
+            let p_center = p_estimate.round();
+            let q_center = q_estimate.round();
             
-            for dp in -5i128..=5 {
-                for dq in -5i128..=5 {
-                    let p = Number::from((p_center as i128 + dp).max(1) as u128);
-                    let q = Number::from((q_center as i128 + dq).max(1) as u128);
+            // Try nearby integers
+            for dp in -5..=5 {
+                for dq in -5..=5 {
+                    let p = &p_center + &Number::from(dp);
+                    let q = &q_center + &Number::from(dq);
                     
-                    if &p * &q == *n {
-                        return Ok(Factors::new(p, q, "channel_rules"));
+                    if p > Number::from(1u32) && q > Number::from(1u32) {
+                        if &p * &q == *n {
+                            return Ok(Factors::new(p, q, "channel_rules"));
+                        }
                     }
                 }
             }

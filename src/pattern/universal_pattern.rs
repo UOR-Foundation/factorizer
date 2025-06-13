@@ -6,7 +6,7 @@
 //! - Resonance field and harmonic analysis
 
 use crate::error::PatternError;
-use crate::types::{Number, Factors};
+use crate::types::{Number, Factors, integer_sqrt};
 use crate::utils;
 use crate::Result;
 use crate::pattern::basis::Basis;
@@ -478,7 +478,14 @@ impl UniversalPattern {
         // Use scale-invariant offset based on pattern constants
         let n_bits = n.bit_length() as f64;
         let offset_scale = (n_bits / self.pattern_constants.precision_scale).powf(0.25);
-        let offset = Number::from((offset_scale * 1000.0).max(10.0) as u128);
+        // Use exact arithmetic to avoid precision loss
+        let offset = if offset_scale < 1e18 {
+            Number::from((offset_scale * 1000.0).max(10.0) as u64)
+        } else {
+            // For very large offsets, compute exactly
+            let scale_int = Number::from((offset_scale / 1000.0) as u64);
+            &scale_int * &Number::from(1000u32)
+        };
         
         let search_start = if sqrt_n > offset {
             &sqrt_n - &offset
@@ -586,7 +593,14 @@ impl UniversalPattern {
         } else {
             100_000.0      // 100K for medium
         };
-        let max_radius = Number::from((base_radius * 10000.0).max(min_radius) as u128);
+        // Use exact arithmetic for large radius
+        let max_radius = if base_radius * 10000.0 < 1e18 {
+            Number::from((base_radius * 10000.0).max(min_radius) as u64)
+        } else {
+            // For very large radius, scale with sqrt of bit length
+            let bits = Number::from(n.bit_length() as u32);
+            integer_sqrt(&(&bits * &Number::from(10000000u32)))
+        };
         let mut offset = Number::from(0u32);
         
         while offset <= max_radius {
@@ -1127,28 +1141,31 @@ impl UniversalPattern {
         
         // Try phase-based search with improved radius calculation
         let phase_center_f64 = product_phase * sqrt_n.to_f64().unwrap_or(1e100) / self.constants.pi;
-        let phase_center = if phase_center_f64 < 1e18 {
-            phase_center_f64 as u128
+        let phase_center = if phase_center_f64 < 1e18 && phase_center_f64 > 0.0 {
+            Number::from(phase_center_f64 as u64)
         } else {
-            // For very large values, we'll need to handle this differently
-            u128::MAX
+            // For very large values, use exact computation
+            let phase_scale = Number::from((product_phase * 1000.0) as u64);
+            (sqrt_n * &phase_scale) / &Number::from((self.constants.pi * 1000.0) as u64)
         };
         
         // Improved search radius calculation based on Python implementation
         let search_radius = if n.bit_length() > 1000 {
             // For extremely large numbers, use a fixed large radius
-            Number::from(1_000_000u128)
+            Number::from(1_000_000u64)
         } else if n.bit_length() > 200 {
             // For very large numbers, scale with bit length
-            Number::from(((n.bit_length() as f64).sqrt() * 10000.0) as u128)
+            // Scale with sqrt of bit length
+            let bits = Number::from(n.bit_length() as u32);
+            integer_sqrt(&(&bits * &Number::from(100000000u32)))
         } else {
             // For smaller numbers, use n^0.25 with a reasonable minimum and maximum
             let n_float = n.to_f64().unwrap_or(1e15);
             if n_float < 1e15 {
-                Number::from((n_float.powf(0.25) as u128).max(1000).min(10_000_000))
+                Number::from((n_float.powf(0.25) as u64).max(1000).min(10_000_000))
             } else {
                 // Scale based on bit length for numbers beyond float range
-                Number::from((2.0_f64.powf(n.bit_length() as f64 / 4.0) as u128).min(10_000_000))
+                Number::from((2.0_f64.powf(n.bit_length() as f64 / 4.0) as u64).min(10_000_000))
             }
         };
         
@@ -1157,9 +1174,9 @@ impl UniversalPattern {
         while offset < search_radius {
             // Check both directions from center
             // For center + offset
-            if phase_center < u128::MAX {
-                let candidate = &Number::from(phase_center) + &offset;
-                if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
+            // phase_center is now a Number
+            let candidate = &phase_center + &offset;
+            if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
                     let q = n / &candidate;
                     // Ensure p <= q
                     let (p, q) = if candidate <= q {
@@ -1168,14 +1185,12 @@ impl UniversalPattern {
                         (q, candidate)
                     };
                     return Ok(Factors::new(p, q, "universal_phase_search"));
-                }
             }
             
             // For center - offset
-            if offset > Number::from(0u32) && phase_center > 0 {
-                let phase_center_num = Number::from(phase_center);
-                if phase_center_num > offset {
-                    let p_candidate = &phase_center_num - &offset;
+            if offset > Number::from(0u32) && phase_center > Number::from(0u32) {
+                if phase_center > offset {
+                    let p_candidate = &phase_center - &offset;
                     if n % &p_candidate == Number::from(0u32) {
                         let q = n / &p_candidate;
                         // Ensure p <= q

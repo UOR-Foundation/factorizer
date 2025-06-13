@@ -209,32 +209,40 @@ impl DirectEmpiricalPatternExact {
         let pattern_n = Self::bytes_to_number(&pattern.n_bytes);
         
         if !pattern_n.is_zero() {
-            // Use exact rational scaling
-            let scale = Rational::from_ratio(n.clone(), pattern_n);
-            let scale_sqrt = scale.sqrt_approx(10); // 10 iterations for good approximation
+            // For very large numbers, use a more direct approach to avoid stack overflow
+            // Instead of computing sqrt(n/pattern_n), we use the fact that:
+            // If pattern has factors (p1, q1) and we want factors of n
+            // Then n ≈ pattern_n * k, so factors are approximately (p1*sqrt(k), q1*sqrt(k))
             
-            // Scale factors exactly
-            let p_scaled = &Rational::from_integer(pattern.p.clone()) * &scale_sqrt;
-            let q_scaled = &Rational::from_integer(pattern.q.clone()) * &scale_sqrt;
+            // First, try simple scaling if the numbers have similar bit lengths
+            let n_bits = n.bit_length();
+            let pattern_bits = pattern_n.bit_length();
             
-            // Round to nearest integers
-            let p = p_scaled.round();
-            let q = q_scaled.round();
-            
-            // Verify
-            if &p * &q == *n {
-                return Ok(Factors::new(p, q, "adapted_empirical_pattern".to_string()));
-            }
-            
-            // Try small adjustments
-            for dp in -2..=2 {
-                for dq in -2..=2 {
-                    let p_adj = &p + &Number::from(dp);
-                    let q_adj = &q + &Number::from(dq);
-                    
-                    if p_adj > Number::from(1u32) && q_adj > Number::from(1u32) {
-                        if &p_adj * &q_adj == *n {
-                            return Ok(Factors::new(p_adj, q_adj, "adapted_empirical_pattern_adjusted".to_string()));
+            if (n_bits as i32 - pattern_bits as i32).abs() <= 10 {
+                // Use integer-based approximation for large numbers
+                // Compute sqrt(n) and sqrt(pattern_n) separately
+                let sqrt_n = integer_sqrt(n);
+                let sqrt_pattern_n = integer_sqrt(&pattern_n);
+                
+                // Scale factors using integer arithmetic
+                let p_scaled = (&pattern.p * &sqrt_n) / &sqrt_pattern_n;
+                let q_scaled = (&pattern.q * &sqrt_n) / &sqrt_pattern_n;
+                
+                // Try the scaled values
+                if &p_scaled * &q_scaled == *n {
+                    return Ok(Factors::new(p_scaled, q_scaled, "adapted_empirical_pattern".to_string()));
+                }
+                
+                // Try small adjustments
+                for dp in -2..=2 {
+                    for dq in -2..=2 {
+                        let p_adj = &p_scaled + &Number::from(dp);
+                        let q_adj = &q_scaled + &Number::from(dq);
+                        
+                        if p_adj > Number::from(1u32) && q_adj > Number::from(1u32) {
+                            if &p_adj * &q_adj == *n {
+                                return Ok(Factors::new(p_adj, q_adj, "adapted_empirical_pattern_adjusted".to_string()));
+                            }
                         }
                     }
                 }

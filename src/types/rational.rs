@@ -133,6 +133,31 @@ impl Rational {
             )
         }
     }
+    
+    /// Get numerator
+    pub fn numerator(&self) -> &Number {
+        &self.num
+    }
+    
+    /// Get denominator
+    pub fn denominator(&self) -> &Number {
+        &self.den
+    }
+    
+    /// Check if zero
+    pub fn is_zero(&self) -> bool {
+        self.num.is_zero()
+    }
+    
+    /// Check if one
+    pub fn is_one(&self) -> bool {
+        self.num == self.den
+    }
+    
+    /// Check if negative
+    pub fn is_negative(&self) -> bool {
+        self.num.is_negative()
+    }
 }
 
 /// Addition
@@ -202,6 +227,19 @@ impl Ord for Rational {
     fn cmp(&self, other: &Self) -> Ordering {
         // a/b < c/d iff ad < bc (assuming positive denominators)
         (&self.num * &other.den).cmp(&(&other.num * &self.den))
+    }
+}
+
+/// Remainder/modulo operation
+impl std::ops::Rem for &Rational {
+    type Output = Rational;
+    
+    fn rem(self, other: &Rational) -> Rational {
+        // a/b % c/d = (a/b - floor(a/b / c/d) * c/d)
+        let quotient = self / other;
+        let floor = quotient.to_integer();
+        let floor_rat = Rational::from_integer(floor);
+        self - &(&floor_rat * other)
     }
 }
 

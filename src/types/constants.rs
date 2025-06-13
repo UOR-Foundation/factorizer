@@ -73,11 +73,10 @@ fn e_to_precision(bits: u32) -> Number {
     
     let mut sum = scale.clone();
     let mut factorial = Number::from(1u32);
-    let mut term = scale.clone();
     
     for i in 1..iterations {
         factorial = &factorial * &Number::from(i as u32);
-        term = &scale / &factorial;
+        let term = &scale / &factorial;
         if term.is_zero() {
             break;
         }
