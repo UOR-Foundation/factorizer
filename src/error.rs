@@ -56,6 +56,10 @@ pub enum PatternError {
     /// Factorization failed
     #[error("Factorization failed: {0}")]
     FactorizationFailed(String),
+
+    /// Configuration error
+    #[error("Configuration error: {0}")]
+    ConfigError(String),
 }
 
 /// Result type alias for pattern operations

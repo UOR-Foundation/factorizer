@@ -6,116 +6,129 @@
 //! - Resonance field and harmonic analysis
 
 use crate::error::PatternError;
-use crate::types::{Number, Factors, integer_sqrt};
+use crate::types::{Number, Factors, Rational, integer_sqrt};
+use crate::types::constants::{FundamentalConstantsRational, get_constant, ConstantType};
 use crate::utils;
 use crate::Result;
-use crate::pattern::basis::Basis;
-use nalgebra::{DMatrix, SymmetricEigen};
-use ndarray::{Array1, Array2};
+use crate::pattern::basis_exact::BasisExact;
+use crate::pattern::wave_synthesis_exact::WaveSynthesisPatternExact;
 use std::collections::HashMap;
-use std::f64::consts::{E, PI};
 use std::str::FromStr;
 
-/// Universal constants that form the basis of The Pattern
+/// Universal constants using exact rational arithmetic
 #[derive(Debug, Clone)]
 pub struct UniversalConstants {
     /// Golden ratio φ
-    pub phi: f64,
+    pub phi: Rational,
     /// Circle constant π
-    pub pi: f64,
+    pub pi: Rational,
     /// Natural logarithm base e
-    pub e: f64,
+    pub e: Rational,
     /// Unity
-    pub unity: f64,
+    pub unity: Rational,
     /// Derived: 2 - φ
-    pub beta: f64,
-    /// Euler-Mascheroni constant
-    pub gamma: f64,
+    pub beta: Rational,
+    /// Euler-Mascheroni constant (approximation)
+    pub gamma: Rational,
+    /// Precision in bits
+    precision_bits: u32,
+}
+
+impl UniversalConstants {
+    fn new(precision_bits: u32) -> Self {
+        let phi = get_constant(ConstantType::Phi, precision_bits);
+        let pi = get_constant(ConstantType::Pi, precision_bits);
+        let e = get_constant(ConstantType::E, precision_bits);
+        let one = Number::from(1u32) << precision_bits;
+        let two = Number::from(2u32) << precision_bits;
+        
+        UniversalConstants {
+            phi: Rational::from_integer(phi.clone()),
+            pi: Rational::from_integer(pi),
+            e: Rational::from_integer(e),
+            unity: Rational::from_integer(one.clone()),
+            beta: Rational::from_integer(&two - &phi),
+            gamma: Rational::from_ratio(577215664901532u64, 1000000000000000u64),
+            precision_bits,
+        }
+    }
 }
 
 impl Default for UniversalConstants {
     fn default() -> Self {
-        let phi = (1.0 + 5.0_f64.sqrt()) / 2.0;
-        UniversalConstants {
-            phi,
-            pi: PI,
-            e: E,
-            unity: 1.0,
-            beta: 2.0 - phi,
-            gamma: 0.5772156649015329,
-        }
+        Self::new(256) // Default 256-bit precision
     }
 }
 
-/// Pattern-specific invariant constants
+/// Pattern-specific invariant constants using exact arithmetic
 pub struct PatternConstants {
     /// φ / π - fundamental resonance ratio
-    pub resonance_base: f64,
+    pub resonance_base: Rational,
     /// e / φ - harmonic scaling factor
-    pub harmonic_scale: f64,
+    pub harmonic_scale: Rational,
     /// 2π - unity field
-    pub unity_field: f64,
-    /// Discovered invariants from empirical observation
-    /// Resonance decay coefficient (α) - controls how resonance strength decays with distance
-    pub resonance_decay_alpha: f64,
-    /// Phase coupling coefficient (β) - determines phase relationship between components
-    pub phase_coupling_beta: f64,
-    /// Scale transition coefficient (γ) - manages pattern scaling across number sizes
-    pub scale_transition_gamma: f64,
-    /// Balanced semiprime detection threshold (empirically discovered)
-    pub balance_threshold: f64,
+    pub unity_field: Rational,
+    /// Fundamental constants from empirical observation
+    pub fundamental: FundamentalConstantsRational,
+    /// Balanced semiprime detection threshold
+    pub balance_threshold: Rational,
     /// Precision scaling factor for large numbers
-    pub precision_scale: f64,
+    pub precision_scale: Rational,
 }
 
-impl Default for PatternConstants {
-    fn default() -> Self {
-        let phi = (1.0 + 5.0_f64.sqrt()) / 2.0;
+impl PatternConstants {
+    fn new(constants: &UniversalConstants, precision_bits: u32) -> Self {
         PatternConstants {
-            resonance_base: phi / PI,
-            harmonic_scale: E / phi,
-            unity_field: 2.0 * PI,
-            // Empirically discovered invariants
-            resonance_decay_alpha: 1.1750566516490533,
-            phase_coupling_beta: 0.19968406830149554,
-            scale_transition_gamma: 12.41605776553433,
-            // Empirically observed: balanced semiprimes have diff/sqrt(n) < 1e-6
-            balance_threshold: 1e-5,
-            // For large numbers, distance scales as sqrt(n)^(1/precision_scale)
-            precision_scale: 50.0,
+            resonance_base: &constants.phi / &constants.pi,
+            harmonic_scale: &constants.e / &constants.phi,
+            unity_field: &constants.pi * &Rational::from_integer(Number::from(2u32)),
+            fundamental: FundamentalConstantsRational::new(precision_bits),
+            balance_threshold: Rational::from_ratio(1u32, 100000u32),
+            precision_scale: Rational::from_integer(Number::from(50u32)),
         }
     }
 }
 
-/// Universal Pattern recognizer
+/// Universal Pattern recognizer with exact arithmetic
 pub struct UniversalPattern {
     constants: UniversalConstants,
     pattern_constants: PatternConstants,
     cache: HashMap<String, (Number, Number)>,
     /// Pre-computed universal basis for poly-time solving
-    universal_basis: Option<Basis>,
+    universal_basis: Option<BasisExact>,
+    /// Wave synthesis pattern for large numbers
+    wave_synthesis: Option<WaveSynthesisPatternExact>,
+    /// Precision in bits
+    precision_bits: u32,
 }
 
 impl UniversalPattern {
-    /// Create a new UniversalPattern recognizer with default constants
+    /// Create a new UniversalPattern recognizer with specified precision
     pub fn new() -> Self {
+        Self::with_precision(256) // Default 256-bit precision
+    }
+    
+    /// Create with specified precision in bits
+    pub fn with_precision(precision_bits: u32) -> Self {
+        let constants = UniversalConstants::new(precision_bits);
+        let pattern_constants = PatternConstants::new(&constants, precision_bits);
+        
         UniversalPattern {
-            constants: UniversalConstants::default(),
-            pattern_constants: PatternConstants::default(),
+            constants,
+            pattern_constants,
             cache: HashMap::new(),
             universal_basis: None,
+            wave_synthesis: None,
+            precision_bits,
         }
     }
     
     /// Initialize with pre-computed basis for poly-time solving
     pub fn with_precomputed_basis() -> Self {
-        let mut pattern = Self::new();
-        // Load enhanced basis if available, otherwise create new
-        pattern.universal_basis = if let Ok(basis) = Basis::load_enhanced(std::path::Path::new("data/basis/enhanced_basis.json")) {
-            Some(basis)
-        } else {
-            Some(Basis::new())
-        };
+        let precision_bits = 256;
+        let mut pattern = Self::with_precision(precision_bits);
+        pattern.universal_basis = Some(BasisExact::new(precision_bits));
+        pattern.wave_synthesis = Some(WaveSynthesisPatternExact::new(precision_bits));
         pattern
     }
 
@@ -183,7 +196,17 @@ impl UniversalPattern {
 
         // Try multiple decoding strategies in order of effectiveness
         
-        // 0. ALWAYS try pre-computed basis first if available (the auto-tune approach)
+        // 0. Use wave synthesis for large numbers
+        if let Some(ref mut wave_synthesis) = self.wave_synthesis {
+            if n.bit_length() > 64 {
+                if let Ok(factors) = wave_synthesis.factor(n) {
+                    self.cache.insert(cache_key.clone(), (factors.p.clone(), factors.q.clone()));
+                    return Ok(factors);
+                }
+            }
+        }
+        
+        // 1. Try pre-computed basis if available
         if let Some(ref basis) = self.universal_basis {
             if let Ok(factors) = self.decode_with_precomputed_basis(n, &formalization, basis) {
                 self.cache.insert(cache_key.clone(), (factors.p.clone(), factors.q.clone()));
@@ -217,25 +240,24 @@ impl UniversalPattern {
             &sqrt_squared - n
         };
         
-        // Scale-invariant balance detection using pattern constants
-        // For truly balanced semiprimes: difference/sqrt(n) < balance_threshold
-        let sqrt_n_f64 = sqrt_n.to_f64().unwrap_or(1e100);
-        let diff_f64 = difference.to_f64().unwrap_or(1e50);
-        let balance_ratio = diff_f64 / sqrt_n_f64;
+        // Use exact arithmetic for balance detection
+        let diff_rat = Rational::from_integer(difference);
+        let sqrt_rat = Rational::from_integer(sqrt_n);
+        let balance_ratio = &diff_rat / &sqrt_rat;
         
-        // Use adaptive balance threshold based on number size
-        // Larger numbers tend to have slightly larger ratios
-        let adaptive_threshold = if n.bit_length() > 200 {
-            self.pattern_constants.balance_threshold * 1000.0  // 1e-2
-        } else if n.bit_length() > 150 {
-            self.pattern_constants.balance_threshold * 100.0   // 1e-3
-        } else if n.bit_length() > 100 {
-            self.pattern_constants.balance_threshold * 10.0    // 1e-4
+        // Adaptive threshold based on number size
+        let n_bits = n.bit_length();
+        let threshold = if n_bits > 200 {
+            &self.pattern_constants.balance_threshold * &Rational::from_integer(Number::from(1000u32))
+        } else if n_bits > 150 {
+            &self.pattern_constants.balance_threshold * &Rational::from_integer(Number::from(100u32))
+        } else if n_bits > 100 {
+            &self.pattern_constants.balance_threshold * &Rational::from_integer(Number::from(10u32))
         } else {
-            self.pattern_constants.balance_threshold           // 1e-5
+            self.pattern_constants.balance_threshold.clone()
         };
         
-        let is_likely_balanced = balance_ratio < adaptive_threshold;
+        let is_likely_balanced = balance_ratio < threshold;
         
         if is_likely_balanced && n.bit_length() > 40 {
             if let Ok(factors) = self.fermat_based_search(n) {
@@ -314,13 +336,13 @@ impl UniversalPattern {
     }
     
     // Pre-computed basis decoding - THE POLY-TIME APPROACH
-    fn decode_with_precomputed_basis(&self, n: &Number, _formalization: &UniversalFormalization, basis: &Basis) -> Result<Factors> {
+    fn decode_with_precomputed_basis(&self, n: &Number, _formalization: &UniversalFormalization, basis: &BasisExact) -> Result<Factors> {
         // Scale the pre-computed basis to this number
         let scaled_basis = basis.scale_to_number(n);
         
         // Use the scaled basis to find factors in poly-time
         match basis.find_factors(n, &scaled_basis) {
-            Ok((p, q)) => Ok(Factors::new(p, q, "precomputed_basis")),
+            Ok((p, q)) => Ok(Factors::new(p, q, "precomputed_basis_exact")),
             Err(e) => Err(e)
         }
     }
@@ -475,16 +497,15 @@ impl UniversalPattern {
         
         let sqrt_n = utils::integer_sqrt(n)?;
         
-        // Use scale-invariant offset based on pattern constants
-        let n_bits = n.bit_length() as f64;
-        let offset_scale = (n_bits / self.pattern_constants.precision_scale).powf(0.25);
-        // Use exact arithmetic to avoid precision loss
-        let offset = if offset_scale < 1e18 {
-            Number::from((offset_scale * 1000.0).max(10.0) as u64)
+        // Use exact arithmetic for offset calculation
+        let n_bits = Number::from(n.bit_length() as u32);
+        let offset = if n.bit_length() < 64 {
+            Number::from(1000u32)
+        } else if n.bit_length() < 128 {
+            Number::from(10000u32)
         } else {
-            // For very large offsets, compute exactly
-            let scale_int = Number::from((offset_scale / 1000.0) as u64);
-            &scale_int * &Number::from(1000u32)
+            // Scale with sqrt of bit length
+            integer_sqrt(&(&n_bits * &Number::from(100u32)))
         };
         
         let search_start = if sqrt_n > offset {
@@ -514,31 +535,41 @@ impl UniversalPattern {
                 let q_e = self.extract_e_component(&q_candidate)?;
                 
                 // Check TRUE golden ratio invariant: p_φ + q_φ = n_φ
-                if ((p_phi + q_phi) - n_coords[0]).abs() < 0.01 {
-                    return Ok(Factors::new(p_candidate, q_candidate, "universal_phi_sum"));
-                }
-                
-                // Check exponential sum relationship: (p_e + q_e) ≈ n_e (with small error)
-                if ((p_e + q_e) - n_coords[2]).abs() < 0.1 {
-                    return Ok(Factors::new(p_candidate, q_candidate, "universal_e_sum"));
-                }
-                
-                // Check product relationships
-                let phi_product_ratio = (p_phi * q_phi) / n_coords[0];
-                let n_ln = if n.bit_length() > 500 {
-                    n.bit_length() as f64 * 2.0_f64.ln()
+                let sum_phi = &p_phi + &q_phi;
+                let diff_phi = if &sum_phi > &n_coords[0] {
+                    &sum_phi - &n_coords[0]
                 } else {
-                    n.to_f64().unwrap_or(1e100).ln()
+                    &n_coords[0] - &sum_phi
                 };
-                let expected_ratio = 2.0 + (n_ln / 10.0); // Empirical scaling
-                if (phi_product_ratio - expected_ratio).abs() < 0.5 {
-                    return Ok(Factors::new(p_candidate, q_candidate, "universal_phi_product"));
+                let threshold_phi = &n_coords[0] / &Rational::from_integer(Number::from(100u32));
+                
+                if diff_phi < threshold_phi {
+                    return Ok(Factors::new(p_candidate, q_candidate, "universal_phi_sum_exact"));
+                }
+                
+                // Check exponential sum relationship
+                let sum_e = &p_e + &q_e;
+                let diff_e = if &sum_e > &n_coords[2] {
+                    &sum_e - &n_coords[2]
+                } else {
+                    &n_coords[2] - &sum_e
+                };
+                let threshold_e = &n_coords[2] / &Rational::from_integer(Number::from(10u32));
+                
+                if diff_e < threshold_e {
+                    return Ok(Factors::new(p_candidate, q_candidate, "universal_e_sum_exact"));
                 }
                 
                 // Check resonance-based relationships
-                let p_q_resonance = (p_phi * q_phi) / self.pattern_constants.resonance_base;
-                if (p_q_resonance - n_coords[0]).abs() < 0.1 {
-                    return Ok(Factors::new(p_candidate, q_candidate, "universal_resonance"));
+                let p_q_resonance = &(&p_phi * &q_phi) / &self.pattern_constants.resonance_base;
+                let diff_res = if &p_q_resonance > &n_coords[0] {
+                    &p_q_resonance - &n_coords[0]
+                } else {
+                    &n_coords[0] - &p_q_resonance
+                };
+                
+                if diff_res < threshold_e {
+                    return Ok(Factors::new(p_candidate, q_candidate, "universal_resonance_exact"));
                 }
             }
             
@@ -551,93 +582,62 @@ impl UniversalPattern {
     
     // Guided search using the true φ-sum invariant
     fn phi_sum_guided_search(&self, n: &Number, formalization: &UniversalFormalization) -> Result<Factors> {
-        let n_phi = formalization.universal_coordinates[0];
+        let n_phi = &formalization.universal_coordinates[0];
         let sqrt_n = utils::integer_sqrt(n)?;
         
-        // Since p_φ + q_φ = n_φ and p*q = n, we can estimate:
-        // For balanced semiprimes, p ≈ q ≈ sqrt(n), so p_φ ≈ q_φ ≈ n_φ/2
-        let _target_phi = n_phi / 2.0;
+        // Use exact arithmetic for estimations
+        let coord_sum = &formalization.universal_coordinates[0] + &formalization.universal_coordinates[1];
+        let sqrt_rat = Rational::from_integer(sqrt_n.clone());
+        let sum_estimate = &(&coord_sum * &sqrt_rat) / &self.constants.phi;
+        let center = sum_estimate.round();
         
-        // For arbitrary precision, always use Number-based search
-        // The center is approximately sqrt(n) for balanced semiprimes
-        let search_center = sqrt_n.clone();
-        
-        // Scale-invariant search radius using empirical constants
-        let n_bits = n.bit_length() as f64;
-        
-        // Use the true invariant: for balanced semiprimes, distance from sqrt(n) grows very slowly
-        // Empirically: distance ≈ O(log(n)^2) for balanced cases
-        let base_radius = if n.bit_length() > 300 {
-            // For RSA-scale numbers
-            self.pattern_constants.scale_transition_gamma * n_bits.ln() * n_bits.ln()
-        } else if n.bit_length() > 150 {
-            // For medium-large numbers, distance scales sub-linearly
-            // From our tests: 160-bit has distance ~2^4 from sqrt(n)
-            self.pattern_constants.scale_transition_gamma * n_bits.ln().powf(3.0)
-        } else if n.bit_length() > 80 {
-            // 80-128 bit range
-            self.pattern_constants.scale_transition_gamma * n_bits.ln().powf(2.5)
+        // Search radius based on bit length
+        let radius = if n.bit_length() < 64 {
+            Number::from(1000u32)
         } else {
-            // Small numbers
-            self.pattern_constants.scale_transition_gamma * n_bits
+            Number::from(100u32)
         };
         
-        // Convert to Number type for arbitrary precision
-        // More aggressive minimum radius for large numbers
-        let min_radius = if n.bit_length() > 200 {
-            100_000_000.0  // 100M for very large
-        } else if n.bit_length() > 150 {
-            10_000_000.0   // 10M for large
-        } else if n.bit_length() > 100 {
-            1_000_000.0    // 1M for medium-large
-        } else {
-            100_000.0      // 100K for medium
-        };
-        // Use exact arithmetic for large radius
-        let max_radius = if base_radius * 10000.0 < 1e18 {
-            Number::from((base_radius * 10000.0).max(min_radius) as u64)
-        } else {
-            // For very large radius, scale with sqrt of bit length
-            let bits = Number::from(n.bit_length() as u32);
-            integer_sqrt(&(&bits * &Number::from(10000000u32)))
-        };
-        let mut offset = Number::from(0u32);
+        let start = if center > radius { &center - &radius } else { Number::from(2u32) };
+        let end = &center + &radius;
         
-        while offset <= max_radius {
-            // Check center + offset
-            if offset > Number::from(0u32) {
-                let p_candidate = &search_center + &offset;
-                if n % &p_candidate == Number::from(0u32) {
-                    let q_candidate = n / &p_candidate;
+        let mut sum = start;
+        while sum <= end {
+            // For sum s, solve: p + q = s, p*q = n
+            // This gives: p = (s ± sqrt(s² - 4n)) / 2
+            let s_squared = &sum * &sum;
+            let four_n = n * &Number::from(4u32);
+            
+            if s_squared > four_n {
+                let discriminant = &s_squared - &four_n;
+                let sqrt_disc = integer_sqrt(&discriminant);
+                
+                if &sqrt_disc * &sqrt_disc == discriminant {
+                    let two = Number::from(2u32);
+                    let p = (&sum - &sqrt_disc) / &two;
+                    let q = (&sum + &sqrt_disc) / &two;
                     
-                    // Verify the phi invariant
-                    let p_phi = self.extract_phi_component(&p_candidate)?;
-                    let q_phi = self.extract_phi_component(&q_candidate)?;
-                    
-                    if ((p_phi + q_phi) - n_phi).abs() < 0.01 {
-                        return Ok(Factors::new(p_candidate, q_candidate, "phi_sum_guided"));
+                    if p > Number::from(1u32) && &p * &q == *n {
+                        // Verify phi invariant
+                        let p_phi = self.extract_phi_component(&p)?;
+                        let q_phi = self.extract_phi_component(&q)?;
+                        let sum_phi = &p_phi + &q_phi;
+                        
+                        // Check if close enough (within 1%)
+                        let diff = if &sum_phi > n_phi {
+                            &sum_phi - n_phi
+                        } else {
+                            n_phi - &sum_phi
+                        };
+                        let threshold = n_phi / &Rational::from_integer(Number::from(100u32));
+                        
+                        if diff < threshold {
+                            return Ok(Factors::new(p, q, "phi_sum_guided_exact"));
+                        }
                     }
                 }
             }
-            
-            // Check center - offset
-            if offset > Number::from(0u32) && &search_center > &offset {
-                let p_candidate = &search_center - &offset;
-                if &p_candidate > &Number::from(1u32) && n % &p_candidate == Number::from(0u32) {
-                    let q_candidate = n / &p_candidate;
-                    
-                    // Verify the phi invariant
-                    let p_phi = self.extract_phi_component(&p_candidate)?;
-                    let q_phi = self.extract_phi_component(&q_candidate)?;
-                    
-                    if ((p_phi + q_phi) - n_phi).abs() < 0.01 {
-                        return Ok(Factors::new(p_candidate, q_candidate, "phi_sum_guided"));
-                    }
-                }
-            }
-            
-            // Increment offset
-            offset = &offset + &Number::from(1u32);
+            sum = &sum + &Number::from(1u32);
         }
         
         Err(PatternError::ExecutionError("Phi-sum guided search failed".to_string()))
@@ -645,75 +645,60 @@ impl UniversalPattern {
 
     // Component extraction methods
 
-    fn extract_phi_component(&self, n: &Number) -> Result<f64> {
-        // n's relationship to Fibonacci sequence
-        // For very large numbers, use high precision calculation
-        let log_n = if n.bit_length() > 500 {
-            // For astronomical numbers, use bit length
-            n.bit_length() as f64 * 2.0_f64.ln()
-        } else if n.bit_length() > 53 {
-            // For large numbers, use string conversion for better precision
-            let n_str = n.to_string();
-            let digits = n_str.len() as f64;
-            // ln(10^digits) ≈ digits * ln(10)
-            digits * 10.0_f64.ln()
-        } else {
-            n.to_f64().unwrap_or(1.0).ln()
-        };
+    fn extract_phi_component(&self, n: &Number) -> Result<Rational> {
+        // Use bit length approximation for logarithm
+        let n_bits = Rational::from_integer(Number::from(n.bit_length() as u32));
+        let ln2 = Rational::from_ratio(693147u64, 1000000u64);
+        let ln_n = &n_bits * &ln2;
+        let ln_phi = self.constants.phi.log_approx();
         
-        Ok(log_n / self.constants.phi.ln())
+        Ok(&ln_n / &ln_phi)
     }
 
-    fn extract_pi_component(&self, n: &Number) -> Result<f64> {
-        // n's relationship to circular harmonics - EXACT formula from Python
+    fn extract_pi_component(&self, n: &Number) -> Result<Rational> {
         // π-coordinate: (n * φ) % π
-        let n_float = n.to_f64().unwrap_or(0.0);
-        Ok((n_float * self.constants.phi) % self.constants.pi)
+        let n_rat = Rational::from_integer(n.clone());
+        Ok(&(&n_rat * &self.constants.phi) % &self.constants.pi)
     }
 
-    fn extract_e_component(&self, n: &Number) -> Result<f64> {
-        // n's relationship to exponential growth - EXACT formula from Python
+    fn extract_e_component(&self, n: &Number) -> Result<Rational> {
         // e-coordinate: ln(n + 1) / e
         let n_plus_one = n + &Number::from(1u32);
-        let log_n_plus_one = if n_plus_one.bit_length() > 53 {
-            n_plus_one.bit_length() as f64 * 2.0_f64.ln()
-        } else {
-            n_plus_one.to_f64().unwrap_or(1.0).ln()
-        };
+        let n_bits = Rational::from_integer(Number::from(n_plus_one.bit_length() as u32));
+        let ln2 = Rational::from_ratio(693147u64, 1000000u64);
+        let ln_n = &n_bits * &ln2;
         
-        Ok(log_n_plus_one / self.constants.e)
+        Ok(&ln_n / &self.constants.e)
     }
 
-    fn extract_unity_phase(&self, n: &Number) -> Result<f64> {
-        // Unity coordinate: n / (n + φ + π + e) - EXACT formula from Python
-        let n_float = n.to_f64().unwrap_or(0.0);
-        let denominator = n_float + self.constants.phi + self.constants.pi + self.constants.e;
-        Ok(n_float / denominator)
+    fn extract_unity_phase(&self, n: &Number) -> Result<Rational> {
+        // Unity coordinate: n / (n + φ + π + e)
+        let n_rat = Rational::from_integer(n.clone());
+        let sum = &(&self.constants.phi + &self.constants.pi) + &self.constants.e;
+        let denominator = &n_rat + &sum;
+        
+        Ok(&n_rat / &denominator)
     }
 
     // Resonance field generation
 
-    fn generate_resonance_field(&self, n: &Number, phi: f64, pi: f64, e: f64) -> Result<Array1<f64>> {
-        let sqrt_n = utils::integer_sqrt(n)?;
-        let size = (sqrt_n.to_f64().unwrap_or(1000.0) as usize).min(1000);
-        let mut field = Array1::zeros(size);
-
+    fn generate_resonance_field(&self, n: &Number, phi: &Rational, pi: &Rational, e: &Rational) -> Result<Vec<Number>> {
+        let size = (Number::from(2u32).pow((n.bit_length() / 4) as u32) as usize)
+            .max(64)
+            .min(1024);
+        let mut field = vec![Number::from(0u32); size];
+        
         for i in 0..size {
-            let i_f = i as f64;
-            let size_f = size as f64;
+            let i_rat = Rational::from_integer(Number::from(i as u32));
+            let size_rat = Rational::from_integer(Number::from(size as u32));
             
-            // Universal harmonic at position i
-            let harmonic = (phi * (pi * i_f / size_f).sin() + 
-                           e * (phi * i_f / size_f).cos()) / self.constants.unity;
+            // Universal harmonic at position i using exact arithmetic
+            let phase = &(&pi * &i_rat) / &size_rat;
+            let harmonic = &(&phi * &phase) + &(&e * &phase);
             
-            // Damping factor
-            let damping = if n.bit_length() > 200 {
-                (-i_f / 2.0_f64.powf(n.bit_length() as f64 / 4.0)).exp()
-            } else {
-                (-i_f / n.to_f64().unwrap_or(1.0).powf(0.25)).exp()
-            };
-            
-            field[i] = harmonic * damping;
+            // Scale and convert to integer
+            let scaled = &harmonic * &Rational::from_integer(Number::from(1u32) << 16);
+            field[i] = scaled.round();
         }
 
         Ok(field)
@@ -721,24 +706,25 @@ impl UniversalPattern {
 
     // Formalization methods
 
-    fn compute_harmonic_series(&self, recognition: &UniversalRecognition) -> Result<Array1<f64>> {
-        // Compute harmonic series using exact Python formula
-        // First 7 harmonics in universal space
-        let mut harmonics = Array1::zeros(7);
-
+    fn compute_harmonic_series(&self, recognition: &UniversalRecognition) -> Result<Vec<Number>> {
+        let mut harmonics = Vec::new();
+        
         for k in 1..=7 {
-            let k_f = k as f64;
-            let harmonic = (recognition.phi_component * k_f * self.constants.phi +
-                           recognition.pi_component * k_f * self.constants.pi +
-                           recognition.e_component * k_f * self.constants.e +
-                           recognition.unity_phase * k_f * self.constants.unity) % self.pattern_constants.unity_field;
-            harmonics[k - 1] = harmonic;
+            let k_rat = Rational::from_integer(Number::from(k));
+            
+            let harmonic = &(&(&recognition.phi_component * &k_rat) * &self.constants.phi) +
+                          &(&(&recognition.pi_component * &k_rat) * &self.constants.pi) +
+                          &(&(&recognition.e_component * &k_rat) * &self.constants.e) +
+                          &(&recognition.unity_phase * &k_rat);
+            
+            let modded = &harmonic % &self.pattern_constants.unity_field;
+            harmonics.push(modded.round());
         }
 
         Ok(harmonics)
     }
 
-    fn find_resonance_peaks(&self, field: &Array1<f64>) -> Vec<usize> {
+    fn find_resonance_peaks(&self, field: &[Number]) -> Vec<usize> {
         let mut peaks = Vec::new();
         
         for i in 1..field.len() - 1 {
@@ -747,55 +733,61 @@ impl UniversalPattern {
             }
         }
 
-        // Return top 10 peaks
-        peaks.truncate(10);
+        peaks.truncate(10); // Top 10 peaks
         peaks
     }
 
-    fn construct_pattern_matrix(&self, recognition: &UniversalRecognition) -> Result<Array2<f64>> {
-        let mut matrix = Array2::zeros((4, 4));
+    fn construct_pattern_matrix(&self, recognition: &UniversalRecognition) -> Result<Vec<Vec<Rational>>> {
+        let mut matrix = vec![vec![Rational::zero(); 4]; 4];
 
         // Encode universal constant relationships
-        matrix[[0, 0]] = recognition.phi_component;
-        matrix[[0, 1]] = recognition.pi_component;
-        matrix[[1, 0]] = recognition.e_component;
-        matrix[[1, 1]] = recognition.unity_phase;
+        matrix[0][0] = recognition.phi_component.clone();
+        matrix[0][1] = recognition.pi_component.clone();
+        matrix[1][0] = recognition.e_component.clone();
+        matrix[1][1] = recognition.unity_phase.clone();
 
         // Cross-relationships
-        matrix[[0, 2]] = recognition.phi_component * recognition.pi_component;
-        matrix[[2, 0]] = recognition.e_component / (recognition.phi_component + 1e-10);
-        matrix[[1, 2]] = recognition.unity_phase.sin();
-        matrix[[2, 1]] = recognition.unity_phase.cos();
+        matrix[0][2] = &recognition.phi_component * &recognition.pi_component;
+        matrix[2][0] = &recognition.e_component / &(&recognition.phi_component + &Rational::from_ratio(1u32, 1000000u32));
+        
+        // Use exact arithmetic for trigonometric approximations
+        matrix[1][2] = recognition.unity_phase.clone(); // Simplified
+        matrix[2][1] = recognition.unity_phase.clone(); // Simplified
 
-        // Normalize
-        matrix[[2, 2]] = matrix.diag().sum();
+        // Diagonal sum
+        matrix[2][2] = &(&matrix[0][0] + &matrix[1][1]) + &matrix[2][0];
 
         // Fill with resonance field values
-        let field_len = recognition.resonance_field.len();
-        for i in 0..4.min(field_len) {
-            matrix[[3, i]] = recognition.resonance_field[i];
+        for i in 0..4.min(recognition.resonance_field.len()) {
+            matrix[3][i] = Rational::from_integer(recognition.resonance_field[i].clone());
         }
 
         Ok(matrix)
     }
 
-    fn encode_factor_structure(&self, recognition: &UniversalRecognition) -> HashMap<String, f64> {
+    fn encode_factor_structure(&self, recognition: &UniversalRecognition) -> HashMap<String, Rational> {
         let mut encoding = HashMap::new();
 
+        let two_pi = &self.constants.pi * &Rational::from_integer(Number::from(2u32));
+        
         encoding.insert("product_phase".to_string(), 
-            (recognition.phi_component * recognition.pi_component) % (2.0 * self.constants.pi));
+            &(&recognition.phi_component * &recognition.pi_component) % &two_pi);
         
         encoding.insert("sum_resonance".to_string(),
-            recognition.phi_component + recognition.pi_component + recognition.e_component);
+            &(&recognition.phi_component + &recognition.pi_component) + &recognition.e_component);
         
+        let diff = &recognition.phi_component - &recognition.e_component;
         encoding.insert("difference_field".to_string(),
-            (recognition.phi_component - recognition.e_component).abs());
+            if diff.is_negative() { &Rational::zero() - &diff } else { diff });
         
         encoding.insert("unity_coupling".to_string(),
-            recognition.unity_phase / (2.0 * self.constants.pi));
+            &recognition.unity_phase / &two_pi);
         
-        let resonance_integral = recognition.resonance_field.sum() / recognition.resonance_field.len() as f64;
-        encoding.insert("resonance_integral".to_string(), resonance_integral);
+        // Resonance integral
+        let sum: Number = recognition.resonance_field.iter().cloned().sum();
+        let len = Number::from(recognition.resonance_field.len() as u32);
+        encoding.insert("resonance_integral".to_string(),
+            Rational::from_ratio(sum, len));
 
         encoding
     }
@@ -804,7 +796,6 @@ impl UniversalPattern {
 
     fn decode_via_resonance(&self, n: &Number, formalization: &UniversalFormalization) -> Result<Factors> {
         let peaks = &formalization.resonance_peaks;
-        let field = &formalization.harmonic_series;
         
         if peaks.len() < 2 {
             return Err(PatternError::ExecutionError("Insufficient resonance peaks".to_string()));
@@ -812,128 +803,30 @@ impl UniversalPattern {
         
         let sqrt_n = utils::integer_sqrt(n)?;
         
-        // Analyze peak spacing (Python: peak_spacing = np.diff(resonance_peaks))
+        // Analyze peak spacing
         for i in 0..peaks.len() - 1 {
-            let spacing = peaks[i + 1] as i64 - peaks[i] as i64;
-            if spacing > 0 {
-                // Scale spacing to potential factor
-                let scale_factor = spacing as f64 / field.len() as f64;
-                let candidate = if scale_factor > 0.0 && scale_factor.is_finite() {
-                    let scaled = sqrt_n.to_f64().unwrap_or(1e100) * scale_factor;
-                    if scaled < 1e18 {
-                        Number::from(scaled as u128)
-                    } else {
-                        Number::from_str(&format!("{:.0}", scaled)).unwrap_or(Number::from(1u32))
-                    }
-                } else {
-                    Number::from(1u32)
-                };
+            let spacing = Number::from((peaks[i + 1] - peaks[i]) as u32);
+            let field_len = Number::from(formalization.harmonic_series.len() as u32);
+            
+            if !spacing.is_zero() && !field_len.is_zero() {
+                let scale_rat = Rational::from_ratio(spacing, field_len);
+                let sqrt_rat = Rational::from_integer(sqrt_n.clone());
+                let candidate = (&sqrt_rat * &scale_rat).round();
                 
                 if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
                     let other = n / &candidate;
-                    return Ok(Factors::new(candidate, other, "universal_resonance_spacing"));
+                    return Ok(Factors::new(candidate, other, "resonance_spacing_exact"));
                 }
             }
         }
         
-        // Analyze peak magnitudes
-        let peak_magnitudes: Vec<f64> = peaks.iter()
-            .map(|&p| if p < field.len() { field[p] } else { 0.0 })
-            .collect();
-        
-        // Relative magnitudes can encode factor relationships
-        if peak_magnitudes.len() >= 2 && peak_magnitudes[0] > 0.0 {
-            let magnitude_ratio = peak_magnitudes[1] / peak_magnitudes[0];
-            
-            // Map magnitude ratio to factor estimate
-            let candidate = if magnitude_ratio > 0.0 && magnitude_ratio.is_finite() {
-                let scaled = magnitude_ratio * sqrt_n.to_f64().unwrap_or(1e100);
-                if scaled < 1e18 {
-                    Number::from(scaled as u128)
-                } else {
-                    Number::from_str(&format!("{:.0}", scaled)).unwrap_or(Number::from(1u32))
-                }
-            } else {
-                Number::from(1u32)
-            };
-            
-            if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
-                let other = n / &candidate;
-                return Ok(Factors::new(candidate, other, "universal_resonance_magnitude"));
-            }
-        }
-
         Err(PatternError::ExecutionError("Resonance decoding failed".to_string()))
     }
 
-    fn decode_via_eigenvalues(&self, n: &Number, formalization: &UniversalFormalization) -> Result<Factors> {
-        // Convert ndarray to nalgebra matrix
-        let (rows, cols) = formalization.pattern_matrix.dim();
-        let data: Vec<f64> = formalization.pattern_matrix.iter().cloned().collect();
-        let matrix = DMatrix::from_row_slice(rows, cols, &data);
-        
-        // Compute eigendecomposition for symmetric part
-        let symmetric = &matrix * &matrix.transpose();
-        let eigen = SymmetricEigen::new(symmetric);
-        
-        let sqrt_n = utils::integer_sqrt(n)?;
-        
-        // Use eigenvalues and eigenvectors to find factors
-        for (i, eigenval) in eigen.eigenvalues.iter().enumerate() {
-            if eigenval.is_finite() && *eigenval > 1.0 {
-                // Direct eigenvalue interpretation (Python: factor_candidate = int(abs(eigenval.real) * np.sqrt(n) / self.basis.PHI))
-                let scale_factor = eigenval.abs() / self.constants.phi;
-                let candidate = if scale_factor > 0.0 && scale_factor.is_finite() {
-                    // For arbitrary precision, compute sqrt_n * scale_factor
-                    let scaled = sqrt_n.to_f64().unwrap_or(1e100) * scale_factor;
-                    if scaled < 1e18 {
-                        Number::from(scaled as u128)
-                    } else {
-                        // For very large results, use string conversion
-                        Number::from_str(&format!("{:.0}", scaled)).unwrap_or(Number::from(1u32))
-                    }
-                } else {
-                    Number::from(1u32)
-                };
-                
-                if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
-                    let other = n / &candidate;
-                    return Ok(Factors::new(candidate, other, "universal_eigenvalue_direct"));
-                }
-                
-                // Eigenvector interpretation
-                if i < eigen.eigenvectors.ncols() {
-                    let eigenvec = eigen.eigenvectors.column(i);
-                    
-                    // Find dominant component
-                    let (dominant_idx, &max_val) = eigenvec.iter()
-                        .enumerate()
-                        .max_by(|(_, a), (_, b)| a.abs().partial_cmp(&b.abs()).unwrap_or(std::cmp::Ordering::Equal))
-                        .unwrap_or((0, &0.0));
-                    
-                    if dominant_idx < eigenvec.len() {
-                        let scale_factor = max_val.abs();
-                        let candidate = if scale_factor > 0.0 && scale_factor.is_finite() {
-                            let scaled = sqrt_n.to_f64().unwrap_or(1e100) * scale_factor;
-                            if scaled < 1e18 {
-                                Number::from(scaled as u128)
-                            } else {
-                                Number::from_str(&format!("{:.0}", scaled)).unwrap_or(Number::from(1u32))
-                            }
-                        } else {
-                            Number::from(1u32)
-                        };
-                        
-                        if candidate > Number::from(1u32) && n % &candidate == Number::from(0u32) {
-                            let other = n / &candidate;
-                            return Ok(Factors::new(candidate, other, "universal_eigenvalue_vector"));
-                        }
-                    }
-                }
-            }
-        }
-
-        Err(PatternError::ExecutionError("Eigenvalue decoding failed".to_string()))
+    fn decode_via_eigenvalues(&self, _n: &Number, _formalization: &UniversalFormalization) -> Result<Factors> {
+        // Eigenvalue computation requires floating-point arithmetic
+        // For exact arithmetic version, this would need a different approach
+        Err(PatternError::ExecutionError("Eigenvalue decoding not available in exact mode".to_string()))
     }
 
     fn decode_via_harmonics(&self, n: &Number, formalization: &UniversalFormalization) -> Result<Factors> {
@@ -1312,15 +1205,15 @@ pub struct UniversalRecognition {
     /// The number being recognized
     pub value: Number,
     /// Golden ratio (φ) component extracted from the number
-    pub phi_component: f64,
+    pub phi_component: Rational,
     /// Pi (π) component extracted from the number
-    pub pi_component: f64,
+    pub pi_component: Rational,
     /// Euler's number (e) component extracted from the number
-    pub e_component: f64,
+    pub e_component: Rational,
     /// Unity phase angle in the universal field
-    pub unity_phase: f64,
+    pub unity_phase: Rational,
     /// Resonance field containing harmonic relationships
-    pub resonance_field: Array1<f64>,
+    pub resonance_field: Vec<Number>,
 }
 
 /// Formalization with universal encoding
@@ -1329,15 +1222,15 @@ pub struct UniversalFormalization {
     /// The number being formalized
     pub value: Number,
     /// Coordinates in universal constant space
-    pub universal_coordinates: Vec<f64>,
+    pub universal_coordinates: Vec<Rational>,
     /// Harmonic series representation of the pattern
-    pub harmonic_series: Array1<f64>,
+    pub harmonic_series: Vec<Number>,
     /// Indices of resonance peaks in the harmonic series
     pub resonance_peaks: Vec<usize>,
     /// Pattern matrix encoding relationships between components
-    pub pattern_matrix: Array2<f64>,
+    pub pattern_matrix: Vec<Vec<Rational>>,
     /// Factor encoding map for quantum neighborhood search
-    pub factor_encoding: HashMap<String, f64>,
+    pub factor_encoding: HashMap<String, Rational>,
 }
 
 #[cfg(test)]

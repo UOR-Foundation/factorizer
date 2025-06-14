@@ -4,7 +4,7 @@
 //! only exact arithmetic operations for arbitrary precision support.
 
 use crate::types::{Number, Rational, integer_sqrt};
-use crate::types::constants::{FundamentalConstantsRational, get_constant, ConstantType};
+use crate::types::constants::{get_constant, ConstantType};
 use crate::error::PatternError;
 use crate::Result;
 use std::collections::HashMap;
@@ -180,8 +180,9 @@ impl BasisExact {
     fn project_to_universal_space(&self, n: &Number) -> [Rational; 4] {
         // Use bit length approximation for logarithm
         let n_bits = Number::from(n.bit_length() as u32);
+        let n_bits_rat = Rational::from_integer(n_bits);
         let ln2 = Rational::from_ratio(Number::from(693147u64), Number::from(1000000u64));
-        let ln_n = &n_bits * &ln2;
+        let ln_n = &n_bits_rat * &ln2;
         
         // φ-coordinate: ln(n) / ln(φ)
         let ln_phi = self.base[0].log_approx();
@@ -193,10 +194,10 @@ impl BasisExact {
         
         // π-coordinate: (n * φ) mod π
         let n_rat = Rational::from_integer(n.clone());
-        let pi_coord = (&n_rat * &self.base[0]) % &self.base[1];
+        let pi_coord = &(&n_rat * &self.base[0]) % &self.base[1];
         
         // e-coordinate: (ln(n) + 1) / e
-        let e_coord = (&ln_n + &Rational::one()) / &self.base[2];
+        let e_coord = &(&ln_n + &Rational::one()) / &self.base[2];
         
         // unity coordinate: n / (n + φ + π + e)
         let sum_constants = &(&self.base[0] + &self.base[1]) + &self.base[2];
@@ -235,7 +236,13 @@ impl BasisExact {
     
     /// Generate resonance template for any bit size using integers
     fn generate_resonance_template(bits: u32) -> Vec<Number> {
-        let size = ((Number::from(2u32).pow(bits / 4) as usize).max(64)).min(8192);
+        let size_num = Number::from(2u32).pow(bits / 4);
+        let size = if let Some(s) = size_num.to_u32() {
+            s as usize
+        } else {
+            8192  // Max size for very large bit counts
+        };
+        let size = size.max(64).min(8192);
         let mut template = vec![Number::from(0u32); size];
         
         // Use integer arithmetic for wave generation
@@ -328,7 +335,7 @@ impl BasisExact {
         let phi = get_constant(ConstantType::Phi, *precision_bits);
         let pi = get_constant(ConstantType::Pi, *precision_bits);
         let e = get_constant(ConstantType::E, *precision_bits);
-        let one = Number::from(1u32) << precision_bits;
+        let one = Number::from(1u32) << *precision_bits;
         
         let phi_rat = Rational::from_integer(phi.clone());
         let pi_rat = Rational::from_integer(pi.clone());

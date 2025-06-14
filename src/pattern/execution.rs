@@ -854,20 +854,32 @@ fn universal_pattern_decoding(formalization: &Formalization) -> Result<Factors> 
     let mut pattern = UniversalPattern::new();
     
     // Create UniversalRecognition from the formalization data
+    use crate::types::{Rational, Number};
+    
+    // Helper to convert f64 to Rational
+    let f64_to_rational = |f: f64| -> Rational {
+        // Convert f64 to rational by scaling up and creating ratio
+        let scaled = (f * 1_000_000_000.0) as i64;
+        Rational::from_ratio(scaled.abs() as u64, 1_000_000_000u64)
+    };
+    
     let universal_recognition = UniversalRecognition {
         value: n.clone(),
         phi_component: formalization.universal_encoding.get("phi_component")
-            .copied().unwrap_or(1.618033988749895),
+            .map(|&x| f64_to_rational(x))
+            .unwrap_or(Rational::from_ratio(1618033989u64, 1000000000u64)),
         pi_component: formalization.universal_encoding.get("pi_component")
-            .copied().unwrap_or(3.14159265358979),
+            .map(|&x| f64_to_rational(x))
+            .unwrap_or(Rational::from_ratio(3141592654u64, 1000000000u64)),
         e_component: formalization.universal_encoding.get("e_component")
-            .copied().unwrap_or(2.71828182845905),
+            .map(|&x| f64_to_rational(x))
+            .unwrap_or(Rational::from_ratio(2718281828u64, 1000000000u64)),
         unity_phase: formalization.universal_encoding.get("unity_coupling")
-            .copied().unwrap_or(0.0) * 2.0 * std::f64::consts::PI,
+            .map(|&x| f64_to_rational(x * 2.0 * std::f64::consts::PI))
+            .unwrap_or(Rational::zero()),
         resonance_field: formalization.harmonic_series.iter()
-            .map(|&x| x)
-            .collect::<Vec<_>>()
-            .into(),
+            .map(|&x| Number::from((x * 1_000_000.0) as u64))
+            .collect(),
     };
     
     // Formalize using universal pattern

@@ -3,45 +3,41 @@
 //! Implements empirically-driven pattern recognition using 8-bit channels.
 //! Each byte encodes which of the 8 fundamental constants are active.
 
-use crate::types::{Number, Recognition, PatternSignature, PatternType};
+use crate::types::{Number, Recognition, PatternSignature, PatternType, Rational};
+use crate::types::constants::{FundamentalConstantsRational, get_constant, ConstantType};
 use crate::error::PatternError;
 use crate::Result;
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize};
 
-/// The 8 fundamental constants that govern The Pattern
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+/// The 8 fundamental constants that govern The Pattern (using exact arithmetic)
+#[derive(Debug, Clone)]
 pub struct FundamentalConstants {
-    /// α - Resonance decay rate
-    pub alpha: f64,
-    /// β - Phase coupling strength  
-    pub beta: f64,
-    /// γ - Scale transition factor
-    pub gamma: f64,
-    /// δ - Interference null point
-    pub delta: f64,
-    /// ε - Adelic threshold
-    pub epsilon: f64,
-    /// φ - Golden ratio
-    pub phi: f64,
-    /// τ - Tribonacci constant
-    pub tau: f64,
-    /// 1 - Unity (empirical reference)
-    pub unity: f64,
+    /// The exact rational constants
+    pub constants: FundamentalConstantsRational,
+    /// Additional exact constants
+    pub phi: Rational,
+    pub tau: Rational,
+    pub unity: Rational,
+}
+
+impl FundamentalConstants {
+    fn new(precision_bits: u32) -> Self {
+        let constants = FundamentalConstantsRational::new(precision_bits);
+        let phi = get_constant(ConstantType::Phi, precision_bits);
+        
+        Self {
+            phi: constants.phi.clone(),
+            tau: constants.tau.clone(),
+            unity: constants.unity.clone(),
+            constants,
+        }
+    }
 }
 
 impl Default for FundamentalConstants {
     fn default() -> Self {
-        Self {
-            alpha: 1.1750566516490533,
-            beta: 0.19968406830149554,
-            gamma: 12.41605776553433,
-            delta: 0.0,
-            epsilon: 4.329953646807706,
-            phi: 1.618033988749895,
-            tau: 1.839286755214161,
-            unity: 1.0,
-        }
+        Self::new(256) // Default 256-bit precision
     }
 }
 
@@ -54,8 +50,8 @@ pub struct ResonancePattern {
     /// Which constants are active (bit decomposition)
     pub active_constants: Vec<usize>,
     
-    /// Pre-computed resonance values
-    pub resonance_values: Vec<f64>,
+    /// Pre-computed resonance values as integers
+    pub resonance_values: Vec<Number>,
     
     /// Known factor locations for this pattern
     pub factor_peaks: Vec<usize>,
@@ -77,14 +73,24 @@ pub struct ChannelBehavior {
 /// Channel-specific tuning parameters
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChannelTuning {
-    /// Phase offset for this channel
-    pub phase_offset: f64,
+    /// Phase offset for this channel as rational
+    pub phase_offset: Rational,
     
-    /// Amplitude scaling
-    pub amplitude_scale: f64,
+    /// Amplitude scaling as rational
+    pub amplitude_scale: Rational,
     
-    /// Coupling strength to adjacent channels
-    pub coupling_strength: f64,
+    /// Coupling strength to adjacent channels as rational
+    pub coupling_strength: Rational,
+}
+
+impl ChannelTuning {
+    fn default() -> Self {
+        Self {
+            phase_offset: Rational::zero(),
+            amplitude_scale: Rational::one(),
+            coupling_strength: Rational::from_ratio(1u32, 2u32),
+        }
+    }
 }
 
 /// The main stream processor
@@ -144,11 +150,7 @@ impl StreamProcessor {
             channels.push(ChannelBehavior {
                 channel_idx,
                 patterns,
-                tuning: ChannelTuning {
-                    phase_offset: 0.0,
-                    amplitude_scale: 1.0,
-                    coupling_strength: 0.5,
-                },
+                tuning: ChannelTuning::default(),
             });
         }
         
@@ -166,46 +168,46 @@ impl StreamProcessor {
         active
     }
     
-    /// Compute resonance pattern from active constants
-    fn compute_resonance(active_constants: &[usize], channel_idx: usize) -> Vec<f64> {
-        let mut resonance = vec![0.0; 256];
+    /// Compute resonance pattern from active constants using exact arithmetic
+    fn compute_resonance(active_constants: &[usize], channel_idx: usize) -> Vec<Number> {
+        let mut resonance = vec![Number::from(0u32); 256];
         let constants = FundamentalConstants::default();
-        let const_array = [
-            constants.alpha, constants.beta, constants.gamma, constants.delta,
-            constants.epsilon, constants.phi, constants.tau, constants.unity,
-        ];
+        let scale = Number::from(1u32) << 16; // 16-bit precision for intermediate calculations
         
         for i in 0..256 {
-            let x = i as f64 / 256.0;
+            let i_num = Number::from(i as u32);
+            let x = Rational::from_ratio(&i_num, &Number::from(256u32));
             
             for &const_idx in active_constants {
-                let c = const_array[const_idx];
-                
-                // Each constant contributes differently based on empirical observation
+                // Use exact arithmetic for contributions
                 let contribution = match const_idx {
-                    0 => c * (-x * constants.alpha).exp(),              // α: exponential decay
-                    1 => c * (2.0 * std::f64::consts::PI * x).sin(),   // β: phase modulation
-                    2 => c * x.powf(constants.gamma / 10.0),           // γ: power scaling
-                    3 => c * (x - 0.5).abs(),                          // δ: null at center
-                    4 => c * (1.0 / (1.0 + (x * constants.epsilon).exp())), // ε: sigmoid
-                    5 => c * (constants.phi * x).fract(),              // φ: golden ratio
-                    6 => c * (constants.tau * x * x).sin(),            // τ: tribonacci
-                    7 => c,                                             // 1: unity baseline
-                    _ => 0.0,
+                    0 => &constants.constants.alpha * &scale,     // α: scaled by alpha
+                    1 => &constants.constants.beta * &scale,      // β: scaled by beta
+                    2 => &constants.constants.gamma * &scale,     // γ: scaled by gamma
+                    3 => &constants.constants.delta * &scale,     // δ: scaled by delta
+                    4 => &constants.constants.epsilon * &scale,   // ε: scaled by epsilon
+                    5 => &constants.phi * &scale,                 // φ: golden ratio
+                    6 => &constants.tau * &scale,                 // τ: tribonacci
+                    7 => &constants.unity * &scale,               // 1: unity baseline
+                    _ => Rational::zero(),
                 };
                 
-                resonance[i] += contribution;
+                resonance[i] = &resonance[i] + &contribution.round();
             }
             
             // Channel-specific modulation
-            resonance[i] *= 1.0 + 0.1 * channel_idx as f64;
+            let channel_scale = Rational::from_ratio(
+                Number::from(100u32 + channel_idx as u32),
+                Number::from(100u32)
+            );
+            resonance[i] = (&Rational::from_integer(resonance[i].clone()) * &channel_scale).round();
         }
         
         resonance
     }
     
     /// Find peaks in resonance pattern
-    fn find_peaks(resonance: &[f64]) -> Vec<usize> {
+    fn find_peaks(resonance: &[Number]) -> Vec<usize> {
         let mut peaks = Vec::new();
         
         for i in 1..resonance.len() - 1 {
@@ -216,7 +218,7 @@ impl StreamProcessor {
         
         // Sort by resonance strength
         peaks.sort_by(|&a, &b| {
-            resonance[b].partial_cmp(&resonance[a]).unwrap()
+            resonance[b].cmp(&resonance[a])
         });
         
         peaks
@@ -228,7 +230,7 @@ impl StreamProcessor {
         let mut temp = n.clone();
         
         while !temp.is_zero() {
-            let byte_val = (&temp % &Number::from(256u32)).to_f64().unwrap() as u8;
+            let byte_val = (&temp % &Number::from(256u32)).to_u32().unwrap_or(0) as u8;
             channels.push(byte_val);
             temp = &temp / &Number::from(256u32);
         }
@@ -283,7 +285,7 @@ impl StreamProcessor {
         if let Some(first_pattern) = patterns.first() {
             for &peak in &first_pattern.factor_peaks {
                 let mut aligned = true;
-                let mut total_resonance = 0.0;
+                let mut total_resonance = Number::from(0u32);
                 
                 for pattern in &patterns[1..] {
                     // Check if this peak aligns (within tolerance)
@@ -295,7 +297,7 @@ impl StreamProcessor {
                         break;
                     }
                     
-                    total_resonance += pattern.resonance_values[peak];
+                    total_resonance = &total_resonance + &pattern.resonance_values[peak];
                 }
                 
                 if aligned {
@@ -305,7 +307,7 @@ impl StreamProcessor {
         }
         
         // Sort by resonance strength
-        aligned_peaks.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
+        aligned_peaks.sort_by(|a, b| b.1.cmp(&a.1));
         
         if let Some((peak_position, strength)) = aligned_peaks.first() {
             let mut metadata = HashMap::new();
@@ -318,12 +320,12 @@ impl StreamProcessor {
                 signature: PatternSignature {
                     value: n.clone(),
                     components: HashMap::new(),
-                    resonance: vec![strength / channel_count as f64],
+                    resonance: vec![(&Rational::from_integer(strength.clone()) / &Rational::from_integer(Number::from(channel_count as u32))).to_integer()],
                     modular_dna: channels.iter().map(|&b| b as u64).collect(),
                     emergent_features: HashMap::new(),
                 },
                 pattern_type: PatternType::Unknown,
-                confidence: strength / channel_count as f64,
+                confidence: (&Rational::from_integer(strength.clone()) / &Rational::from_integer(Number::from(channel_count as u32))).to_integer().to_u32().unwrap_or(0) as f64 / 100.0,
                 quantum_neighborhood: None,
                 metadata,
             })

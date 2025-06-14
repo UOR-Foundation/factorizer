@@ -11,8 +11,8 @@ pub mod formalization;
 pub mod execution;
 
 // Unified basis system
-pub mod basis;
-pub mod basis_exact;
+pub mod basis; // DEPRECATED: Uses f64, limited precision
+pub mod basis_exact; // RECOMMENDED: Uses exact arithmetic
 
 // Supporting modules
 pub mod advanced;
@@ -20,8 +20,13 @@ pub mod expression;
 pub mod verification;
 pub mod cache;
 
+// Persistence and pre-computed basis modules (for examples)
+pub mod basis_persistence; // DEPRECATED: Uses f64, limited precision
+pub mod basis_persistence_exact; // RECOMMENDED: Uses exact arithmetic
+pub mod precomputed_basis; // Re-exports from basis module
+
 // Pattern implementations
-pub mod universal_pattern;
+pub mod universal_pattern; // Now uses exact arithmetic internally
 
 // 8-bit stream processor
 pub mod stream_processor;
@@ -31,12 +36,12 @@ pub mod stream_processor_exact;
 pub mod empirical_pattern;
 
 // Direct empirical pattern (no theory, just learned mappings)
-pub mod direct_empirical;
-pub mod direct_empirical_exact;
+pub mod direct_empirical; // DEPRECATED: Limited to 224-bit
+pub mod direct_empirical_exact; // RECOMMENDED: Arbitrary precision
 
 // Wave synthesis auto-tuner
-pub mod wave_synthesis;
-pub mod wave_synthesis_exact;
+pub mod wave_synthesis; // DEPRECATED: Uses f64, limited to 224-bit
+pub mod wave_synthesis_exact; // RECOMMENDED: Uses exact arithmetic
 
 use crate::types::{Factors, Formalization, Number, Recognition};
 use crate::Result;

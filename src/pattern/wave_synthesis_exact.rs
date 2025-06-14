@@ -11,7 +11,7 @@ use crate::types::{Number, Factors, Rational, integer_sqrt};
 use crate::types::constants::{FundamentalConstantsRational, ConstantType, get_constant};
 use crate::error::PatternError;
 use crate::Result;
-use crate::pattern::basis::Basis;
+// Basis types are defined inline in this file
 use std::collections::HashMap;
 
 /// Wave synthesis pattern that uses pre-computed resonance templates with exact arithmetic
@@ -513,7 +513,7 @@ impl BasisExact {
         let mut template = vec![Number::from(0u32); size];
         
         // Use integer approximations of trigonometric functions
-        let _scale = Number::from(1u32) << 32; // 32-bit precision for intermediate calculations
+        let scale = Number::from(1u32) << 32; // 32-bit precision for intermediate calculations
         
         for i in 0..size {
             // Approximate sin and cos using Taylor series or lookup tables
@@ -625,40 +625,6 @@ impl BasisExact {
     }
 }
 
-// Extension trait for Rational to add missing methods
-impl Rational {
-    /// Approximate natural logarithm
-    fn log_approx(&self) -> Rational {
-        // Simple approximation: ln(a/b) ≈ ln(a) - ln(b)
-        // For now, return a reasonable approximation
-        if self.is_one() {
-            Rational::zero()
-        } else {
-            // Use bit length as approximation
-            let num_bits = self.numerator().bit_length() as i32;
-            let den_bits = self.denominator().bit_length() as i32;
-            let diff = num_bits - den_bits;
-            
-            let ln2 = Rational::from_ratio(Number::from(693147u64), Number::from(1000000u64));
-            &ln2 * &Rational::from_integer(Number::from(diff.abs() as u32))
-        }
-    }
-    
-    /// Approximate power function
-    fn pow_approx(&self, exp: &Rational) -> Rational {
-        // For integer exponents, use exact computation
-        if exp.denominator().is_one() {
-            let exp_int = exp.numerator().to_u32().unwrap_or(1);
-            let num_pow = self.numerator().pow(exp_int);
-            let den_pow = self.denominator().pow(exp_int);
-            return Rational::from_ratio(num_pow, den_pow);
-        }
-        
-        // For fractional exponents, use approximation
-        // For now, return self as placeholder
-        self.clone()
-    }
-}
 
 #[cfg(test)]
 mod tests {
