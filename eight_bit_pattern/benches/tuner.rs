@@ -9,14 +9,15 @@ use num_bigint::BigInt;
 fn bench_basis_computation(c: &mut Criterion) {
     let mut group = c.benchmark_group("basis_computation");
     
-    for num_channels in [8, 16, 32, 64, 128].iter() {
+    for bit_size in [64, 128, 256, 512, 1024].iter() {
         group.bench_with_input(
-            BenchmarkId::from_parameter(num_channels),
-            num_channels,
+            BenchmarkId::from_parameter(bit_size),
+            bit_size,
             |b, &size| {
                 let params = TunerParams::default();
+                let n = BigInt::from(1u128) << size;
                 b.iter(|| {
-                    compute_basis(black_box(size), &params)
+                    compute_basis(black_box(&n), &params)
                 });
             },
         );
@@ -30,7 +31,8 @@ fn bench_factorization(c: &mut Criterion) {
     
     // Pre-compute basis once
     let params = TunerParams::default();
-    let basis = compute_basis(128, &params);
+    let representative_n = BigInt::from(1u128) << 128;
+    let basis = compute_basis(&representative_n, &params);
     
     // Test cases of different sizes
     let test_cases = vec![
@@ -47,7 +49,7 @@ fn bench_factorization(c: &mut Criterion) {
             |b, n_str| {
                 let n = n_str.parse::<BigInt>().unwrap();
                 b.iter(|| {
-                    recognize_factors(black_box(&n), &basis, &params)
+                    recognize_factors(black_box(&n), &params)
                 });
             },
         );

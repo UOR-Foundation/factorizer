@@ -35,7 +35,8 @@ impl AutoTuner {
     /// Create a new auto-tuner with default parameters
     pub fn new() -> Self {
         let params = TunerParams::default();
-        let basis = compute_basis(128, &params); // Support up to 1024-bit numbers
+        let representative_n = BigInt::from(1u128) << 1024; // 1024-bit number
+        let basis = compute_basis(&representative_n, &params); // Support up to 1024-bit numbers
         
         Self {
             basis,
@@ -53,7 +54,7 @@ impl AutoTuner {
     fn run_test_case(&self, test_case: &TestCase) -> TuningResult {
         let start = Instant::now();
         
-        let result = recognize_factors(&test_case.n, &self.basis, &self.params);
+        let result = recognize_factors(&test_case.n, &self.params);
         
         let success = if let Some(factors) = result {
             factors.verify(&test_case.n) &&
@@ -171,7 +172,8 @@ impl AutoTuner {
             
             // Recompute basis with new params
             self.params = candidate_params.clone();
-            self.basis = compute_basis(128, &self.params);
+            let representative_n = BigInt::from(1u128) << 1024;
+            self.basis = compute_basis(&representative_n, &self.params);
             
             let candidate_metric = self.calculate_metric();
             
@@ -207,7 +209,8 @@ impl AutoTuner {
         
         // Set final best params
         self.params = best_params.clone();
-        self.basis = compute_basis(128, &self.params);
+        let representative_n = BigInt::from(1u128) << 1024;
+        self.basis = compute_basis(&representative_n, &self.params);
         
         best_params
     }
@@ -217,7 +220,7 @@ impl AutoTuner {
         let n = n.parse::<BigInt>()
             .map_err(|_| "Invalid number format".to_string())?;
         
-        let factors = recognize_factors(&n, &self.basis, &self.params)
+        let factors = recognize_factors(&n, &self.params)
             .ok_or_else(|| "No factors found".to_string())?;
         
         Ok((factors.p.to_string(), factors.q.to_string()))

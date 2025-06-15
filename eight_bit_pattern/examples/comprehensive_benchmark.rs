@@ -29,9 +29,10 @@ fn main() {
         cases_by_size.entry(case.bit_length).or_default().push(case);
     }
     
-    // Create basis
+    // Create basis with representative large number for maximum coverage
     let params = TunerParams::default();
-    let basis = compute_basis(128, &params);
+    let representative_n = BigInt::from(1u128) << 1024; // 1024-bit number
+    let basis = compute_basis(&representative_n, &params);
     println!("Created basis with {} channels\n", basis.num_channels);
     
     // Test different approaches
@@ -84,7 +85,7 @@ fn main() {
     
     for test_case in test_cases.iter().take(50) { // Analyze first 50 for efficiency
         let (result, diagnostics) = recognize_factors_with_diagnostics(
-            &test_case.n, &basis, &params
+            &test_case.n, &params
         );
         
         aggregator.add(&diagnostics);
@@ -177,13 +178,13 @@ fn main() {
 }
 
 // Test methods
-fn test_standard_method(cases: &[TestCase], basis: &Basis, params: &TunerParams) -> (f64, f64) {
+fn test_standard_method(cases: &[TestCase], _basis: &Basis, params: &TunerParams) -> (f64, f64) {
     let mut successes = 0;
     let mut total_time = 0u128;
     
     for case in cases {
         let start = Instant::now();
-        let result = recognize_factors(&case.n, basis, params);
+        let result = recognize_factors(&case.n, params);
         total_time += start.elapsed().as_micros();
         
         if let Some(factors) = result {
@@ -230,7 +231,7 @@ fn test_hybrid_method(cases: &[TestCase], basis: &Basis, params: &TunerParams) -
         
         // Try standard first for small numbers
         let result = if case.bit_length <= 20 {
-            recognize_factors(&case.n, basis, params)
+            recognize_factors(&case.n, params)
         } else {
             recognize_factors_advanced(&case.n, basis, params)
         };
@@ -269,7 +270,7 @@ fn test_bit_size(cases: &[&TestCase], basis: &Basis, params: &TunerParams) -> Bi
     for case in cases {
         // Standard method
         let start = Instant::now();
-        let std_result = recognize_factors(&case.n, basis, params);
+        let std_result = recognize_factors(&case.n, params);
         standard_time += start.elapsed().as_micros();
         
         if let Some(factors) = std_result {
@@ -322,7 +323,7 @@ fn test_and_report(cases: &[&TestCase], basis: &Basis, params: &TunerParams) {
         let mut times = Vec::new();
         for case in cases.iter().take(10) {
             let start = Instant::now();
-            let _ = recognize_factors(&case.n, basis, params);
+            let _ = recognize_factors(&case.n, params);
             times.push(start.elapsed().as_micros());
         }
         times.sort();

@@ -219,7 +219,8 @@ impl ConstantTuner {
         // Create basis with current constants
         // Note: This is a simplified approach - in reality we'd need to 
         // modify the compute_basis function to accept custom constants
-        let basis = compute_basis(128, &params);
+        let representative_n = BigInt::from(1u128) << 128; // 128-bit number
+        let _basis = compute_basis(&representative_n, &params);
         
         let mut aggregator = DiagnosticAggregator::default();
         let mut successes = 0;
@@ -232,7 +233,6 @@ impl ConstantTuner {
         for test_case in &test_subset {
             let (result, diagnostics) = recognize_factors_with_diagnostics(
                 &test_case.n,
-                &basis,
                 &params
             );
             

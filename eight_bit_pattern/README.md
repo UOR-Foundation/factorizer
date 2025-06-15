@@ -99,16 +99,15 @@ eight_bit_pattern/
 ## Usage
 
 ```rust
-use eight_bit_pattern::{recognize_factors, compute_basis, TunerParams};
+use eight_bit_pattern::{recognize_factors, TunerParams};
 use num_bigint::BigInt;
 
-// Initialize parameters and basis
+// Initialize parameters
 let params = TunerParams::default();
-let basis = compute_basis(32, &params);
 
 // Factor a number
 let n = BigInt::from(143);  // 11 × 13
-let factors = recognize_factors(&n, &basis, &params).unwrap();
+let factors = recognize_factors(&n, &params).unwrap();
 
 assert_eq!(factors.p, BigInt::from(11));
 assert_eq!(factors.q, BigInt::from(13));

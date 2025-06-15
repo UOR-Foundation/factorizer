@@ -114,8 +114,21 @@ pub fn compute_channel_patterns(channel_pos: usize, params: &TunerParams) -> Cha
     channel
 }
 
-/// Pre-compute the complete basis for all channels
-pub fn compute_basis(num_channels: usize, params: &TunerParams) -> Basis {
+/// Pre-compute the complete basis for all channels needed by a number
+/// 
+/// The number of channels is determined by the bit size of the input:
+/// channels = ceil(bits/8)
+pub fn compute_basis(n: &BigInt, params: &TunerParams) -> Basis {
+    use crate::bit_size;
+    
+    // Calculate required channels based on input size
+    let bits = bit_size(n);
+    let num_channels = ((bits + 7) / 8) as usize;
+    
+    // Ensure at least 32 channels for small numbers (backward compatibility)
+    // This provides headroom for resonance calculations
+    let num_channels = num_channels.max(32);
+    
     let mut basis = Basis::new(num_channels);
     
     // Compute patterns for each channel
@@ -256,13 +269,37 @@ mod tests {
     #[test]
     fn test_compute_and_verify_basis() {
         let params = TunerParams::default();
-        let basis = compute_basis(4, &params); // Small basis for testing
+        let n = BigInt::from(u32::MAX); // 32-bit number
+        let basis = compute_basis(&n, &params);
         
-        assert_eq!(basis.num_channels, 4);
-        assert_eq!(basis.channels.len(), 4);
+        // Should have at least 32 channels (our minimum)
+        assert!(basis.num_channels >= 32);
+        assert_eq!(basis.channels.len(), basis.num_channels);
         
         // Verify the basis
         verify_basis(&basis).expect("Basis should be valid");
+    }
+    
+    #[test]
+    fn test_dynamic_basis_sizing() {
+        let params = TunerParams::default();
+        
+        // Test various bit sizes
+        let test_cases = vec![
+            (BigInt::from(255u32), 32),        // 8-bit -> 32 channels (minimum)
+            (BigInt::from(u16::MAX), 32),      // 16-bit -> 32 channels (minimum)
+            (BigInt::from(u32::MAX), 32),      // 32-bit -> 32 channels
+            (BigInt::from(u64::MAX), 32),      // 64-bit -> 32 channels (still within minimum)
+            (BigInt::from(1u128) << 256, 33),  // 257-bit -> 33 channels
+            (BigInt::from(1u128) << 512, 65),  // 513-bit -> 65 channels
+        ];
+        
+        for (n, expected_min) in test_cases {
+            let basis = compute_basis(&n, &params);
+            assert!(basis.num_channels >= expected_min, 
+                "For {:?}-bit number, expected at least {} channels, got {}", 
+                crate::bit_size(&n), expected_min, basis.num_channels);
+        }
     }
     
     #[test]

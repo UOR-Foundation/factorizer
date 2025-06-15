@@ -43,10 +43,12 @@ fn test_resonance_deterministic() {
 fn test_basis_completeness() {
     // Verify basis has all required patterns
     let params = TunerParams::default();
-    let basis = compute_basis(16, &params);
+    let n = BigInt::from(u32::MAX); // 32-bit number
+    let basis = compute_basis(&n, &params);
     
-    assert_eq!(basis.num_channels, 16);
-    assert_eq!(basis.channels.len(), 16);
+    // Should have at least 32 channels (our minimum)
+    assert!(basis.num_channels >= 32);
+    assert_eq!(basis.channels.len(), basis.num_channels);
     
     for channel in &basis.channels {
         assert_eq!(channel.patterns.len(), 256);
@@ -146,7 +148,8 @@ fn test_peak_detection_consistency() {
 fn test_factor_extraction_small_semiprimes() {
     // Test with known small semiprimes
     let params = TunerParams::default();
-    let basis = compute_basis(8, &params);
+    let n_small = BigInt::from(255u32); // 8-bit number  
+    let basis = compute_basis(&n_small, &params);
     
     let test_cases = vec![
         (15, 3, 5),
@@ -157,7 +160,7 @@ fn test_factor_extraction_small_semiprimes() {
     
     for (n, p, q) in test_cases {
         let n_big = BigInt::from(n);
-        let result = recognize_factors(&n_big, &basis, &params);
+        let result = recognize_factors(&n_big, &params);
         
         if let Some(factors) = result {
             assert!(
@@ -191,7 +194,8 @@ fn test_tuner_parameter_bounds() {
 fn test_basis_serialization() {
     // Test basis can be serialized and produces valid data
     let params = TunerParams::default();
-    let basis = compute_basis(4, &params); // Small basis for testing
+    let n_test = BigInt::from(u32::MAX); // 32-bit number
+    let basis = compute_basis(&n_test, &params); // Will create minimum 32 channels
     
     let serialized = serialize_basis(&basis);
     
@@ -208,7 +212,7 @@ fn test_basis_serialization() {
     let channels = u32::from_be_bytes([
         serialized[12], serialized[13], serialized[14], serialized[15]
     ]);
-    assert_eq!(channels, 4);
+    assert!(channels >= 32); // At least 32 channels due to minimum
     
     // Verify data is not empty
     assert!(serialized.len() > 16);

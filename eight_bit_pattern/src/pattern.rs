@@ -264,11 +264,10 @@ fn extract_factor_from_peak(
 
 /// Complete pattern recognition pipeline
 /// 
-/// Given a number and pre-computed basis, attempts to factor it using
+/// Given a number, computes the appropriate basis and attempts to factor it using
 /// The Pattern's channel alignment and extraction methods.
 pub fn recognize_factors(
     n: &BigInt,
-    basis: &Basis,
     params: &TunerParams,
 ) -> Option<Factors> {
     // First, try special cases for fast detection
@@ -276,11 +275,14 @@ pub fn recognize_factors(
         return Some(factors);
     }
     
+    // Compute basis dynamically based on input size
+    let basis = crate::compute_basis(n, params);
+    
     // Decompose into channels
     let channels = decompose(n);
     
     // Detect aligned channels
-    let peaks = detect_aligned_channels(n, basis, params);
+    let peaks = detect_aligned_channels(n, &basis, params);
     
     // Extract factors from peaks
     extract_factors(n, &peaks, &channels, params)
@@ -292,10 +294,12 @@ pub fn recognize_factors(
 /// about the recognition process.
 pub fn recognize_factors_with_diagnostics(
     n: &BigInt,
-    basis: &Basis,
     params: &TunerParams,
 ) -> (Option<Factors>, FactorizationDiagnostics) {
     let mut diagnostics = FactorizationDiagnostics::new(n.clone());
+    
+    // Compute basis dynamically based on input size
+    let basis = crate::compute_basis(n, params);
     
     // Decompose into channels
     let channels = decompose(n);
@@ -316,7 +320,7 @@ pub fn recognize_factors_with_diagnostics(
     }
     
     // Detect aligned channels with diagnostics
-    let peaks = detect_aligned_channels_with_diagnostics(n, basis, params, &mut diagnostics);
+    let peaks = detect_aligned_channels_with_diagnostics(n, &basis, params, &mut diagnostics);
     
     // Record peaks in diagnostics
     for peak in &peaks {
@@ -441,8 +445,8 @@ mod tests {
     #[test]
     fn test_detect_aligned_channels_empty() {
         let params = TunerParams::default();
-        let basis = compute_basis(16, &params);
         let n = BigInt::from(15); // Small test number
+        let basis = compute_basis(&n, &params);
         
         let peaks = detect_aligned_channels(&n, &basis, &params);
         // Should find some peaks even for small numbers
@@ -450,18 +454,19 @@ mod tests {
     }
     
     #[test]
-    fn test_is_alignment_valid() {
+    fn test_alignment_pattern_detection() {
         let n = BigInt::from(143);
         let params = TunerParams::default();
         
-        // Create test window with valid alignment
-        let res1 = ResonanceTuple::new(BigInt::from(100), 0x1234, BigInt::from(8));
-        let res2 = ResonanceTuple::new(BigInt::from(100) + &n, 0x1235, BigInt::from(16));
+        // Create test window with resonances that should produce a pattern
+        let res1 = ResonanceTuple::new(BigInt::from(11), 0x1234, BigInt::from(8));
+        let res2 = ResonanceTuple::new(BigInt::from(13), 0x1235, BigInt::from(16));
         
-        let window = vec![(0, res1), (1, res2)];
+        let window = vec![(0, 11u8, res1), (1, 13u8, res2)];
         
-        // This should be valid (consecutive positions, aligned resonances)
-        assert!(is_alignment_valid(&window, &n, &params));
+        // Should find an alignment pattern
+        let pattern = find_alignment_pattern(&window, &n, &params);
+        assert!(pattern.is_some());
     }
     
     #[test]
@@ -480,11 +485,10 @@ mod tests {
     #[test]
     fn test_recognize_factors_small() {
         let params = TunerParams::default();
-        let basis = compute_basis(8, &params);
         
         // Test with 15 = 3 * 5
         let n = BigInt::from(15);
-        let factors = recognize_factors(&n, &basis, &params);
+        let factors = recognize_factors(&n, &params);
         
         if let Some(f) = factors {
             assert!(f.verify(&n));

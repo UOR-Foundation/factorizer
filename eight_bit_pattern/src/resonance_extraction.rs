@@ -307,7 +307,6 @@ fn full_space_factor_search(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::compute_basis;
     
     #[test]
     fn test_mod_inverse() {

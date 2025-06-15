@@ -75,7 +75,6 @@ fn main() {
     println!("\n=== Testing Integrated Pattern Recognition ===\n");
     
     let params = TunerParams::default();
-    let basis = compute_basis(32, &params);
     
     let mut standard_time = 0u128;
     let mut special_time = 0u128;
@@ -86,11 +85,12 @@ fn main() {
         
         // Time with special case detection (integrated)
         let start = Instant::now();
-        let result_with_special = recognize_factors(n, &basis, &params);
+        let result_with_special = recognize_factors(n, &params);
         special_time += start.elapsed().as_micros();
         
         // Time without special case detection
         let start = Instant::now();
+        let basis = compute_basis(n, &params);
         let channels = decompose(n);
         let peaks = detect_aligned_channels(n, &basis, &params);
         let result_without_special = extract_factors(n, &peaks, &channels, &params);

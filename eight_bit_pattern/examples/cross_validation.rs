@@ -19,7 +19,6 @@ fn main() {
     println!("Generated {} unseen semiprimes for validation\n", unseen_cases.len());
     
     let params = TunerParams::default();
-    let basis = compute_basis(32, &params);
     
     // Test different approaches
     println!("=== Method Performance on Unseen Data ===\n");
@@ -28,14 +27,17 @@ fn main() {
     test_method(
         "Standard Pattern Recognition",
         &unseen_cases,
-        |n| recognize_factors(n, &basis, &params),
+        |n| recognize_factors(n, &params),
     );
     
     // 2. Advanced resonance extraction
     test_method(
         "Advanced Resonance Extraction",
         &unseen_cases,
-        |n| eight_bit_pattern::recognize_factors_advanced(n, &basis, &params),
+        |n| {
+            let basis = compute_basis(n, &params);
+            eight_bit_pattern::recognize_factors_advanced(n, &basis, &params)
+        },
     );
     
     // 3. Ensemble voting

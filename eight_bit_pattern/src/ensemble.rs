@@ -121,10 +121,8 @@ impl EnsembleVoter {
         for _set in &self.constant_sets {
             // For now, use default basis since we can't inject custom constants
             // TODO: Extend basis computation to accept custom constants
-            let basis = compute_basis(32, params);
-            
             // Try both standard and advanced methods
-            if let Some(factors) = recognize_factors(n, &basis, params) {
+            if let Some(factors) = recognize_factors(n, params) {
                 let key = if factors.p <= factors.q {
                     (factors.p.clone(), factors.q.clone())
                 } else {
@@ -147,7 +145,7 @@ impl EnsembleVoter {
         
         for set in &self.constant_sets {
             // For now, use default basis since we can't inject custom constants
-            let basis = compute_basis(32, params);
+            let basis = compute_basis(n, params);
             
             if let Some(factors) = recognize_factors_advanced(n, &basis, params) {
                 let key = if factors.p <= factors.q {
@@ -181,9 +179,7 @@ impl EnsembleVoter {
         // Try candidates in order
         for _set in candidates {
             // For now, use default basis
-            let basis = compute_basis(32, params);
-            
-            if let Some(factors) = recognize_factors(n, &basis, params) {
+            if let Some(factors) = recognize_factors(n, params) {
                 return Some(factors);
             }
         }
@@ -195,17 +191,15 @@ impl EnsembleVoter {
     /// Return first successful factorization
     fn first_success(&self, n: &BigInt, params: &TunerParams) -> Option<Factors> {
         for _set in &self.constant_sets {
-            // For now, use default basis
-            let basis = compute_basis(32, params);
-            
             // Try standard method first
-            if let Some(factors) = recognize_factors(n, &basis, params) {
+            if let Some(factors) = recognize_factors(n, params) {
                 if factors.verify(n) {
                     return Some(factors);
                 }
             }
             
             // Try advanced method
+            let basis = compute_basis(n, params);
             if let Some(factors) = recognize_factors_advanced(n, &basis, params) {
                 if factors.verify(n) {
                     return Some(factors);

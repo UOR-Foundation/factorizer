@@ -228,7 +228,7 @@ mod tests {
     fn test_parallel_recognition() {
         let n = BigInt::from(143u32); // 11 × 13
         let params = TunerParams::default();
-        let basis = compute_basis(32, &params);
+        let basis = compute_basis(&n, &params);
         
         let result = recognize_factors_parallel(&n, &basis, &params);
         assert!(result.is_some());
