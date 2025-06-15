@@ -15,6 +15,7 @@ pub mod tuning;
 pub mod resonance_extraction;
 pub mod ensemble;
 pub mod special_cases;
+pub mod parallel;
 
 // Public API exports
 pub use constants::{Constants, Constant, FRACTIONAL_BITS};
@@ -51,4 +52,8 @@ pub use ensemble::{
 };
 pub use special_cases::{
     detect_special_cases, try_special_cases, SpecialCase, SpecialCaseResult
+};
+pub use parallel::{
+    decompose_parallel, compute_resonances_parallel, detect_peaks_parallel,
+    extract_factors_parallel, recognize_factors_parallel
 };
