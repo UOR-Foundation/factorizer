@@ -17,6 +17,9 @@ pub mod ensemble;
 pub mod special_cases;
 pub mod parallel;
 pub mod coupling;
+pub mod phase;
+pub mod hierarchy;
+pub mod multi_scale;
 
 // Public API exports
 pub use constants::{Constants, Constant, FRACTIONAL_BITS};
@@ -62,4 +65,17 @@ pub use parallel::{
 pub use coupling::{
     CouplingMatrix, CoupledChannelPair, apply_channel_coupling,
     detect_coupled_patterns, extract_factor_from_coupled_pair
+};
+pub use phase::{
+    PhaseState, PhaseRelation, PhaseAlignment, PhaseWave,
+    propagate_phase_sequence, detect_phase_relations,
+    detect_phase_alignments, extract_factors_from_phase,
+    phase_states_to_wave
+};
+pub use hierarchy::{
+    GroupingLevel, ChannelGroup, HierarchicalAnalysis, GroupPattern,
+    analyze_channel_hierarchy
+};
+pub use multi_scale::{
+    MultiScaleAlignment, detect_multi_scale_alignments, alignments_to_peaks
 };

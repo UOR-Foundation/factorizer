@@ -6,7 +6,10 @@ use crate::{
     ResonanceTuple, PeakLocation, Factors, TunerParams, Basis,
     decompose, extract_channel_range,
     FactorizationDiagnostics, ChannelDiagnostic,
-    detect_coupled_patterns
+    detect_coupled_patterns,
+    propagate_phase_sequence, detect_phase_relations,
+    detect_phase_alignments, extract_factors_from_phase,
+    analyze_channel_hierarchy
 };
 use num_bigint::BigInt;
 use num_traits::{Zero, One};
@@ -14,8 +17,14 @@ use num_integer::Integer;
 
 /// Detect aligned channels in a number using pre-computed basis
 /// 
-/// Scans through channels looking for resonance relationships that indicate
-/// factor locations through modular arithmetic properties.
+/// This function implements a multi-stage pattern detection pipeline:
+/// 1. Simple sliding window patterns (most effective for small numbers)
+/// 2. Coupled channel patterns (2×2 coupling matrix)
+/// 3. Phase propagation patterns (for larger numbers)
+/// 4. Hierarchical grouping patterns (as a last resort)
+/// 
+/// The order is important: simpler patterns are prioritized as they
+/// tend to be more reliable for the majority of cases.
 pub fn detect_aligned_channels(
     n: &BigInt,
     basis: &Basis,
@@ -34,23 +43,7 @@ pub fn detect_aligned_channels(
         }
     }
     
-    // First, check for coupled channel patterns (2×2 coupling)
-    if channels.len() >= 2 {
-        let coupled_pairs = detect_coupled_patterns(&channel_resonances, n, params);
-        
-        // Add peaks from coupled pairs
-        for pair in coupled_pairs {
-            // Create a peak spanning the coupled channels
-            let pattern = pair.channel1_val ^ pair.channel2_val;
-            peaks.push(PeakLocation::new(
-                pair.channel1_idx,
-                pair.channel2_idx,
-                pattern
-            ));
-        }
-    }
-    
-    // Then look for larger alignment patterns using sliding windows
+    // First look for simple sliding window patterns (these work well)
     for window_size in 1..=channels.len().min(8) {
         for start_pos in 0..=channels.len().saturating_sub(window_size) {
             let window: Vec<_> = channel_resonances[start_pos..start_pos + window_size]
@@ -65,6 +58,82 @@ pub fn detect_aligned_channels(
                     start_pos + window_size - 1,
                     alignment_pattern
                 ));
+            }
+        }
+    }
+    
+    // Then add more sophisticated patterns if we have multiple channels
+    if channels.len() >= 2 {
+        // Check for coupled channel patterns (2×2 coupling)
+        let coupled_pairs = detect_coupled_patterns(&channel_resonances, n, params);
+        
+        // Add peaks from coupled pairs
+        for pair in coupled_pairs {
+            // Create a peak spanning the coupled channels
+            let pattern = pair.channel1_val ^ pair.channel2_val;
+            peaks.push(PeakLocation::new(
+                pair.channel1_idx,
+                pair.channel2_idx,
+                pattern
+            ));
+        }
+        
+        // Add phase-based patterns for larger numbers
+        if channels.len() >= 4 {
+            let phase_states = propagate_phase_sequence(&channel_resonances, n, params);
+            let phase_relations = detect_phase_relations(&phase_states, n, params);
+            let phase_alignments = detect_phase_alignments(&phase_states, &phase_relations, n, params);
+            
+            // Add peaks from phase alignments
+            for alignment in phase_alignments {
+                if alignment.alignment_strength > 0.7 { // Higher threshold for phase patterns
+                    // Create peak from phase alignment
+                    let pattern = (alignment.phase_period.to_u32_digits().1.get(0).copied().unwrap_or(0) % 256) as u8;
+                    peaks.push(PeakLocation::new(
+                        alignment.start_channel,
+                        alignment.end_channel,
+                        pattern
+                    ));
+                }
+            }
+        }
+        
+        // Finally, try hierarchical analysis as a last resort
+        let hierarchy_analysis = analyze_channel_hierarchy(&channel_resonances, n, params);
+        
+        // Add peaks from hierarchical patterns (with higher threshold)
+        for (_level, patterns) in &hierarchy_analysis.patterns_by_level {
+            for pattern in patterns {
+                if pattern.strength > 0.8 { // Much higher threshold
+                    // Create peak from hierarchical pattern
+                    let peak_pattern = if let Some(ref factor) = pattern.factor_candidate {
+                        (factor.to_u32_digits().1.get(0).copied().unwrap_or(0) % 256) as u8
+                    } else {
+                        // Use combined channel values as pattern
+                        pattern.groups.iter()
+                            .flat_map(|&g| hierarchy_analysis.groups_by_level[&pattern.level]
+                                .get(g)
+                                .map(|group| &group.channel_values))
+                            .flatten()
+                            .fold(0u8, |acc, &val| acc ^ val)
+                    };
+                    
+                    // Find channel range for this pattern
+                    let min_channel = pattern.groups.iter()
+                        .flat_map(|&g| hierarchy_analysis.groups_by_level[&pattern.level]
+                            .get(g)
+                            .map(|group| group.start_idx))
+                        .min()
+                        .unwrap_or(0);
+                    let max_channel = pattern.groups.iter()
+                        .flat_map(|&g| hierarchy_analysis.groups_by_level[&pattern.level]
+                            .get(g)
+                            .map(|group| group.end_idx))
+                        .max()
+                        .unwrap_or(0);
+                    
+                    peaks.push(PeakLocation::new(min_channel, max_channel, peak_pattern));
+                }
             }
         }
     }
@@ -202,6 +271,110 @@ pub fn extract_factors(
                     return Some(Factors::new(factor, other));
                 }
             }
+        }
+    }
+    
+    // Try phase-based extraction for larger numbers
+    if channels.len() >= 4 {
+        if let Some(factor) = extract_factor_from_phase_analysis(n, channels, params) {
+            if n % &factor == BigInt::zero() && factor > BigInt::one() && &factor < n {
+                let other = n / &factor;
+                return Some(Factors::new(factor, other));
+            }
+        }
+    }
+    
+    // Last resort: try hierarchical analysis
+    if channels.len() >= 2 {
+        if let Some(factor) = extract_factor_from_hierarchy(n, channels, params) {
+            if n % &factor == BigInt::zero() && factor > BigInt::one() && &factor < n {
+                let other = n / &factor;
+                return Some(Factors::new(factor, other));
+            }
+        }
+    }
+    
+    None
+}
+
+/// Extract factors using hierarchical analysis
+fn extract_factor_from_hierarchy(
+    n: &BigInt,
+    channels: &[u8],
+    params: &TunerParams,
+) -> Option<BigInt> {
+    // Reconstruct channel resonances
+    let mut channel_resonances = Vec::new();
+    for (pos, &ch_val) in channels.iter().enumerate() {
+        use crate::compute_resonance_with_position;
+        let res = compute_resonance_with_position(ch_val, pos, channels.len(), params);
+        channel_resonances.push((pos, ch_val, res));
+    }
+    
+    // Perform hierarchical analysis
+    let hierarchy = analyze_channel_hierarchy(&channel_resonances, n, params);
+    
+    // Try to extract factors from hierarchical patterns
+    for (_level, patterns) in &hierarchy.patterns_by_level {
+        for pattern in patterns {
+            if let Some(ref factor) = pattern.factor_candidate {
+                if n % factor == BigInt::zero() && factor > &BigInt::one() && factor < n {
+                    return Some(factor.clone());
+                }
+            }
+        }
+    }
+    
+    // Try to extract factors from channel groups
+    for (_level, groups) in &hierarchy.groups_by_level {
+        for group in groups {
+            if group.has_factor_pattern(n) {
+                // Extract factor from group
+                let combined = group.channel_values.iter()
+                    .fold(BigInt::zero(), |acc, &val| acc * 256 + BigInt::from(val));
+                
+                if combined > BigInt::one() && &combined <= &n.sqrt() && n % &combined == BigInt::zero() {
+                    return Some(combined);
+                }
+                
+                // Also try GCD of group resonance
+                let gcd = group.group_resonance.primary_resonance.gcd(n);
+                if gcd > BigInt::one() && &gcd < n && n % &gcd == BigInt::zero() {
+                    return Some(gcd);
+                }
+            }
+        }
+    }
+    
+    None
+}
+
+/// Extract factors using phase analysis
+fn extract_factor_from_phase_analysis(
+    n: &BigInt,
+    channels: &[u8],
+    params: &TunerParams,
+) -> Option<BigInt> {
+    // Reconstruct channel resonances for phase analysis
+    let mut channel_resonances = Vec::new();
+    for (pos, &ch_val) in channels.iter().enumerate() {
+        use crate::compute_resonance_with_position;
+        let res = compute_resonance_with_position(ch_val, pos, channels.len(), params);
+        channel_resonances.push((pos, ch_val, res));
+    }
+    
+    // Propagate phases
+    let phase_states = propagate_phase_sequence(&channel_resonances, n, params);
+    let phase_relations = detect_phase_relations(&phase_states, n, params);
+    let phase_alignments = detect_phase_alignments(&phase_states, &phase_relations, n, params);
+    
+    // Extract potential factors from phase alignments
+    let phase_factors = extract_factors_from_phase(&phase_alignments, n);
+    
+    // Return the first valid factor found
+    for factor in phase_factors {
+        if n % &factor == BigInt::zero() && factor > BigInt::one() && &factor < n {
+            return Some(factor);
         }
     }
     
