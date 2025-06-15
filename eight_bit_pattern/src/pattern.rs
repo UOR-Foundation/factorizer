@@ -5,7 +5,8 @@
 use crate::{
     ResonanceTuple, PeakLocation, Factors, TunerParams, Basis,
     decompose, extract_channel_range,
-    FactorizationDiagnostics, ChannelDiagnostic
+    FactorizationDiagnostics, ChannelDiagnostic,
+    detect_coupled_patterns
 };
 use num_bigint::BigInt;
 use num_traits::{Zero, One};
@@ -33,8 +34,23 @@ pub fn detect_aligned_channels(
         }
     }
     
-    // Look for resonance relationships using sliding windows
-    // Allow single-channel windows for numbers with only one channel
+    // First, check for coupled channel patterns (2×2 coupling)
+    if channels.len() >= 2 {
+        let coupled_pairs = detect_coupled_patterns(&channel_resonances, n, params);
+        
+        // Add peaks from coupled pairs
+        for pair in coupled_pairs {
+            // Create a peak spanning the coupled channels
+            let pattern = pair.channel1_val ^ pair.channel2_val;
+            peaks.push(PeakLocation::new(
+                pair.channel1_idx,
+                pair.channel2_idx,
+                pattern
+            ));
+        }
+    }
+    
+    // Then look for larger alignment patterns using sliding windows
     for window_size in 1..=channels.len().min(8) {
         for start_pos in 0..=channels.len().saturating_sub(window_size) {
             let window: Vec<_> = channel_resonances[start_pos..start_pos + window_size]
@@ -166,6 +182,7 @@ pub fn extract_factors(
     channels: &[u8],
     params: &TunerParams,
 ) -> Option<Factors> {
+    // First try standard peak extraction
     for peak in peaks {
         if let Some(factor) = extract_factor_from_peak(n, peak, channels, params) {
             // Verify the factor
@@ -173,6 +190,65 @@ pub fn extract_factors(
                 let other = n / &factor;
                 return Some(Factors::new(factor, other));
             }
+        }
+    }
+    
+    // If standard extraction fails, try coupled channel extraction for 2-channel peaks
+    for peak in peaks {
+        if peak.span() == 1 { // 2-channel peak
+            if let Some(factor) = extract_factor_from_coupled_channels(n, peak, channels, params) {
+                if n % &factor == BigInt::zero() && factor > BigInt::one() && &factor < n {
+                    let other = n / &factor;
+                    return Some(Factors::new(factor, other));
+                }
+            }
+        }
+    }
+    
+    None
+}
+
+/// Extract factors using channel coupling for 2-channel peaks
+fn extract_factor_from_coupled_channels(
+    n: &BigInt,
+    peak: &PeakLocation,
+    channels: &[u8],
+    params: &TunerParams,
+) -> Option<BigInt> {
+    if peak.span() != 1 || peak.end_channel >= channels.len() {
+        return None;
+    }
+    
+    let ch1 = channels[peak.start_channel];
+    let ch2 = channels[peak.end_channel];
+    
+    // Create resonances for coupling analysis
+    use crate::{compute_resonance_with_position, CouplingMatrix};
+    let res1 = compute_resonance_with_position(ch1, peak.start_channel, channels.len(), params);
+    let res2 = compute_resonance_with_position(ch2, peak.end_channel, channels.len(), params);
+    
+    // Apply coupling matrix
+    let coupling = CouplingMatrix::for_position(peak.start_channel, channels.len());
+    let (coupled1, coupled2) = crate::apply_channel_coupling(&res1, &res2, &coupling);
+    
+    // Try to extract factor from coupled resonances
+    let combined_res = ResonanceTuple::new(
+        &coupled1.primary_resonance * &coupled2.primary_resonance,
+        coupled1.harmonic_signature ^ coupled2.harmonic_signature,
+        &coupled1.phase_offset + &coupled2.phase_offset,
+    );
+    
+    // Check GCD relationships
+    let gcd = combined_res.primary_resonance.gcd(n);
+    if gcd > BigInt::one() && &gcd < n {
+        return Some(gcd);
+    }
+    
+    // Try combined channel value with coupling insight
+    let combined_val = BigInt::from(ch1) * 256 + BigInt::from(ch2);
+    if combined_val > BigInt::one() && &combined_val <= &n.sqrt() {
+        if n % &combined_val == BigInt::zero() {
+            return Some(combined_val);
         }
     }
     

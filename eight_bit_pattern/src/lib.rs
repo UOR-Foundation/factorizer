@@ -16,6 +16,7 @@ pub mod resonance_extraction;
 pub mod ensemble;
 pub mod special_cases;
 pub mod parallel;
+pub mod coupling;
 
 // Public API exports
 pub use constants::{Constants, Constant, FRACTIONAL_BITS};
@@ -57,4 +58,8 @@ pub use special_cases::{
 pub use parallel::{
     decompose_parallel, compute_resonances_parallel, detect_peaks_parallel,
     extract_factors_parallel, recognize_factors_parallel
+};
+pub use coupling::{
+    CouplingMatrix, CoupledChannelPair, apply_channel_coupling,
+    detect_coupled_patterns, extract_factor_from_coupled_pair
 };
