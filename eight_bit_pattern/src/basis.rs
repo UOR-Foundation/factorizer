@@ -16,6 +16,21 @@ const RESONANCE_PRECISION: u32 = 256;
 /// - harmonic_signature: XOR accumulation of active constant patterns  
 /// - phase_offset: sum of bit positions times constant denominators
 pub fn compute_resonance(bit_pattern: u8, params: &TunerParams) -> ResonanceTuple {
+    compute_resonance_with_position(bit_pattern, 0, 1, params)
+}
+
+/// Compute position-aware resonance for a channel
+/// 
+/// Takes into account:
+/// - channel_pos: absolute position of this channel (0 = LSB)
+/// - total_channels: total number of channels in the number
+/// - Different resonance patterns based on position
+pub fn compute_resonance_with_position(
+    bit_pattern: u8, 
+    channel_pos: usize,
+    total_channels: usize,
+    params: &TunerParams
+) -> ResonanceTuple {
     let constants = Constants::all();
     let scale = BigInt::one() << RESONANCE_PRECISION;
     
@@ -24,14 +39,27 @@ pub fn compute_resonance(bit_pattern: u8, params: &TunerParams) -> ResonanceTupl
     let mut harmonic_signature: u64 = 0;
     let mut phase_offset = BigInt::zero();
     
+    // Calculate position-based modifiers
+    let position_factor = calculate_position_factor(channel_pos, total_channels);
+    let _distance_from_lsb = channel_pos;
+    let distance_from_msb = total_channels.saturating_sub(channel_pos + 1);
+    
     // Process each bit position
     for (bit_pos, constant) in constants.iter().enumerate() {
         if constant.is_active(bit_pattern) {
-            // Apply weight scaling
-            let weight = params.constant_weights[bit_pos] as u32;
+            // Apply weight scaling with position awareness
+            let base_weight = params.constant_weights[bit_pos] as u32;
             
-            // Primary resonance: multiply by weighted numerator
-            let weighted_num = &constant.numerator * weight;
+            // Adjust weight based on channel position
+            let position_adjusted_weight = adjust_weight_for_position(
+                base_weight,
+                bit_pos,
+                channel_pos,
+                total_channels
+            );
+            
+            // Primary resonance: multiply by position-adjusted weighted numerator
+            let weighted_num = &constant.numerator * position_adjusted_weight;
             primary_resonance = primary_resonance * weighted_num / &constant.denominator;
             
             // Harmonic signature: XOR with hash of numerator
@@ -48,15 +76,88 @@ pub fn compute_resonance(bit_pattern: u8, params: &TunerParams) -> ResonanceTupl
             };
             harmonic_signature ^= hash_input.rotate_left(bit_pos as u32 * 8);
             
-            // Phase offset: based on bit position
-            phase_offset += BigInt::from(bit_pos + 1) * &constant.denominator / BigInt::from(256);
+            // Phase offset: based on bit position and channel position
+            // Channels further from LSB have larger phase offsets
+            let channel_phase_contrib = BigInt::from(channel_pos * 8);
+            let bit_phase_contrib = BigInt::from(bit_pos + 1) * &constant.denominator / BigInt::from(256);
+            phase_offset += bit_phase_contrib + channel_phase_contrib;
         }
     }
     
-    // Apply resonance scaling shift
-    primary_resonance >>= params.resonance_scaling_shift;
+    // Apply resonance scaling shift with position adjustment
+    let position_scaling = if channel_pos == 0 {
+        // LSB channel: less scaling for direct factor detection
+        params.resonance_scaling_shift.saturating_sub(4)
+    } else if distance_from_msb == 0 {
+        // MSB channel: more scaling to prevent overflow
+        params.resonance_scaling_shift + 4
+    } else {
+        params.resonance_scaling_shift
+    };
+    primary_resonance >>= position_scaling;
+    
+    // Apply position factor to primary resonance
+    primary_resonance = primary_resonance * BigInt::from(position_factor.0) / BigInt::from(position_factor.1);
     
     ResonanceTuple::new(primary_resonance, harmonic_signature, phase_offset)
+}
+
+/// Calculate position-based scaling factor
+fn calculate_position_factor(channel_pos: usize, total_channels: usize) -> (u32, u32) {
+    if total_channels <= 1 {
+        return (1, 1);
+    }
+    
+    // Channels closer to LSB get higher weight (factors often appear there)
+    let distance_from_lsb = channel_pos;
+    let max_distance = total_channels - 1;
+    
+    if distance_from_lsb == 0 {
+        (3, 2)  // 1.5x for LSB
+    } else if distance_from_lsb == 1 {
+        (5, 4)  // 1.25x for second channel
+    } else if distance_from_lsb >= max_distance {
+        (2, 3)  // 0.67x for MSB
+    } else {
+        (1, 1)  // 1.0x for middle channels
+    }
+}
+
+/// Adjust constant weight based on channel position
+fn adjust_weight_for_position(
+    base_weight: u32,
+    bit_pos: usize,
+    channel_pos: usize,
+    total_channels: usize,
+) -> u32 {
+    // Constants have different importance at different positions
+    match bit_pos {
+        0 => {
+            // Unity: more important in LSB channels
+            if channel_pos == 0 {
+                base_weight * 2
+            } else {
+                base_weight
+            }
+        }
+        1 | 2 => {
+            // Tau & Phi: important for middle channels
+            if channel_pos > 0 && channel_pos < total_channels - 1 {
+                (base_weight * 3) / 2
+            } else {
+                base_weight
+            }
+        }
+        7 => {
+            // Alpha: more important for higher channels
+            if channel_pos > total_channels / 2 {
+                (base_weight * 3) / 2
+            } else {
+                base_weight
+            }
+        }
+        _ => base_weight,
+    }
 }
 
 /// Compute peak indices for a given resonance pattern
@@ -69,19 +170,44 @@ fn compute_peak_indices(resonance: &ResonanceTuple, channel_pos: usize) -> Vec<u
     // Extract pattern from harmonic signature
     let pattern = (resonance.harmonic_signature >> (channel_pos % 8)) & 0xFF;
     
-    // Peaks occur at positions related to the pattern
-    // This is empirically derived from observations
-    if pattern != 0 {
-        // Primary peak at pattern value
-        peaks.push(pattern as usize);
-        
-        // Secondary peak at complement
-        peaks.push((!pattern) as usize);
-        
-        // Tertiary peaks at bit positions
-        for bit in 0..8 {
-            if (pattern >> bit) & 1 == 1 {
-                peaks.push(1 << bit);
+    // Channel position affects peak detection strategy
+    if channel_pos == 0 {
+        // LSB channel: Direct factor encoding is common
+        if pattern != 0 {
+            // Primary peak at pattern value (often factor % 256)
+            peaks.push(pattern as usize);
+            
+            // For small factors, check multiples of pattern
+            if pattern < 128 {
+                peaks.push((pattern * 2) as usize);
+            }
+            
+            // Check GCD-related values
+            for divisor in [2, 3, 5, 7, 11, 13].iter() {
+                if pattern % divisor == 0 {
+                    peaks.push((pattern / divisor) as usize);
+                }
+            }
+        }
+    } else {
+        // Higher channels: Use standard peak detection
+        if pattern != 0 {
+            // Primary peak at pattern value
+            peaks.push(pattern as usize);
+            
+            // Secondary peak at complement
+            peaks.push((!pattern) as usize);
+            
+            // Position-adjusted peaks
+            let position_shift = (channel_pos % 4) * 2;
+            peaks.push(pattern.rotate_left(position_shift as u32) as usize);
+            peaks.push(pattern.rotate_right(position_shift as u32) as usize);
+            
+            // Tertiary peaks at bit positions
+            for bit in 0..8 {
+                if (pattern >> bit) & 1 == 1 {
+                    peaks.push(1 << bit);
+                }
             }
         }
     }
@@ -90,20 +216,34 @@ fn compute_peak_indices(resonance: &ResonanceTuple, channel_pos: usize) -> Vec<u
     peaks.sort_unstable();
     peaks.dedup();
     
+    // Limit peaks to prevent excessive computation
+    peaks.truncate(16);
+    
     peaks
 }
 
-/// Pre-compute all patterns for a single channel
+/// Pre-compute all patterns for a single channel with position awareness
 pub fn compute_channel_patterns(channel_pos: usize, params: &TunerParams) -> Channel {
+    compute_channel_patterns_with_context(channel_pos, 1, params)
+}
+
+/// Pre-compute patterns with full position context
+pub fn compute_channel_patterns_with_context(
+    channel_pos: usize, 
+    total_channels: usize,
+    params: &TunerParams
+) -> Channel {
     let mut channel = Channel::new(channel_pos);
     
     // Compute pattern for each possible 8-bit value
     for bit_value in 0..=255u8 {
-        let mut resonance = compute_resonance(bit_value, params);
-        
-        // Adjust phase offset to incorporate channel position for proper alignment
-        // This ensures consecutive channels have phase offsets that differ by 8
-        resonance.phase_offset = resonance.phase_offset + BigInt::from(channel_pos * 8);
+        // Use position-aware resonance computation
+        let resonance = compute_resonance_with_position(
+            bit_value, 
+            channel_pos,
+            total_channels,
+            params
+        );
         
         let peak_indices = compute_peak_indices(&resonance, channel_pos);
         
@@ -131,9 +271,9 @@ pub fn compute_basis(n: &BigInt, params: &TunerParams) -> Basis {
     
     let mut basis = Basis::new(num_channels);
     
-    // Compute patterns for each channel
+    // Compute patterns for each channel with position awareness
     for pos in 0..num_channels {
-        let channel = compute_channel_patterns(pos, params);
+        let channel = compute_channel_patterns_with_context(pos, num_channels, params);
         basis.channels[pos] = channel;
     }
     
@@ -315,5 +455,58 @@ mod tests {
         for i in 1..peaks.len() {
             assert!(peaks[i] > peaks[i-1]);
         }
+    }
+    
+    #[test]
+    fn test_position_aware_resonance() {
+        let params = TunerParams::default();
+        let pattern = 0b11001100;
+        
+        // Test different channel positions
+        let res_lsb = compute_resonance_with_position(pattern, 0, 8, &params);
+        let res_mid = compute_resonance_with_position(pattern, 4, 8, &params);
+        let res_msb = compute_resonance_with_position(pattern, 7, 8, &params);
+        
+        // LSB should have different characteristics than MSB
+        assert_ne!(res_lsb.primary_resonance, res_msb.primary_resonance);
+        assert_ne!(res_lsb.phase_offset, res_msb.phase_offset);
+        
+        // Phase offsets should increase with position
+        assert!(res_mid.phase_offset > res_lsb.phase_offset);
+        assert!(res_msb.phase_offset > res_mid.phase_offset);
+    }
+    
+    #[test]
+    fn test_position_factor_calculation() {
+        // LSB gets boost
+        assert_eq!(calculate_position_factor(0, 8), (3, 2));
+        
+        // Second channel gets smaller boost
+        assert_eq!(calculate_position_factor(1, 8), (5, 4));
+        
+        // Middle channels get no boost
+        assert_eq!(calculate_position_factor(4, 8), (1, 1));
+        
+        // MSB gets reduction
+        assert_eq!(calculate_position_factor(7, 8), (2, 3));
+    }
+    
+    #[test]
+    fn test_channel_specific_peaks() {
+        let params = TunerParams::default();
+        
+        // Test LSB channel peak detection
+        let res_lsb = compute_resonance_with_position(143, 0, 4, &params);
+        let peaks_lsb = compute_peak_indices(&res_lsb, 0);
+        
+        // LSB should check for direct factor encoding
+        assert!(peaks_lsb.contains(&143));
+        
+        // Test higher channel peak detection
+        let res_high = compute_resonance_with_position(143, 2, 4, &params);
+        let peaks_high = compute_peak_indices(&res_high, 2);
+        
+        // Should have different peak patterns
+        assert_ne!(peaks_lsb, peaks_high);
     }
 }

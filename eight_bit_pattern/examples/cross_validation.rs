@@ -55,6 +55,10 @@ fn main() {
         |n| eight_bit_pattern::try_special_cases(n),
     );
     
+    // Create a representative basis for analysis functions
+    let representative_n = BigInt::from(1u128) << 64; // 64-bit representative
+    let basis = eight_bit_pattern::compute_basis(&representative_n, &params);
+    
     // Detailed analysis by category
     println!("\n=== Performance by Semiprime Category ===\n");
     
@@ -224,7 +228,7 @@ where
 /// Analyze performance by semiprime category
 fn analyze_by_category(
     cases: &[TestCase],
-    basis: &eight_bit_pattern::Basis,
+    _basis: &eight_bit_pattern::Basis,
     params: &TunerParams,
 ) {
     // Categorize semiprimes
@@ -266,7 +270,7 @@ fn analyze_by_category(
         
         let mut successes = 0;
         for case in &cat_cases {
-            if let Some(factors) = recognize_factors(&case.n, basis, params) {
+            if let Some(factors) = recognize_factors(&case.n, params) {
                 if factors.verify(&case.n) {
                     successes += 1;
                 }
@@ -282,13 +286,13 @@ fn analyze_by_category(
 /// Analyze failure patterns
 fn analyze_failures(
     cases: &[TestCase],
-    basis: &eight_bit_pattern::Basis,
+    _basis: &eight_bit_pattern::Basis,
     params: &TunerParams,
 ) {
     let mut failures = Vec::new();
     
     for case in cases {
-        let result = recognize_factors(&case.n, basis, params);
+        let result = recognize_factors(&case.n, params);
         
         if result.is_none() || !result.as_ref().unwrap().verify(&case.n) {
             failures.push(case);
@@ -335,7 +339,7 @@ fn analyze_failures(
 /// Assess generalization capability
 fn assess_generalization(
     cases: &[TestCase],
-    basis: &eight_bit_pattern::Basis,
+    _basis: &eight_bit_pattern::Basis,
     params: &TunerParams,
 ) {
     // Test with different parameter variations
@@ -361,7 +365,7 @@ fn assess_generalization(
         let mut successes = 0;
         
         for case in cases {
-            if let Some(factors) = recognize_factors(&case.n, basis, &test_params) {
+            if let Some(factors) = recognize_factors(&case.n, &test_params) {
                 if factors.verify(&case.n) {
                     successes += 1;
                 }
@@ -377,7 +381,7 @@ fn assess_generalization(
     
     let standard_success = cases.iter()
         .filter(|case| {
-            recognize_factors(&case.n, basis, params)
+            recognize_factors(&case.n, params)
                 .map(|f| f.verify(&case.n))
                 .unwrap_or(false)
         })

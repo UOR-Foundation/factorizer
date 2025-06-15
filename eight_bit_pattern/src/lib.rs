@@ -29,8 +29,9 @@ pub use channel::{
     is_harmonic_progression, ChannelWindow
 };
 pub use basis::{
-    compute_resonance, compute_channel_patterns, compute_basis,
-    verify_basis, serialize_basis
+    compute_resonance, compute_resonance_with_position, 
+    compute_channel_patterns, compute_channel_patterns_with_context,
+    compute_basis, verify_basis, serialize_basis
 };
 pub use pattern::{
     detect_aligned_channels, extract_factors, recognize_factors,
