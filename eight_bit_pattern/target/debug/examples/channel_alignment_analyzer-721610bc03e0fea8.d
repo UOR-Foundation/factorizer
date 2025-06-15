@@ -1,0 +1,5 @@
+/workspaces/factorizer/eight_bit_pattern/target/debug/examples/channel_alignment_analyzer-721610bc03e0fea8: examples/channel_alignment_analyzer.rs
+
+/workspaces/factorizer/eight_bit_pattern/target/debug/examples/channel_alignment_analyzer-721610bc03e0fea8.d: examples/channel_alignment_analyzer.rs
+
+examples/channel_alignment_analyzer.rs:

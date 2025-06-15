@@ -1,0 +1,32 @@
+[package]
+name = "eight_bit_pattern"
+version = "0.1.0"
+edition = "2021"
+authors = ["The Pattern Contributors"]
+description = "8-bit channel-based integer factorization using empirically discovered constants"
+license = "MIT"
+
+[dependencies]
+num-bigint = "0.4"
+num-traits = "0.2"
+num-integer = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = "0.4"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "tuner"
+harness = false
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+[profile.bench]
+opt-level = 3
+lto = true
+codegen-units = 1
