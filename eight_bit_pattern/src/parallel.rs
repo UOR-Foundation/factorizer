@@ -27,7 +27,7 @@ pub fn decompose_parallel(n: &BigInt) -> Vec<u8> {
 /// Parallel resonance computation across channels
 pub fn compute_resonances_parallel(
     channels: &[u8],
-    basis: &Basis,
+    _basis: &Basis,
     params: &TunerParams,
 ) -> Vec<(usize, u8, ResonanceTuple)> {
     if channels.len() <= 16 {

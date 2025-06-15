@@ -8,35 +8,23 @@ use num_bigint::BigInt;
 /// Decompose a BigInt into 8-bit channels
 /// 
 /// The number is decomposed into a vector of bytes representing channels.
-/// For efficiency, we only pad to 8-byte boundaries for larger numbers.
+/// Uses little-endian ordering so channels[0] = N mod 256.
 pub fn decompose(n: &BigInt) -> Vec<u8> {
-    let bytes = n.to_bytes_be().1; // (sign, bytes) - we only need bytes
+    let bytes = n.to_bytes_le().1; // Little-endian: LSB first
     
     if bytes.is_empty() {
         return vec![0u8];
     }
     
-    // Only pad for numbers larger than 64 bits (8 bytes)
-    if bytes.len() <= 8 {
-        return bytes;
-    }
-    
-    // For larger numbers, pad to 8-byte alignment
-    let padding = (8 - (bytes.len() % 8)) % 8;
-    
-    let mut channels = Vec::with_capacity(padding + bytes.len());
-    channels.extend(vec![0u8; padding]);
-    channels.extend_from_slice(&bytes);
-    
-    channels
+    bytes
 }
 
 /// Reconstruct a BigInt from a slice of channels
 /// 
 /// This is the inverse of decompose - takes channel bytes and
-/// reconstructs the original number.
+/// reconstructs the original number using little-endian ordering.
 pub fn reconstruct(channels: &[u8]) -> BigInt {
-    BigInt::from_bytes_be(num_bigint::Sign::Plus, channels)
+    BigInt::from_bytes_le(num_bigint::Sign::Plus, channels)
 }
 
 /// Extract a specific range of channels and reconstruct as BigInt
